@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Auth from './auth/auth.js';
 import Routes from './Routes';
-import Login from './components/login';
+
 import Header from './components/header';
-import Callback from './components/callback';
+
 import * as authActions from './actions/authorization';
 import styled from 'styled-components/macro';
 const auth = new Auth();
@@ -22,12 +22,6 @@ const Content = styled.div`
   max-width: var(--screen-width-medium);
   margin: 0 auto;
 `;
-
-const handleAuthentication = (nextState, replace) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
 
 const useAuthorization = props => {
   const { isAuthenticated, userProfile, getProfile } = auth;
@@ -46,35 +40,21 @@ const useAuthorization = props => {
 };
 
 export const App = props => {
-  const { isAuthenticated } = auth;
+  const { renewSession } = auth;
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      renewSession();
+    }
+  }, []);
+
   useAuthorization(props);
   return (
     <StyledApp>
-      <Switch>
-        <Route
-          exact
-          path="/callback"
-          render={props => {
-            handleAuthentication(props);
-            return <Callback {...props} />;
-          }}
-        />
-        <Route
-          path="/"
-          render={() =>
-            isAuthenticated() ? (
-              <React.Fragment>
-                <Header auth={auth} userRole={props.userRole} />
-                <Content>
-                  <Routes userRole={props.userRole} />
-                </Content>
-              </React.Fragment>
-            ) : (
-              <Login auth={auth} />
-            )
-          }
-        />
-      </Switch>
+      <Header auth={auth} userRole={props.userRole} />
+      <Content>
+        <Routes auth={auth} />
+      </Content>
     </StyledApp>
   );
 };

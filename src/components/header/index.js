@@ -19,17 +19,17 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const StyledLogo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  && img {
-    width: 150px;
-    @media (max-width: 600px) {
-      width: 130px;
-    }
-  }
-`;
+// const StyledLogo = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   && img {
+//     width: 150px;
+//     @media (max-width: 600px) {
+//       width: 130px;
+//     }
+//   }
+// `;
 
 const StyledLink = styled(Link)`
   width: 100%;
@@ -61,34 +61,37 @@ const Title = styled.h1`
   align-items: center;
   justify-content: center;
   font-size: var(--font-l);
-  margin-left: 20px;
   @media (max-width: 600px) {
     font-size: var(--font-m);
     margin-left: 0;
   }
 `;
 
-const Header = props => (
-  <StyledHeader>
-    <Content>
-      <HeaderLeft>
-        <StyledLogo />
-        <Title>Voyageurl</Title>
-      </HeaderLeft>
-      <HeaderRight>
-        <Dropdown title="User Menu">
-          <StyledLink to="/">Home</StyledLink>
-          <StyledLink to="/page1">Page 1</StyledLink>
-          <StyledLink to="/page2">Page 2</StyledLink>
-          {props.userRole &&
-            props.userRole === 'Admin' && (
-              <StyledLink to="/admin">Admin</StyledLink>
-            )}
-          <Div onClick={props.auth.logout}>Logout</Div>
-        </Dropdown>
-      </HeaderRight>
-    </Content>
-  </StyledHeader>
-);
+const Header = props => {
+  const { login, logout, isAuthenticated } = props.auth;
+
+  return (
+    <StyledHeader>
+      <Content>
+        <HeaderLeft>
+          <Title>Voyageurl</Title>
+        </HeaderLeft>
+        <HeaderRight>
+          <Dropdown title="User Menu">
+            <StyledLink to="/">Home</StyledLink>
+            <StyledLink to="/page1">Page 1</StyledLink>
+            <StyledLink to="/page2">Page 2</StyledLink>
+            {props.userRole &&
+              props.userRole === 'Admin' && (
+                <StyledLink to="/admin">Admin</StyledLink>
+              )}
+            {!isAuthenticated() && <Div onClick={login}>Login</Div>}
+            {isAuthenticated() && <Div onClick={logout}>Logout</Div>}
+          </Dropdown>
+        </HeaderRight>
+      </Content>
+    </StyledHeader>
+  );
+};
 
 export default Header;

@@ -2,6 +2,11 @@ import auth0 from 'auth0-js';
 import history from '../lib/history.js';
 
 export default class Auth {
+  idToken;
+  expiresAt;
+  accessToken;
+  userProfile;
+
   auth0 = new auth0.WebAuth({
     domain: process.env.REACT_APP_AUTH0_DOMAIN,
     clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
@@ -11,14 +16,15 @@ export default class Auth {
     scope: 'openid roles profile',
   });
 
-  userProfile;
-
   constructor() {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getProfile = this.getProfile.bind(this);
+    this.getIdToken = this.getIdToken.bind(this);
+    this.renewSession = this.renewSession.bind(this);
+    this.getAccessToken = this.getAccessToken.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.handleAuthentication = this.handleAuthentication.bind(this);
   }
 
   login() {
@@ -43,10 +49,9 @@ export default class Auth {
     localStorage.setItem('isLoggedIn', 'true');
 
     // Set the time that the access token will expire at
-    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+    this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
-    this.expiresAt = expiresAt;
 
     // navigate to the home route
     history.replace('/');

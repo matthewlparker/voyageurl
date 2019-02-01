@@ -40,6 +40,16 @@ const StyledLogo = styled.h1`
   font-size: var(--font-xl);
 `;
 
+const useSetRedirectUrl = auth => {
+  const { isAuthenticated } = auth;
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      const redirectURL = window.location.pathname;
+      localStorage.setItem('redirectURL', JSON.stringify(redirectURL));
+    }
+  }, []);
+};
+
 const Login = props => {
   const { auth } = props;
   useSetRedirectUrl(auth);
@@ -50,16 +60,6 @@ const Login = props => {
       <StyledLink onClick={auth.login}>Login</StyledLink>
     </StyledLogin>
   );
-};
-
-const useSetRedirectUrl = auth => {
-  const { isAuthenticated } = auth;
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      const redirectURL = window.location.pathname;
-      localStorage.setItem('redirectURL', JSON.stringify(redirectURL));
-    }
-  }, []);
 };
 
 export default Login;

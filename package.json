@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
-    "auth0-js": "^9.8.2",
+    "auth0-js": "^9.10.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "body-parser": "^1.18.3",
