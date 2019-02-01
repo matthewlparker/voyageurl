@@ -1,0 +1,722 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component renders 1`] = `null`;
+
+exports[`Connected App component renders Connected App and Login 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <withRouter(Connect(App))>
+        <Route>
+          <Connect(App)
+            history={
+              Object {
+                "action": "POP",
+                "block": [Function],
+                "createHref": [Function],
+                "go": [Function],
+                "goBack": [Function],
+                "goForward": [Function],
+                "length": 1,
+                "listen": [Function],
+                "location": Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+                "push": [Function],
+                "replace": [Function],
+              }
+            }
+            location={
+              Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              }
+            }
+            match={
+              Object {
+                "isExact": true,
+                "params": Object {},
+                "path": "/",
+                "url": "/",
+              }
+            }
+          >
+            <App
+              history={
+                Object {
+                  "action": "POP",
+                  "block": [Function],
+                  "createHref": [Function],
+                  "go": [Function],
+                  "goBack": [Function],
+                  "goForward": [Function],
+                  "length": 1,
+                  "listen": [Function],
+                  "location": Object {
+                    "hash": "",
+                    "pathname": "/",
+                    "search": "",
+                    "state": undefined,
+                  },
+                  "push": [Function],
+                  "replace": [Function],
+                }
+              }
+              location={
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                }
+              }
+              match={
+                Object {
+                  "isExact": true,
+                  "params": Object {},
+                  "path": "/",
+                  "url": "/",
+                }
+              }
+              setUserProfile={[Function]}
+              userRole=""
+            >
+              <App__StyledApp>
+                <StyledComponent
+                  forwardedClass={
+                    Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": undefined,
+                      "componentStyle": ComponentStyle {
+                        "componentId": "App__StyledApp-smed4l-0",
+                        "isStatic": true,
+                        "lastClassName": "ixHeis",
+                        "rules": Array [
+                          "height:100%;background-color:var(--background-primary);font-family:'Roboto',sans-serif;",
+                        ],
+                      },
+                      "displayName": "App__StyledApp",
+                      "render": [Function],
+                      "styledComponentId": "App__StyledApp-smed4l-0",
+                      "target": "div",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    }
+                  }
+                  forwardedRef={null}
+                >
+                  <div
+                    className="App__StyledApp-smed4l-0 ixHeis"
+                  >
+                    <Switch>
+                      <Route
+                        computedMatch={
+                          Object {
+                            "isExact": true,
+                            "params": Object {},
+                            "path": "/",
+                            "url": "/",
+                          }
+                        }
+                        location={
+                          Object {
+                            "hash": "",
+                            "pathname": "/",
+                            "search": "",
+                            "state": undefined,
+                          }
+                        }
+                        path="/"
+                        render={[Function]}
+                      >
+                        <Login
+                          auth={
+                            Auth {
+                              "auth0": WebAuth {
+                                "_universalLogin": HostedPages {
+                                  "baseOptions": Object {
+                                    "_sendTelemetry": true,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                    "domain": "voyageurl.auth0.com",
+                                    "jwksURI": undefined,
+                                    "plugins": PluginHandler {
+                                      "plugins": Array [],
+                                    },
+                                    "popupOrigin": undefined,
+                                    "redirectUri": "http://localhost:3000/callback",
+                                    "responseType": "token id_token",
+                                    "rootUrl": "https://voyageurl.auth0.com",
+                                    "scope": "openid roles profile",
+                                    "tenant": "voyageurl",
+                                    "token_issuer": "https://voyageurl.auth0.com/",
+                                  },
+                                  "client": [Circular],
+                                  "request": RequestBuilder {
+                                    "_sendTelemetry": true,
+                                    "_telemetryInfo": null,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "headers": Object {},
+                                  },
+                                  "warn": Warn {
+                                    "disableWarnings": false,
+                                  },
+                                },
+                                "baseOptions": Object {
+                                  "_sendTelemetry": true,
+                                  "_timesToRetryFailedRequests": 0,
+                                  "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                  "domain": "voyageurl.auth0.com",
+                                  "jwksURI": undefined,
+                                  "plugins": PluginHandler {
+                                    "plugins": Array [],
+                                  },
+                                  "popupOrigin": undefined,
+                                  "redirectUri": "http://localhost:3000/callback",
+                                  "responseType": "token id_token",
+                                  "rootUrl": "https://voyageurl.auth0.com",
+                                  "scope": "openid roles profile",
+                                  "tenant": "voyageurl",
+                                  "token_issuer": "https://voyageurl.auth0.com/",
+                                },
+                                "client": Authentication {
+                                  "baseOptions": Object {
+                                    "_sendTelemetry": true,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                    "domain": "voyageurl.auth0.com",
+                                    "jwksURI": undefined,
+                                    "plugins": PluginHandler {
+                                      "plugins": Array [],
+                                    },
+                                    "popupOrigin": undefined,
+                                    "redirectUri": "http://localhost:3000/callback",
+                                    "responseType": "token id_token",
+                                    "rootUrl": "https://voyageurl.auth0.com",
+                                    "scope": "openid roles profile",
+                                    "tenant": "voyageurl",
+                                    "token_issuer": "https://voyageurl.auth0.com/",
+                                  },
+                                  "dbConnection": DBConnection {
+                                    "baseOptions": Object {
+                                      "_sendTelemetry": true,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                      "domain": "voyageurl.auth0.com",
+                                      "jwksURI": undefined,
+                                      "plugins": PluginHandler {
+                                        "plugins": Array [],
+                                      },
+                                      "popupOrigin": undefined,
+                                      "redirectUri": "http://localhost:3000/callback",
+                                      "responseType": "token id_token",
+                                      "rootUrl": "https://voyageurl.auth0.com",
+                                      "scope": "openid roles profile",
+                                      "tenant": "voyageurl",
+                                      "token_issuer": "https://voyageurl.auth0.com/",
+                                    },
+                                    "request": RequestBuilder {
+                                      "_sendTelemetry": true,
+                                      "_telemetryInfo": null,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "headers": Object {},
+                                    },
+                                  },
+                                  "passwordless": PasswordlessAuthentication {
+                                    "baseOptions": Object {
+                                      "_sendTelemetry": true,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                      "domain": "voyageurl.auth0.com",
+                                      "jwksURI": undefined,
+                                      "plugins": PluginHandler {
+                                        "plugins": Array [],
+                                      },
+                                      "popupOrigin": undefined,
+                                      "redirectUri": "http://localhost:3000/callback",
+                                      "responseType": "token id_token",
+                                      "rootUrl": "https://voyageurl.auth0.com",
+                                      "scope": "openid roles profile",
+                                      "tenant": "voyageurl",
+                                      "token_issuer": "https://voyageurl.auth0.com/",
+                                    },
+                                    "request": RequestBuilder {
+                                      "_sendTelemetry": true,
+                                      "_telemetryInfo": null,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "headers": Object {},
+                                    },
+                                  },
+                                  "request": RequestBuilder {
+                                    "_sendTelemetry": true,
+                                    "_telemetryInfo": null,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "headers": Object {},
+                                  },
+                                  "ssodataStorage": SSODataStorage {
+                                    "storage": Storage {
+                                      "handler": StorageHandler {
+                                        "storage": CookieStorage {},
+                                        "warn": Warn {
+                                          "disableWarnings": undefined,
+                                        },
+                                      },
+                                    },
+                                  },
+                                  "warn": Warn {
+                                    "disableWarnings": false,
+                                  },
+                                },
+                                "crossOriginAuthentication": CrossOriginAuthentication {
+                                  "baseOptions": Object {
+                                    "_sendTelemetry": true,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                    "domain": "voyageurl.auth0.com",
+                                    "jwksURI": undefined,
+                                    "plugins": PluginHandler {
+                                      "plugins": Array [],
+                                    },
+                                    "popupOrigin": undefined,
+                                    "redirectUri": "http://localhost:3000/callback",
+                                    "responseType": "token id_token",
+                                    "rootUrl": "https://voyageurl.auth0.com",
+                                    "scope": "openid roles profile",
+                                    "tenant": "voyageurl",
+                                    "token_issuer": "https://voyageurl.auth0.com/",
+                                  },
+                                  "request": RequestBuilder {
+                                    "_sendTelemetry": true,
+                                    "_telemetryInfo": null,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "headers": Object {},
+                                  },
+                                  "storage": Storage {
+                                    "handler": StorageHandler {
+                                      "storage": CookieStorage {},
+                                      "warn": Warn {
+                                        "disableWarnings": undefined,
+                                      },
+                                    },
+                                  },
+                                  "webAuth": [Circular],
+                                  "webMessageHandler": WebMessageHandler {
+                                    "warn": Warn {
+                                      "disableWarnings": undefined,
+                                    },
+                                    "webAuth": [Circular],
+                                  },
+                                },
+                                "popup": Popup {
+                                  "baseOptions": Object {
+                                    "_sendTelemetry": true,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                    "domain": "voyageurl.auth0.com",
+                                    "jwksURI": undefined,
+                                    "plugins": PluginHandler {
+                                      "plugins": Array [],
+                                    },
+                                    "popupOrigin": undefined,
+                                    "redirectUri": "http://localhost:3000/callback",
+                                    "responseType": "token id_token",
+                                    "rootUrl": "https://voyageurl.auth0.com",
+                                    "scope": "openid roles profile",
+                                    "tenant": "voyageurl",
+                                    "token_issuer": "https://voyageurl.auth0.com/",
+                                  },
+                                  "client": Authentication {
+                                    "baseOptions": Object {
+                                      "_sendTelemetry": true,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                      "domain": "voyageurl.auth0.com",
+                                      "jwksURI": undefined,
+                                      "plugins": PluginHandler {
+                                        "plugins": Array [],
+                                      },
+                                      "popupOrigin": undefined,
+                                      "redirectUri": "http://localhost:3000/callback",
+                                      "responseType": "token id_token",
+                                      "rootUrl": "https://voyageurl.auth0.com",
+                                      "scope": "openid roles profile",
+                                      "tenant": "voyageurl",
+                                      "token_issuer": "https://voyageurl.auth0.com/",
+                                    },
+                                    "dbConnection": DBConnection {
+                                      "baseOptions": Object {
+                                        "_sendTelemetry": true,
+                                        "_timesToRetryFailedRequests": 0,
+                                        "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                        "domain": "voyageurl.auth0.com",
+                                        "jwksURI": undefined,
+                                        "plugins": PluginHandler {
+                                          "plugins": Array [],
+                                        },
+                                        "popupOrigin": undefined,
+                                        "redirectUri": "http://localhost:3000/callback",
+                                        "responseType": "token id_token",
+                                        "rootUrl": "https://voyageurl.auth0.com",
+                                        "scope": "openid roles profile",
+                                        "tenant": "voyageurl",
+                                        "token_issuer": "https://voyageurl.auth0.com/",
+                                      },
+                                      "request": RequestBuilder {
+                                        "_sendTelemetry": true,
+                                        "_telemetryInfo": null,
+                                        "_timesToRetryFailedRequests": 0,
+                                        "headers": Object {},
+                                      },
+                                    },
+                                    "passwordless": PasswordlessAuthentication {
+                                      "baseOptions": Object {
+                                        "_sendTelemetry": true,
+                                        "_timesToRetryFailedRequests": 0,
+                                        "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                        "domain": "voyageurl.auth0.com",
+                                        "jwksURI": undefined,
+                                        "plugins": PluginHandler {
+                                          "plugins": Array [],
+                                        },
+                                        "popupOrigin": undefined,
+                                        "redirectUri": "http://localhost:3000/callback",
+                                        "responseType": "token id_token",
+                                        "rootUrl": "https://voyageurl.auth0.com",
+                                        "scope": "openid roles profile",
+                                        "tenant": "voyageurl",
+                                        "token_issuer": "https://voyageurl.auth0.com/",
+                                      },
+                                      "request": RequestBuilder {
+                                        "_sendTelemetry": true,
+                                        "_telemetryInfo": null,
+                                        "_timesToRetryFailedRequests": 0,
+                                        "headers": Object {},
+                                      },
+                                    },
+                                    "request": RequestBuilder {
+                                      "_sendTelemetry": true,
+                                      "_telemetryInfo": null,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "headers": Object {},
+                                    },
+                                    "ssodataStorage": SSODataStorage {
+                                      "storage": Storage {
+                                        "handler": StorageHandler {
+                                          "storage": CookieStorage {},
+                                          "warn": Warn {
+                                            "disableWarnings": undefined,
+                                          },
+                                        },
+                                      },
+                                    },
+                                    "warn": Warn {
+                                      "disableWarnings": false,
+                                    },
+                                  },
+                                  "crossOriginAuthentication": CrossOriginAuthentication {
+                                    "baseOptions": Object {
+                                      "_sendTelemetry": true,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                      "domain": "voyageurl.auth0.com",
+                                      "jwksURI": undefined,
+                                      "plugins": PluginHandler {
+                                        "plugins": Array [],
+                                      },
+                                      "popupOrigin": undefined,
+                                      "redirectUri": "http://localhost:3000/callback",
+                                      "responseType": "token id_token",
+                                      "rootUrl": "https://voyageurl.auth0.com",
+                                      "scope": "openid roles profile",
+                                      "tenant": "voyageurl",
+                                      "token_issuer": "https://voyageurl.auth0.com/",
+                                    },
+                                    "request": RequestBuilder {
+                                      "_sendTelemetry": true,
+                                      "_telemetryInfo": null,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "headers": Object {},
+                                    },
+                                    "storage": Storage {
+                                      "handler": StorageHandler {
+                                        "storage": CookieStorage {},
+                                        "warn": Warn {
+                                          "disableWarnings": undefined,
+                                        },
+                                      },
+                                    },
+                                    "webAuth": [Circular],
+                                    "webMessageHandler": WebMessageHandler {
+                                      "warn": Warn {
+                                        "disableWarnings": undefined,
+                                      },
+                                      "webAuth": [Circular],
+                                    },
+                                  },
+                                  "transactionManager": TransactionManager {
+                                    "keyLength": 32,
+                                    "namespace": "com.auth0.auth.",
+                                    "storage": Storage {
+                                      "handler": StorageHandler {
+                                        "storage": CookieStorage {},
+                                        "warn": Warn {
+                                          "disableWarnings": undefined,
+                                        },
+                                      },
+                                    },
+                                  },
+                                  "warn": Warn {
+                                    "disableWarnings": false,
+                                  },
+                                  "webAuth": [Circular],
+                                },
+                                "redirect": Redirect {
+                                  "baseOptions": Object {
+                                    "_sendTelemetry": true,
+                                    "_timesToRetryFailedRequests": 0,
+                                    "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                    "domain": "voyageurl.auth0.com",
+                                    "jwksURI": undefined,
+                                    "plugins": PluginHandler {
+                                      "plugins": Array [],
+                                    },
+                                    "popupOrigin": undefined,
+                                    "redirectUri": "http://localhost:3000/callback",
+                                    "responseType": "token id_token",
+                                    "rootUrl": "https://voyageurl.auth0.com",
+                                    "scope": "openid roles profile",
+                                    "tenant": "voyageurl",
+                                    "token_issuer": "https://voyageurl.auth0.com/",
+                                  },
+                                  "crossOriginAuthentication": CrossOriginAuthentication {
+                                    "baseOptions": Object {
+                                      "_sendTelemetry": true,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "clientID": "eJalZzxtBAb0mBkRVRr13d8aRC5R2iSo",
+                                      "domain": "voyageurl.auth0.com",
+                                      "jwksURI": undefined,
+                                      "plugins": PluginHandler {
+                                        "plugins": Array [],
+                                      },
+                                      "popupOrigin": undefined,
+                                      "redirectUri": "http://localhost:3000/callback",
+                                      "responseType": "token id_token",
+                                      "rootUrl": "https://voyageurl.auth0.com",
+                                      "scope": "openid roles profile",
+                                      "tenant": "voyageurl",
+                                      "token_issuer": "https://voyageurl.auth0.com/",
+                                    },
+                                    "request": RequestBuilder {
+                                      "_sendTelemetry": true,
+                                      "_telemetryInfo": null,
+                                      "_timesToRetryFailedRequests": 0,
+                                      "headers": Object {},
+                                    },
+                                    "storage": Storage {
+                                      "handler": StorageHandler {
+                                        "storage": CookieStorage {},
+                                        "warn": Warn {
+                                          "disableWarnings": undefined,
+                                        },
+                                      },
+                                    },
+                                    "webAuth": [Circular],
+                                    "webMessageHandler": WebMessageHandler {
+                                      "warn": Warn {
+                                        "disableWarnings": undefined,
+                                      },
+                                      "webAuth": [Circular],
+                                    },
+                                  },
+                                  "warn": Warn {
+                                    "disableWarnings": false,
+                                  },
+                                  "webAuth": [Circular],
+                                },
+                                "ssodataStorage": SSODataStorage {
+                                  "storage": Storage {
+                                    "handler": StorageHandler {
+                                      "storage": CookieStorage {},
+                                      "warn": Warn {
+                                        "disableWarnings": undefined,
+                                      },
+                                    },
+                                  },
+                                },
+                                "transactionManager": TransactionManager {
+                                  "keyLength": 32,
+                                  "namespace": "com.auth0.auth.",
+                                  "storage": Storage {
+                                    "handler": StorageHandler {
+                                      "storage": CookieStorage {},
+                                      "warn": Warn {
+                                        "disableWarnings": undefined,
+                                      },
+                                    },
+                                  },
+                                },
+                                "webMessageHandler": WebMessageHandler {
+                                  "warn": Warn {
+                                    "disableWarnings": undefined,
+                                  },
+                                  "webAuth": [Circular],
+                                },
+                              },
+                              "getProfile": [Function],
+                              "handleAuthentication": [Function],
+                              "isAuthenticated": [Function],
+                              "login": [Function],
+                              "logout": [Function],
+                            }
+                          }
+                        >
+                          <login__StyledLogin>
+                            <StyledComponent
+                              forwardedClass={
+                                Object {
+                                  "$$typeof": Symbol(react.forward_ref),
+                                  "attrs": undefined,
+                                  "componentStyle": ComponentStyle {
+                                    "componentId": "login__StyledLogin-sc-7w8w1f-0",
+                                    "isStatic": true,
+                                    "lastClassName": "eosjHp",
+                                    "rules": Array [
+                                      "position:relative;display:flex;flex-flow:column;align-items:center;justify-content:center;height:100%;border-left:1px solid black;background-color:var(--color-blue);border-right:1px solid black;",
+                                    ],
+                                  },
+                                  "displayName": "login__StyledLogin",
+                                  "render": [Function],
+                                  "styledComponentId": "login__StyledLogin-sc-7w8w1f-0",
+                                  "target": "div",
+                                  "toString": [Function],
+                                  "warnTooManyClasses": [Function],
+                                  "withComponent": [Function],
+                                }
+                              }
+                              forwardedRef={null}
+                            >
+                              <div
+                                className="login__StyledLogin-sc-7w8w1f-0 eosjHp"
+                              >
+                                <login__StyledLogo>
+                                  <StyledComponent
+                                    forwardedClass={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": undefined,
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "login__StyledLogo-sc-7w8w1f-2",
+                                          "isStatic": true,
+                                          "lastClassName": "hNKfEn",
+                                          "rules": Array [
+                                            "color:white;font-size:var(--font-xl);",
+                                          ],
+                                        },
+                                        "displayName": "login__StyledLogo",
+                                        "render": [Function],
+                                        "styledComponentId": "login__StyledLogo-sc-7w8w1f-2",
+                                        "target": "h1",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      }
+                                    }
+                                    forwardedRef={null}
+                                  >
+                                    <h1
+                                      className="login__StyledLogo-sc-7w8w1f-2 hNKfEn"
+                                    >
+                                      Voyageurl
+                                    </h1>
+                                  </StyledComponent>
+                                </login__StyledLogo>
+                                <login__StyledLink
+                                  onClick={[Function]}
+                                >
+                                  <StyledComponent
+                                    forwardedClass={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": undefined,
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "login__StyledLink-sc-7w8w1f-1",
+                                          "isStatic": true,
+                                          "lastClassName": "gzEMXf",
+                                          "rules": Array [
+                                            "display:inline-flex;align-items:center;justify-content:center;width:200px;background:white;border:none;border-radius:4px;padding:0.5em 2em;margin-bottom:100px;cursor:pointer;text-transform:uppercase;outline:inherit;box-shadow:0px 1px 5px 0px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 3px 1px -2px rgba(0,0,0,0.12);&:hover{background-color:var(--background-primary);}",
+                                          ],
+                                        },
+                                        "displayName": "login__StyledLink",
+                                        "render": [Function],
+                                        "styledComponentId": "login__StyledLink-sc-7w8w1f-1",
+                                        "target": "div",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      }
+                                    }
+                                    forwardedRef={null}
+                                    onClick={[Function]}
+                                  >
+                                    <div
+                                      className="login__StyledLink-sc-7w8w1f-1 gzEMXf"
+                                      onClick={[Function]}
+                                    >
+                                      Login
+                                    </div>
+                                  </StyledComponent>
+                                </login__StyledLink>
+                              </div>
+                            </StyledComponent>
+                          </login__StyledLogin>
+                        </Login>
+                      </Route>
+                    </Switch>
+                  </div>
+                </StyledComponent>
+              </App__StyledApp>
+            </App>
+          </Connect(App)>
+        </Route>
+      </withRouter(Connect(App))>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;

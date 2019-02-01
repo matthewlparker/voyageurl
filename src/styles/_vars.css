@@ -1,0 +1,19 @@
+:root {
+  /* sizing */
+  --header-height: 60px;
+  --screen-width-large: 1280px;
+  --screen-width-medium: 1080px;
+  --screen-width-small: 960px;
+  /* colors */
+  --background-primary: #fafafa;
+  --color-blue: #0063af;
+  --color-blue-d: #1e6296;
+  --color-yellow: #fab822;
+  /* font sizes */
+  --font-s: 0.8em;
+  --font-m: 1em;
+  --font-l: 1.2em;
+  --font-xl: 2em;
+  /* spacing */
+  --pad: 0.5em;
+}

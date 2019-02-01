@@ -1,0 +1,33 @@
+* {
+  /*box model*/
+  position: static;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+
+  /*font*/
+  font-size: 1em;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  white-space: normal;
+
+  /*color*/
+  background: none;
+
+  /*other*/
+  list-style: none;
+  text-decoration: none;
+}
+
+form *:focus {
+  border: none;
+  outline: none;
+}
+
+label {
+  text-decoration: none;
+  font-style: normal;
+}

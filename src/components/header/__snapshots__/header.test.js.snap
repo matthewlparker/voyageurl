@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component renders 1`] = `
+<header__StyledHeader>
+  <header__Content>
+    <header__HeaderLeft>
+      <header__StyledLogo />
+      <header__Title>
+        Voyageurl
+      </header__Title>
+    </header__HeaderLeft>
+    <header__HeaderRight>
+      <Dropdown
+        title="User Menu"
+      >
+        <header__StyledLink
+          to="/"
+        >
+          Home
+        </header__StyledLink>
+        <header__StyledLink
+          to="/page1"
+        >
+          Page 1
+        </header__StyledLink>
+        <header__StyledLink
+          to="/page2"
+        >
+          Page 2
+        </header__StyledLink>
+        <header__Div
+          onClick={[Function]}
+        >
+          Logout
+        </header__Div>
+      </Dropdown>
+    </header__HeaderRight>
+  </header__Content>
+</header__StyledHeader>
+`;

@@ -1,0 +1,7 @@
+REACT_APP_AUTH0_DOMAIN=[Auth0 Application Domain]
+REACT_APP_AUTH0_CLIENT_ID=[Auth0 Application Client ID]
+REACT_APP_AUTH0_REDIRECT_URI=[Callback Route - in dev this will be http://localhost:3000/callback]
+REACT_APP_AUTH0_AUDIENCE=[Auth0 API Audience]
+REACT_APP_AUTH0_ROLES_NAMESPACE=[Auth0 custom rule namespace]
+REACT_APP_DOMAIN=[Application server domain - in dev this will be http://localhost:5000]
+MONGODB_URI=[Mongodb URI connection string]

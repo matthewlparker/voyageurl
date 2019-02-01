@@ -1,0 +1,16 @@
+{
+  "extends": ["react-app", "plugin:prettier/recommended"],
+  "plugins": ["react-hooks"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "only-multiline",
+        "objects": "only-multiline",
+        "imports": "only-multiline",
+        "exports": "only-multiline"
+      }
+    ]
+  }
+}

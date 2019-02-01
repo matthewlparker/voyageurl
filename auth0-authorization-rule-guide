@@ -1,0 +1,14 @@
+Follow these steps to initialize user/admin authorization for this app with Auth0
+Install the Authorization extension for your Auth0 tenant
+Navigate to it, then click Roles and create a role named Admin
+Navigate to Users, then click a user and assign it the role of Admin
+Navigate back to your tenant, select the newly created auth0-authorization-extension rule, and add the following code at the end of the getPolicy function
+
+```
+var namespace =
+  'enter your own string in the form of a url here (e.g. "https://voyageurl.auth0.com/")';
+context.idToken[namespace + 'roles'] = data.roles;
+context.accessToken[namespace + 'roles'] = data.roles;
+```
+
+**NOTE that the url string you use for the namespace will not be called and is merely used as a variable, compliant with OIDC protocol**
