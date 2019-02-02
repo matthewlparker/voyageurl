@@ -60,10 +60,14 @@ app.use('/api', message);
 app.use('/shorten', URLroute);
 app.get('/:hash', (req, res) => {
   let baseid = req.params.hash;
-  let id = atob(baseid);
+  // let id = atob(baseid);
+  console.log('baseid: ', baseid);
+  let id = Buffer.from(baseid.toString(), 'base64').toString('binary');
+  console.log('id: ', id);
   URL.findOne({ _id: id }, (err, doc) => {
     if (doc) {
-      res.redirect(doc.url);
+      console.log('***DOC.URL: ', doc.url);
+      res.redirect(`http://${doc.url}`);
     } else {
       res.redirect('/');
     }

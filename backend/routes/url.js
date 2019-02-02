@@ -16,7 +16,6 @@ URLroute.use('/', (req, res, next) => {
 
 URLroute.route('/').post((req, res) => {
   let urlData = req.body.url;
-  console.log('urlData: ', urlData);
   URL.findOne({ url: urlData }, (err, doc) => {
     if (doc) {
       console.log('entry found in db');
@@ -31,10 +30,8 @@ URLroute.route('/').post((req, res) => {
       let url = new URL({
         url: urlData,
       });
-      console.log('***url: ', url);
       url.save(err => {
         if (err) return console.error(err);
-        console.log('***url._id: ', url._id);
         res.send({
           url: urlData,
           hash: Buffer.from(url._id.toString(), 'binary').toString('base64'),

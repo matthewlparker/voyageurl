@@ -8,23 +8,6 @@ const Input = styled.input`
     border: 1px solid black;
   }
 `;
-// const usePostToDatabase = url => {
-//   let [apiResponse, setApiResponse] = useState();
-//   fetch(`${process.env.REACT_APP_DOMAIN}/api`, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(url),
-//   })
-//     .then(res => res.json())
-//     .then(res => {
-//       setApiResponse(res);
-//     })
-//     .catch(err => {
-//       setApiResponse(err);
-//     });
-// };
 
 function URLField(props) {
   let [url, setUrl] = useState('');
@@ -45,8 +28,10 @@ function URLField(props) {
         url,
       }),
     })
+      .then(res => res.json())
       .then(res => {
         console.log(res);
+        console.log('shortened url: ', process.env.REACT_APP_DOMAIN + res.hash);
       })
       .catch(err => {
         console.log(err);
