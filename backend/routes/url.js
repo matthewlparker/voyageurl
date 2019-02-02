@@ -15,7 +15,7 @@ URLroute.use('/', (req, res, next) => {
 });
 
 URLroute.route('/').post((req, res) => {
-  let urlData = req.body.url;
+  let urlData = req.body.urlString;
   URL.findOne({ url: urlData }, (err, doc) => {
     if (doc) {
       console.log('entry found in db');

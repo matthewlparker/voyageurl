@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 
 const Input = styled.input`
@@ -10,10 +10,10 @@ const Input = styled.input`
 `;
 
 function URLField(props) {
-  let [url, setUrl] = useState('');
+  let [urlString, setUrlString] = useState('');
 
   const handleChange = e => {
-    setUrl(e.target.value);
+    setUrlString(e.target.value);
   };
 
   const useFetch = e => {
@@ -24,12 +24,16 @@ function URLField(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        url,
+        urlString,
       }),
     })
       .then(res => res.json())
       .then(res => {
-        props.setUrl(`${process.env.REACT_APP_DOMAIN}/${res.hash}`);
+        console.log('res: ', res);
+        props.setUrl({
+          original: res.url,
+          shortened: `${process.env.REACT_APP_DOMAIN}/${res.hash}`,
+        });
       })
       .catch(err => {
         console.log(err);
