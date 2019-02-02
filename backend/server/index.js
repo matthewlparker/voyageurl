@@ -10,8 +10,7 @@ import message from '../routes/message.js';
 import URL from '../models/url';
 import URLroute from '../routes/url';
 import Counter from '../models/counter';
-import atob from 'atob';
-import btoa from 'btoa';
+import url from 'url';
 let promise;
 
 dotenv.config();
@@ -34,18 +33,13 @@ promise.then(db => {
   });
   Counter.deleteOne({}, () => {
     console.log('Counter collection removed');
-    let counter = new Counter({ _id: 'url_count', count: 10000 });
+    let counter = new Counter({ _id: 'url_count', count: 0 });
     counter.save(err => {
       if (err) return console.error(err);
       console.log('counter inserted');
     });
   });
 });
-
-// mongoose.connect(
-//   MONGODB_URI,
-//   { useNewUrlParser: true }
-// );
 
 // App setup
 app.use(cors());
@@ -60,14 +54,13 @@ app.use('/api', message);
 app.use('/shorten', URLroute);
 app.get('/:hash', (req, res) => {
   let baseid = req.params.hash;
-  // let id = atob(baseid);
-  console.log('baseid: ', baseid);
   let id = Buffer.from(baseid.toString(), 'base64').toString('binary');
-  console.log('id: ', id);
   URL.findOne({ _id: id }, (err, doc) => {
     if (doc) {
-      console.log('***DOC.URL: ', doc.url);
-      res.redirect(`http://${doc.url}`);
+      let shortenedURL = url.parse(doc.url).protocol
+        ? doc.url
+        : `http://${doc.url}`;
+      res.redirect(shortenedURL);
     } else {
       res.redirect('/');
     }

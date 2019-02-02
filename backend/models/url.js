@@ -17,12 +17,8 @@ urlSchema.pre('save', function(next) {
     { $inc: { count: 1 } },
     (err, counter) => {
       if (err) return next(err);
-      console.log('counter: ', counter);
-      console.log('counter.count: ', counter.count);
-      console.log('doc: ', doc);
       doc._id = counter.count;
       doc.created_at = new Date();
-      console.log('doc', doc);
       next();
     }
   );

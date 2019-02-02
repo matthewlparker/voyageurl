@@ -18,7 +18,6 @@ function URLField(props) {
 
   const useFetch = e => {
     e.preventDefault();
-    console.log('url: ', url);
     fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
       method: 'POST',
       headers: {
@@ -30,17 +29,12 @@ function URLField(props) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
-        console.log('shortened url: ', process.env.REACT_APP_DOMAIN + res.hash);
+        props.setUrl(`${process.env.REACT_APP_DOMAIN}/${res.hash}`);
       })
       .catch(err => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    console.log('url: ', url);
-  });
 
   return (
     <form onSubmit={useFetch}>

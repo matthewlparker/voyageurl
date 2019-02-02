@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
-import DatabaseRequest from '../api-request/database-request';
 
 const StyledHome = styled.div`
   max-height: calc(100vh - 120px);
@@ -20,10 +19,6 @@ const H2 = styled.h2`
   margin-bottom: 10px;
 `;
 
-const CenterDiv = styled.div`
-  text-align: center;
-`;
-
 const CenterContent = styled.div`
   display: flex;
   align-items: center;
@@ -34,16 +29,17 @@ const CenterContent = styled.div`
 `;
 
 const Home = () => {
+  let [url, setUrl] = useState('');
+
   return (
     <StyledHome>
-      <H1>Welcome</H1>
-      <H2>To Voyageurl</H2>
-      <CenterDiv>
-        Click to test your connection to the MongoDB example endpoint
-      </CenterDiv>
+      <H1>Welcome to Voyageurl</H1>
+      <H2>Enter a url to shorten it!</H2>
       <CenterContent>
-        <DatabaseRequest />
-        <URLField />
+        <URLField setUrl={setUrl} />
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {url}
+        </a>
       </CenterContent>
     </StyledHome>
   );
