@@ -1,4 +1,5 @@
 import React from 'react';
+import URLField from '../url-field';
 import styled from 'styled-components/macro';
 import DatabaseRequest from '../api-request/database-request';
 
@@ -42,6 +43,7 @@ const Home = () => {
       </CenterDiv>
       <CenterContent>
         <DatabaseRequest />
+        <URLField />
       </CenterContent>
     </StyledHome>
   );

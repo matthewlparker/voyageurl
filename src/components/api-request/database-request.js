@@ -29,6 +29,15 @@ const PostButton = styled.div`
 
 const DatabaseRequest = () => {
   const [apiResponse, setApiResponse] = useState();
+  const useShortenURL = () => {
+    fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    });
+  };
   const usePostToDatabase = () => {
     fetch(`${process.env.REACT_APP_DOMAIN}/api`, {
       method: 'POST',

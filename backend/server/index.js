@@ -7,6 +7,12 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import message from '../routes/message.js';
+import URL from '../models/url';
+import URLroute from '../routes/url';
+import Counter from '../models/counter';
+import atob from 'atob';
+import btoa from 'btoa';
+let promise;
 
 dotenv.config();
 const app = express();
@@ -16,10 +22,30 @@ const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // DB setup
-mongoose.connect(
+promise = mongoose.connect(
   MONGODB_URI,
   { useNewUrlParser: true }
 );
+
+promise.then(db => {
+  console.log('connected!');
+  URL.deleteOne({}, () => {
+    console.log('URL collection removed');
+  });
+  Counter.deleteOne({}, () => {
+    console.log('Counter collection removed');
+    let counter = new Counter({ _id: 'url_count', count: 10000 });
+    counter.save(err => {
+      if (err) return console.error(err);
+      console.log('counter inserted');
+    });
+  });
+});
+
+// mongoose.connect(
+//   MONGODB_URI,
+//   { useNewUrlParser: true }
+// );
 
 // App setup
 app.use(cors());
@@ -31,6 +57,18 @@ app.use(express.static(path.join(__dirname, '../../build')));
 
 // API endpoints
 app.use('/api', message);
+app.use('/shorten', URLroute);
+app.get('/:hash', (req, res) => {
+  let baseid = req.params.hash;
+  let id = atob(baseid);
+  URL.findOne({ _id: id }, (err, doc) => {
+    if (doc) {
+      res.redirect(doc.url);
+    } else {
+      res.redirect('/');
+    }
+  });
+});
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/../../build', 'index.html'));
 });
