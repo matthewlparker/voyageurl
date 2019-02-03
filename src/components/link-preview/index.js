@@ -1,11 +1,12 @@
 import React from 'react';
 
-function LinkPreview(props) {
+function LinkPreview({ metadata }) {
   return (
     <div>
-      <div>Title: {props.preview.title}</div>
-      <div>Description: {props.preview.description}</div>
-      <div>Url: {props.preview.url}</div>
+      <img src={metadata.image} alt="site logo for submitted url" />
+      <div>Title: {metadata.title}</div>
+      <div>Description: {metadata.description}</div>
+      <div>Url: {metadata.url}</div>
     </div>
   );
 }

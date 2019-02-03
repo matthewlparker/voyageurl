@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import validUrl from 'valid-url';
 import styled from 'styled-components/macro';
 
 const Input = styled.input`
@@ -16,32 +17,38 @@ function URLField(props) {
     setUrlString(e.target.value);
   };
 
-  const useFetch = e => {
+  const useHandleSubmit = e => {
     e.preventDefault();
-    fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        urlString,
-      }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log('res: ', res);
-        props.setUrl({
-          original: res.url,
-          shortened: `${process.env.REACT_APP_DOMAIN}/${res.hash}`,
-        });
+
+    if (validUrl.isUri(urlString)) {
+      fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          urlString,
+        }),
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(res => res.json())
+        .then(res => {
+          console.log('res.metadata: ', res.metadata);
+          props.setUrl({
+            original: res.url,
+            shortened: `${process.env.REACT_APP_DOMAIN}/${res.hash}`,
+          });
+          props.setMetadata(res.metadata);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      console.log('Invalid url');
+    }
   };
 
   return (
-    <form onSubmit={useFetch}>
+    <form onSubmit={useHandleSubmit}>
       <Input type="text" onChange={handleChange} />
     </form>
   );
