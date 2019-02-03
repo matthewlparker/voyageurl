@@ -10,6 +10,7 @@ import message from '../routes/message.js';
 import URL from '../models/url';
 import URLroute from '../routes/url';
 import Counter from '../models/counter';
+import metadataRoute from '../routes/metadata';
 import url from 'url';
 let promise;
 
@@ -52,6 +53,7 @@ app.use(express.static(path.join(__dirname, '../../build')));
 // API endpoints
 app.use('/api', message);
 app.use('/shorten', URLroute);
+app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {
   let baseid = req.params.hash;
   let id = Buffer.from(baseid.toString(), 'base64').toString('binary');

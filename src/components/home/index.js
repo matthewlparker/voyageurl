@@ -30,8 +30,6 @@ const CenterContent = styled.div`
 `;
 
 const Home = () => {
-  // let [originalUrl, setOriginalUrl] = useState('');
-  // let [shortenedUrl, setShortenedUrl] = useState('');
   let [url, setUrl] = useState({ original: '', shortened: '' });
   let [metadata, setMetadata] = useState({
     image: '',
@@ -42,28 +40,8 @@ const Home = () => {
 
   useEffect(() => {
     console.log('metadata: ', metadata);
-    if (url.original) {
-      // let data = {
-      //   key: process.env.REACT_APP_LINK_PREVIEW,
-      //   q: url.original,
-      // };
-      // fetch('http://api.linkpreview.net/', {
-      //   method: 'POST',
-      //   mode: 'cors',
-      //   body: JSON.stringify(data),
-      // })
-      //   .then(res => res.json())
-      //   .then(res => {
-      //     if (preview.url !== res.url) {
-      //       setPreview(res);
-      //     }
-      //     console.log('res: ', res);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-    }
   });
+
   return (
     <StyledHome>
       <H1>Welcome to Voyageurl</H1>
