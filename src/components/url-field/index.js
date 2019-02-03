@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import validUrl from 'valid-url';
+import { shortenUrl, fetchMetadata } from './api-requests';
 import styled from 'styled-components/macro';
 
 const Input = styled.input`
@@ -11,59 +11,21 @@ const Input = styled.input`
 `;
 
 function URLField(props) {
-  let [urlString, setUrlString] = useState('');
+  let [url, setUrl] = useState('');
 
   const handleChange = e => {
-    setUrlString(e.target.value);
-  };
-
-  const fetchMetadata = () => {
-    fetch(`${process.env.REACT_APP_DOMAIN}/metadata`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        urlString,
-      }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        props.setMetadata(res.metadata);
-      });
+    setUrl(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (validUrl.isUri(urlString)) {
-      fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          urlString,
-        }),
-      })
-        .then(res => res.json())
-        .then(res => {
-          fetchMetadata(urlString);
-          props.setUrl({
-            original: res.url,
-            shortened: `${process.env.REACT_APP_DOMAIN}/${res.hash}`,
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      console.log('Invalid url');
-    }
+    shortenUrl(props, url);
+    fetchMetadata(props, url);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <Input type="text" onChange={handleChange} />
+      <Input type="text" onChange={handleChange} value={url} />
     </form>
   );
 }

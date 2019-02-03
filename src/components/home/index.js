@@ -39,7 +39,7 @@ const Home = () => {
   });
 
   useEffect(() => {
-    console.log('metadata: ', metadata);
+    console.log('url: ', url);
   });
 
   return (

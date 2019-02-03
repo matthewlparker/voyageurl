@@ -29,7 +29,7 @@ promise = mongoose.connect(
 
 promise.then(db => {
   console.log('connected!');
-  URL.deleteOne({}, () => {
+  URL.deleteMany({}, () => {
     console.log('URL collection removed');
   });
   Counter.deleteOne({}, () => {
