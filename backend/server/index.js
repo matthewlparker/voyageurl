@@ -59,10 +59,7 @@ app.get('/:hash', (req, res) => {
   let id = Buffer.from(baseid.toString(), 'base64').toString('binary');
   URL.findOne({ _id: id }, (err, doc) => {
     if (doc) {
-      let shortenedURL = url.parse(doc.url).protocol
-        ? doc.url
-        : `http://${doc.url}`;
-      res.redirect(shortenedURL);
+      res.redirect(doc.url);
     } else {
       res.redirect('/');
     }

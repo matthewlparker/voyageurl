@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import LinkPreview from '../link-preview';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
@@ -30,7 +30,6 @@ const CenterContent = styled.div`
 `;
 
 const Home = () => {
-  let [url, setUrl] = useState({ original: '', shortened: '' });
   let [metadata, setMetadata] = useState({
     image: '',
     title: '',
@@ -38,19 +37,12 @@ const Home = () => {
     url: '',
   });
 
-  useEffect(() => {
-    console.log('url: ', url);
-  });
-
   return (
     <StyledHome>
       <H1>Welcome to Voyageurl</H1>
       <H2>Enter a url to shorten it!</H2>
       <CenterContent>
-        <URLField setUrl={setUrl} setMetadata={setMetadata} />
-        <a href={url.shortened} target="_blank" rel="noopener noreferrer">
-          {url.shortened}
-        </a>
+        <URLField setMetadata={setMetadata} />
         <LinkPreview metadata={metadata} />
       </CenterContent>
     </StyledHome>

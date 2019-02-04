@@ -5,6 +5,7 @@ const metascraper = require('metascraper')([
   require('metascraper-description')(),
   require('metascraper-url')(),
   require('metascraper-image')(),
+  require('metascraper-youtube')(),
 ]);
 const got = require('got');
 
@@ -16,6 +17,7 @@ metadataRoute.route('/').post((req, res) => {
     const { body: html, url } = await got(urlString);
     let metadata = await metascraper({ html, url });
     if (metadata) {
+      console.log('metadata: ', metadata);
       res.send({
         metadata,
       });

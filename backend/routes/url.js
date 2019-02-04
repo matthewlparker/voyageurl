@@ -16,11 +16,12 @@ URLroute.use('/', (req, res, next) => {
 
 URLroute.route('/').post((req, res) => {
   const { urlString } = req.body;
+
   URL.findOne({ url: urlString }, (err, doc) => {
     if (doc) {
       console.log('entry found in db');
       res.send({
-        url: urlString,
+        url: doc.url,
         hash: Buffer.from(doc._id.toString(), 'binary').toString('base64'),
         status: 200,
         statusTxt: 'OK',
