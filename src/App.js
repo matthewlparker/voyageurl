@@ -42,11 +42,11 @@ const useAuthorization = props => {
 export const App = props => {
   const { renewSession } = auth;
 
-  useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      renewSession();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem('isLoggedIn') === 'true') {
+  //     renewSession();
+  //   }
+  // }, []);
 
   useAuthorization(props);
   return (

@@ -43,6 +43,13 @@ promise.then(db => {
 });
 
 // App setup
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else next();
+  });
+}
 app.use(cors());
 app.use(morgan('combined'));
 app.use(bodyParser.json());

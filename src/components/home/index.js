@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import LinkPreview from '../link-preview';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
 import Cookies from 'universal-cookie';
-import { fetchURLs } from './api-requests';
 import axios from 'axios';
 
 const cookies = new Cookies();
@@ -35,36 +33,8 @@ const CenterContent = styled.div`
   margin-top: 10px;
 `;
 
-// const useFetch = () => {
-//   const [returnVisitorURLs, setReturnVisitorURLs] = useState([]);
-
-//   useEffect(async () => {
-//     let visitorURLs = cookies.get('visitorURLs');
-//     console.log('visitorURLs: ', visitorURLs);
-//     if (!visitorURLs) {
-//       cookies.set('visitorURLs', [], { path: '/' });
-//       visitorURLs = cookies.get('visitorURLs');
-//     }
-//     if (visitorURLs.length > 0) {
-//       try {
-//         const response = await axios.post(
-//           `${process.env.REACT_APP_DOMAIN}/urls`,
-//           { urls: visitorURLs }
-//         );
-//         console.log('axios response: ', response);
-//         setReturnVisitorURLs([response.data.urls]);
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     }
-//   }, []);
-//   // console.log('returnVisitorURLs: ', returnVisitorURLs);
-//   return returnVisitorURLs;
-// };
-
 const Home = () => {
   const [returnVisitorURLs, setReturnVisitorURLs] = useState([]);
-  // const visitorURLs = useFetch();
   const [metadata, setMetadata] = useState({
     image: '',
     title: '',
@@ -92,70 +62,11 @@ const Home = () => {
     } else if (!visitorURLs) {
       cookies.set('visitorURLs', [], { path: '/' });
     }
+
+    // fetchURLs(['MA==', 'MQ==']);
+
+    // fetchURLs(['MA==', 'MQ==']).then(URLs => setReturnVisitorURLs(URLs));
   }, []);
-
-  // useEffect(async () => {
-  //   const visitorURLs = cookies.get('visitorURLs');
-  //   if (visitorURLs && visitorURLs.length > 0) {
-  //     const fetchedVisitorURLs = await fetchURLs(visitorURLs);
-  //     setReturnVisitorURLs(fetchedVisitorURLs);
-  //   } else {
-  //     cookies.set('visitorURLs', [], { path: '/' });
-  //   }
-  // }, []);
-
-  // useEffect(async () => {
-  //   let visitorURLs = cookies.get('visitorURLs');
-  //   if (!visitorURLs) {
-  //     cookies.set('visitorURLs', [], { path: '/' });
-  //     visitorURLs = cookies.get('visitorURLs');
-  //   }
-  //   if (visitorURLs.length > 0) {
-  //     try {
-  //       const response = await axios.post(
-  //         `${process.env.REACT_APP_DOMAIN}/urls`,
-  //         { urls: visitorURLs }
-  //       );
-  //       console.log('axios response: ', response);
-  //       setReturnVisitorURLs([response.data.urls]);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  //   console.log('visitorURLs: ', visitorURLs);
-  //   console.log('returnVisitorURLs: ', returnVisitorURLs);
-  //   // if (visitorURLs && visitorURLs.length > 0) {
-  //   //   try {
-  //   //     const response = await axios.post(`${process.env.REACT_APP_DOMAIN}/urls`, urls)
-  //   //   }
-  //   // }
-  // }, []);
-
-  // export const fetchURLs = async urls => {
-  //   const response = await fetch(`${process.env.REACT_APP_DOMAIN}/urls`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       urls,
-  //     }),
-  //   })
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       const visitorURLs = res.urls.map(url => {
-  //         return {
-  //           ...url,
-  //           hash: Buffer.from(url._id.toString(), 'binary').toString('base64'),
-  //         };
-  //       });
-  //       return visitorURLs;
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  //   return response;
-  // };
 
   return (
     <StyledHome>
