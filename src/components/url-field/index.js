@@ -43,7 +43,7 @@ function URLField(props) {
       ? input.string
       : `http://${input.string}`;
     if (isUrl(urlString)) {
-      shortenUrl(urlString, setInput);
+      shortenUrl(urlString, setInput, props.cookies);
       fetchMetadata(props, urlString);
     }
   };

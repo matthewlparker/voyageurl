@@ -9,9 +9,9 @@ import bodyParser from 'body-parser';
 import message from '../routes/message.js';
 import URL from '../models/url';
 import URLroute from '../routes/url';
+import URLSroute from '../routes/urls';
 import Counter from '../models/counter';
 import metadataRoute from '../routes/metadata';
-import url from 'url';
 let promise;
 
 dotenv.config();
@@ -52,6 +52,7 @@ app.use(express.static(path.join(__dirname, '../../build')));
 
 // API endpoints
 app.use('/api', message);
+app.use('/urls', URLSroute);
 app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {

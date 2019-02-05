@@ -15,3 +15,17 @@ export const userProfile = (state = initialState, { type, payload }) => {
       return state;
   }
 };
+
+const visitorURLsInitialState = [];
+
+export const visitorURLs = (
+  state = visitorURLsInitialState,
+  { type, payload }
+) => {
+  switch (type) {
+    case types.SET_VISITOR_URLS:
+      return [...state, payload];
+    default:
+      return state;
+  }
+};
