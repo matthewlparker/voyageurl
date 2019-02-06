@@ -28,10 +28,14 @@ export const shortenUrl = (urlString, setInput, cookies) => {
   })
     .then(res => res.json())
     .then(res => {
-      let visitorURLs = cookies.get('visitorURLs');
+      const visitorURLsCookie = cookies.get('visitorURLs');
+      let visitorURLs = visitorURLsCookie;
       if (visitorURLs && !visitorURLs.includes(res.hash)) {
-        cookies.set('visitorURLs', [...visitorURLs, res.hash]);
-        visitorURLs = cookies.get('visitorURLs');
+        if (visitorURLs.length === 5) {
+          visitorURLs.pop();
+        }
+        visitorURLs.unshift(res.hash);
+        cookies.set('visitorURLs', visitorURLs);
       }
       if (visitorURLs && visitorURLs.length > 0) {
         fetchURLs(visitorURLs);

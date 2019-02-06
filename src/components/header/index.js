@@ -5,7 +5,7 @@ import styled from 'styled-components/macro';
 
 const StyledHeader = styled.header`
   height: var(--header-height);
-  background-color: var(--color-blue);
+  background-color: var(--color-orange);
   padding: 0 1rem;
 `;
 
@@ -18,18 +18,6 @@ const Content = styled.div`
   color: white;
   margin: 0 auto;
 `;
-
-// const StyledLogo = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   && img {
-//     width: 150px;
-//     @media (max-width: 600px) {
-//       width: 130px;
-//     }
-//   }
-// `;
 
 const StyledLink = styled(Link)`
   width: 100%;

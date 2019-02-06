@@ -46,12 +46,10 @@ const Home = () => {
     const response = await axios.post(`${process.env.REACT_APP_DOMAIN}/urls`, {
       urls: visitorURLs,
     });
-    console.log('response: ', response.data.urls);
     const visitorURLsWithHash = response.data.urls.map(url => ({
       ...url,
       hash: Buffer.from(url._id.toString(), 'binary').toString('base64'),
     }));
-    console.log('visitorURLsWithHash: ', visitorURLsWithHash);
     setReturnVisitorURLs(visitorURLsWithHash);
   };
 
