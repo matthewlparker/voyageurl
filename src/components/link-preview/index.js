@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import styled from 'styled-components';
+
+const InlineField = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Button = styled.div`
+  display: flex;
+  border: 1px solid var(--color-orange);
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  padding: 0.5em;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: var(--color-orange);
+  }
+`;
 
 function LinkPreview({ metadata }) {
-  const { image, title, description, url, author, publisher } = metadata;
+  const { image, title, description, url, author, publisher, hash } = metadata;
   const isYouTubeVideo = author && publisher && url;
+  const shortenedURLRef = useRef(null);
+
+  const copyToClipboard = e => {
+    shortenedURLRef.current.select();
+    document.execCommand('copy');
+    e.target.focus();
+  };
 
   const embedYouTubeVideo = () => {
     const id = url.split('?v=')[1];
@@ -41,8 +67,35 @@ function LinkPreview({ metadata }) {
           {title}
         </a>
       )}
+      {url && (
+        <a
+          href={url}
+          target="_#"
+          rel="noopener noreferrer"
+          style={{ display: 'block' }}
+        >
+          {url}
+        </a>
+      )}
       {description && !isYouTubeVideo && <div>{description}</div>}
       {isYouTubeVideo && embedYouTubeVideo()}
+      {hash && (
+        <InlineField>
+          <a
+            href={`${process.env.REACT_APP_DOMAIN}/${hash}`}
+            target="_#"
+            rel="noopener noreferrer"
+          >
+            <input
+              ref={shortenedURLRef}
+              value={`${process.env.REACT_APP_DOMAIN}/${hash}`}
+              style={{ cursor: 'pointer' }}
+              readOnly
+            />
+          </a>
+          <Button onClick={copyToClipboard}>Copy</Button>
+        </InlineField>
+      )}
     </div>
   );
 }

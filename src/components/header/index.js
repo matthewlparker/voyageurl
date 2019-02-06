@@ -64,7 +64,7 @@ const Header = props => {
         <HeaderLeft>
           <Title>Lionly</Title>
         </HeaderLeft>
-        <HeaderRight>
+        {/*<HeaderRight>
           <Dropdown title="User Menu">
             <StyledLink to="/">Home</StyledLink>
             <StyledLink to="/page1">Page 1</StyledLink>
@@ -76,7 +76,7 @@ const Header = props => {
             {!isAuthenticated() && <Div onClick={login}>Login</Div>}
             {isAuthenticated() && <Div onClick={logout}>Logout</Div>}
           </Dropdown>
-        </HeaderRight>
+        </HeaderRight>*/}
       </Content>
     </StyledHeader>
   );

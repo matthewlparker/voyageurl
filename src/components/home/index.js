@@ -64,8 +64,8 @@ const Home = () => {
 
   return (
     <StyledHome>
-      <H1>Welcome to Lionly</H1>
-      <H2>Enter a url to shorten it!</H2>
+      <H1>Be Lionly</H1>
+      <H2>Lions don't use long links, and neither should you</H2>
       <CenterContent>
         <URLField setMetadata={setMetadata} cookies={cookies} />
         <LinkPreview metadata={metadata} />

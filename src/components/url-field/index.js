@@ -17,12 +17,16 @@ const InlineField = styled.div`
 `;
 const Button = styled.div`
   display: flex;
-  border: 1px solid black;
+  border: 1px solid var(--color-orange);
   align-items: center;
   justify-content: center;
   width: 75px;
   padding: 0.5em;
   cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: var(--color-orange);
+  }
 `;
 
 function URLField(props) {
