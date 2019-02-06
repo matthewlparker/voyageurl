@@ -74,7 +74,7 @@ const Header = props => {
     <StyledHeader>
       <Content>
         <HeaderLeft>
-          <Title>Voyageurl</Title>
+          <Title>Lionly</Title>
         </HeaderLeft>
         <HeaderRight>
           <Dropdown title="User Menu">

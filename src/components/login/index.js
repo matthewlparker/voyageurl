@@ -56,7 +56,7 @@ const Login = props => {
 
   return (
     <StyledLogin>
-      <StyledLogo>Voyageurl</StyledLogo>
+      <StyledLogo>Lionly</StyledLogo>
       <StyledLink onClick={auth.login}>Login</StyledLink>
     </StyledLogin>
   );

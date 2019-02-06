@@ -62,15 +62,11 @@ const Home = () => {
     } else if (!visitorURLs) {
       cookies.set('visitorURLs', [], { path: '/' });
     }
-
-    // fetchURLs(['MA==', 'MQ==']);
-
-    // fetchURLs(['MA==', 'MQ==']).then(URLs => setReturnVisitorURLs(URLs));
   }, []);
 
   return (
     <StyledHome>
-      <H1>Welcome to Voyageurl</H1>
+      <H1>Welcome to Lionly</H1>
       <H2>Enter a url to shorten it!</H2>
       <CenterContent>
         <URLField setMetadata={setMetadata} cookies={cookies} />
@@ -78,17 +74,14 @@ const Home = () => {
       </CenterContent>
       {returnVisitorURLs &&
         returnVisitorURLs.length > 0 &&
-        returnVisitorURLs.map(returnVisitorURL => (
-          <div key={returnVisitorURL.hash}>
-            <a
-              href={returnVisitorURL.url}
-              target="_#"
-              rel="noopener noreferrer"
-            >
-              {`${process.env.REACT_APP_DOMAIN}/${returnVisitorURL.hash}`}
-            </a>
-          </div>
-        ))}
+        returnVisitorURLs
+          .sort((a, b) => b._id - a._id)
+          .map(returnVisitorURL => (
+            <LinkPreview
+              metadata={returnVisitorURL}
+              key={returnVisitorURL.hash}
+            />
+          ))}
     </StyledHome>
   );
 };

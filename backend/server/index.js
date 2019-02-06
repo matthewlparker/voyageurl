@@ -6,7 +6,6 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import message from '../routes/message.js';
 import URL from '../models/url';
 import URLroute from '../routes/url';
 import URLSroute from '../routes/urls';
@@ -58,7 +57,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../../build')));
 
 // API endpoints
-app.use('/api', message);
 app.use('/urls', URLSroute);
 app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);

@@ -4,7 +4,7 @@ const URLroute = express.Router();
 
 // Middleware
 URLroute.use('/', (req, res, next) => {
-  URL.find({ title: 'Voyageurl MongoDB API' }, (err, URLroute) => {
+  URL.find({ title: 'Lionly MongoDB API' }, (err, URLroute) => {
     if (err) {
       res.status(500).send(err);
     } else {

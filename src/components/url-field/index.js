@@ -39,6 +39,11 @@ function URLField(props) {
   const handleSubmit = e => {
     e.preventDefault();
 
+    const visitorURLs = props.cookies.get('visitorURLs');
+    if (!visitorURLs) {
+      props.cookies.set('visitorURLs', [], { path: '/' });
+    }
+
     const urlString = url.parse(input.string).protocol
       ? input.string
       : `http://${input.string}`;
