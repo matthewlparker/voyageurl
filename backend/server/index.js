@@ -26,33 +26,22 @@ promise = mongoose.connect(
   { useNewUrlParser: true }
 );
 
-if (process.env.NODE_ENV === 'production') {
-  promise.listCollections({ name: 'counters' }).next((err, collinfo) => {
-    if (!collinfo) {
-      let counter = new Counter({ _id: 'url_count' });
-      counter.save(err => {
-        if (err) return console.error(err);
-      });
-    }
+// if (process.env.NODE_ENV !== 'production') {
+promise.then(db => {
+  console.log('connected!');
+  URL.deleteMany({}, () => {
+    console.log('URL collection removed');
   });
-}
-
-if (process.env.NODE_ENV !== 'production') {
-  promise.then(db => {
-    console.log('connected!');
-    URL.deleteMany({}, () => {
-      console.log('URL collection removed');
-    });
-    Counter.deleteOne({}, () => {
-      console.log('Counter collection removed');
-      let counter = new Counter({ _id: 'url_count' });
-      counter.save(err => {
-        if (err) return console.error(err);
-        console.log('counter inserted');
-      });
+  Counter.deleteOne({}, () => {
+    console.log('Counter collection removed');
+    let counter = new Counter({ _id: 'url_count' });
+    counter.save(err => {
+      if (err) return console.error(err);
+      console.log('counter inserted');
     });
   });
-}
+});
+// }
 
 // App setup
 if (process.env.NODE_ENV === 'production') {
