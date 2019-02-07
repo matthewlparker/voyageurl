@@ -3,7 +3,6 @@ import LinkPreview from '../link-preview';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
 import Cookies from 'universal-cookie';
-import axios from 'axios';
 
 const cookies = new Cookies();
 
@@ -42,21 +41,10 @@ const Home = () => {
     url: '',
   });
 
-  const fetchURLs = async visitorURLs => {
-    const response = await axios.post(`${process.env.REACT_APP_DOMAIN}/urls`, {
-      urls: visitorURLs,
-    });
-    const visitorURLsWithHash = response.data.urls.map(url => ({
-      ...url,
-      hash: Buffer.from(url._id.toString(), 'binary').toString('base64'),
-    }));
-    setReturnVisitorURLs(visitorURLsWithHash);
-  };
-
   useEffect(() => {
     const visitorURLs = cookies.get('visitorURLs');
     if (visitorURLs && visitorURLs.length > 0) {
-      fetchURLs(visitorURLs);
+      setReturnVisitorURLs(visitorURLs);
     } else if (!visitorURLs) {
       cookies.set('visitorURLs', [], { path: '/' });
     }

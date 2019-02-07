@@ -11,18 +11,23 @@ const got = require('got');
 
 metadataRoute.route('/').post((req, res) => {
   const { urlString } = req.body;
-
-  //Fetch metadata of URL site
   (async () => {
     const { body: html, url } = await got(urlString);
     let metadata = await metascraper({ html, url });
-    if (metadata) {
-      console.log('metadata: ', metadata);
-      res.send({
-        metadata,
-      });
-    }
-  })();
+    res.send({
+      metadata,
+    });
+  })().catch(error => {
+    // construct metadata manually
+    console.error('error: ', error);
+    console.error('Sending custom url data object');
+    res.send({
+      metadata: {
+        title: urlString,
+        url: urlString,
+      },
+    });
+  });
 });
 
 module.exports = metadataRoute;

@@ -8,7 +8,6 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import URL from '../models/url';
 import URLroute from '../routes/url';
-import URLSroute from '../routes/urls';
 import Counter from '../models/counter';
 import metadataRoute from '../routes/metadata';
 let promise;
@@ -26,20 +25,22 @@ promise = mongoose.connect(
   { useNewUrlParser: true }
 );
 
-promise.then(db => {
-  console.log('connected!');
-  URL.deleteMany({}, () => {
-    console.log('URL collection removed');
-  });
-  Counter.deleteOne({}, () => {
-    console.log('Counter collection removed');
-    let counter = new Counter({ _id: 'url_count', count: 0 });
-    counter.save(err => {
-      if (err) return console.error(err);
-      console.log('counter inserted');
+if (process.env.NODE_ENV !== 'production') {
+  promise.then(db => {
+    console.log('connected!');
+    URL.deleteMany({}, () => {
+      console.log('URL collection removed');
+    });
+    Counter.deleteOne({}, () => {
+      console.log('Counter collection removed');
+      let counter = new Counter({ _id: 'url_count', count: 0 });
+      counter.save(err => {
+        if (err) return console.error(err);
+        console.log('counter inserted');
+      });
     });
   });
-});
+}
 
 // App setup
 if (process.env.NODE_ENV === 'production') {
@@ -57,7 +58,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../../build')));
 
 // API endpoints
-app.use('/urls', URLSroute);
 app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {

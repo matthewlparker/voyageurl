@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components/macro';
-import { shortenUrl, fetchMetadata } from './api-requests';
-import isUrl from 'is-url';
+import { shortenUrl } from './api-requests';
+import parseDomain from 'parse-domain';
+import isURL from 'validator/lib/isURL';
 import url from 'url';
 
 const Input = styled.input`
@@ -51,9 +52,8 @@ function URLField(props) {
     const urlString = url.parse(input.string).protocol
       ? input.string
       : `http://${input.string}`;
-    if (isUrl(urlString)) {
-      shortenUrl(urlString, setInput, props.cookies);
-      fetchMetadata(props, urlString);
+    if (isURL(urlString) && parseDomain(urlString)) {
+      shortenUrl(urlString, setInput, props);
     }
   };
 
