@@ -22,7 +22,6 @@ export const shortenUrl = (urlString, setInput, props) => {
 };
 
 export const fetchMetadata = (urlData, props) => {
-  console.log('fetchMetadata urlData: ', urlData);
   fetch(`${process.env.REACT_APP_DOMAIN}/metadata`, {
     method: 'POST',
     headers: {
@@ -34,24 +33,29 @@ export const fetchMetadata = (urlData, props) => {
   })
     .then(res => res.json())
     .then(res => {
-      console.log('fetchMetadata res', res);
       let { metadata } = res;
       metadata = { ...metadata, hash: urlData.hash };
 
       let visitorURLs = props.cookies.get('visitorURLs');
-      console.log('visitorURLs: ', visitorURLs);
-      if (
-        visitorURLs &&
-        !visitorURLs.some(visitorURL => visitorURL.hash === metadata.hash)
-      ) {
-        if (visitorURLs.length === 5) {
-          visitorURLs.pop();
-        }
-        visitorURLs.unshift(metadata);
-        props.cookies.set('visitorURLs', visitorURLs);
-      }
-      if (metadata) {
-        props.setMetadata(metadata);
-      }
+      // If metadata.hash is currently in visitorURLs array, move that entry to front of array
+      const managedVisitorURLs = manageVisitorURLs(visitorURLs, metadata);
+      props.cookies.set('visitorURLs', managedVisitorURLs);
+      props.setReturnVisitorURLs(managedVisitorURLs);
     });
+};
+
+const manageVisitorURLs = (visitorURLs, metadata) => {
+  if (
+    visitorURLs.length > 1 &&
+    visitorURLs.some(visitorURL => visitorURL.hash === metadata.hash)
+  ) {
+    visitorURLs = visitorURLs.filter(
+      visitorURL => visitorURL.hash !== metadata.hash
+    );
+  }
+  visitorURLs.unshift(metadata);
+  if (visitorURLs.length > 5) {
+    visitorURLs.pop();
+  }
+  return visitorURLs;
 };

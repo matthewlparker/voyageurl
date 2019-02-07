@@ -34,12 +34,6 @@ const CenterContent = styled.div`
 
 const Home = () => {
   const [returnVisitorURLs, setReturnVisitorURLs] = useState([]);
-  const [metadata, setMetadata] = useState({
-    image: '',
-    title: '',
-    description: '',
-    url: '',
-  });
 
   useEffect(() => {
     const visitorURLs = cookies.get('visitorURLs');
@@ -55,8 +49,10 @@ const Home = () => {
       <H1>Be Lionly</H1>
       <H2>Lions don't use long links, and neither should you</H2>
       <CenterContent>
-        <URLField setMetadata={setMetadata} cookies={cookies} />
-        <LinkPreview metadata={metadata} />
+        <URLField
+          setReturnVisitorURLs={setReturnVisitorURLs}
+          cookies={cookies}
+        />
       </CenterContent>
       {returnVisitorURLs &&
         returnVisitorURLs.length > 0 &&

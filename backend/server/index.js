@@ -5,13 +5,12 @@ import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import bodyParser from 'body-parser';
 import URL from '../models/url';
+import bodyParser from 'body-parser';
 import URLroute from '../routes/url';
+import base62 from 'base62/lib/ascii';
 import Counter from '../models/counter';
 import metadataRoute from '../routes/metadata';
-import base62 from 'base62/lib/ascii';
-let promise;
 
 dotenv.config();
 const app = express();
@@ -21,27 +20,24 @@ const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // DB setup
-promise = mongoose.connect(
+const db = mongoose.connect(
   MONGODB_URI,
   { useNewUrlParser: true }
 );
 
-// if (process.env.NODE_ENV !== 'production') {
-promise.then(db => {
-  console.log('connected!');
-  URL.deleteMany({}, () => {
-    console.log('URL collection removed');
-  });
-  Counter.deleteOne({}, () => {
-    console.log('Counter collection removed');
-    let counter = new Counter({ _id: 'url_count' });
-    counter.save(err => {
-      if (err) return console.error(err);
-      console.log('counter inserted');
+db.then(db => {
+  db.connection.db.collection('counters', (err, collection) => {
+    collection.find({}).toArray((err, data) => {
+      if (data.length < 1) {
+        let counter = new Counter({ _id: 'url_count' });
+        counter.save(err => {
+          if (err) return console.error(err);
+          console.log('counter inserted');
+        });
+      }
     });
   });
 });
-// }
 
 // App setup
 if (process.env.NODE_ENV === 'production') {
@@ -63,7 +59,6 @@ app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {
   let baseid = req.params.hash;
-  // let id = Buffer.from(baseid.toString(), 'base64').toString('binary');
   let id = base62.decode(baseid);
   URL.findOne({ _id: id }, (err, doc) => {
     if (doc) {
