@@ -45,6 +45,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 // App setup
 if (process.env.NODE_ENV === 'production') {
+  mongoose.connection.db
+    .listCollections({ name: 'counters' })
+    .next((err, collinfo) => {
+      if (!collinfo) {
+        let counter = new Counter({ _id: 'url_count' });
+        counter.save(err => {
+          if (err) return console.error(err);
+        });
+      }
+    });
+
   app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
       res.redirect(`https://${req.header('host')}${req.url}`);
