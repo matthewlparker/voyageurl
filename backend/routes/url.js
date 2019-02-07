@@ -1,5 +1,6 @@
 import express from 'express';
 import URL from '../models/url';
+import base62 from 'base62/lib/ascii';
 const URLroute = express.Router();
 
 // Middleware
@@ -22,7 +23,8 @@ URLroute.route('/').post((req, res) => {
       console.log('entry found in db');
       res.send({
         url: doc.url,
-        hash: Buffer.from(doc._id.toString(), 'binary').toString('base64'),
+        // hash: Buffer.from(doc._id.toString(), 'binary').toString('base64'),
+        hash: base62.encode(doc._id),
         status: 200,
         statusTxt: 'OK',
       });
@@ -35,7 +37,8 @@ URLroute.route('/').post((req, res) => {
         if (err) return console.error(err);
         res.send({
           url: urlString,
-          hash: Buffer.from(url._id.toString(), 'binary').toString('base64'),
+          // hash: Buffer.from(url._id.toString(), 'binary').toString('base64'),
+          hash: base62.encode(url._id),
           status: 200,
           statusTxt: 'OK',
         });

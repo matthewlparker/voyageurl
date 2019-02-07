@@ -10,6 +10,7 @@ import URL from '../models/url';
 import URLroute from '../routes/url';
 import Counter from '../models/counter';
 import metadataRoute from '../routes/metadata';
+import base62 from 'base62/lib/ascii';
 let promise;
 
 dotenv.config();
@@ -33,7 +34,7 @@ if (process.env.NODE_ENV !== 'production') {
     });
     Counter.deleteOne({}, () => {
       console.log('Counter collection removed');
-      let counter = new Counter({ _id: 'url_count', count: 0 });
+      let counter = new Counter({ _id: 'url_count' });
       counter.save(err => {
         if (err) return console.error(err);
         console.log('counter inserted');
@@ -62,7 +63,8 @@ app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {
   let baseid = req.params.hash;
-  let id = Buffer.from(baseid.toString(), 'base64').toString('binary');
+  // let id = Buffer.from(baseid.toString(), 'base64').toString('binary');
+  let id = base62.decode(baseid);
   URL.findOne({ _id: id }, (err, doc) => {
     if (doc) {
       res.redirect(doc.url);

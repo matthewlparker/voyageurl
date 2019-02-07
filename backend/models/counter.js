@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 // Define your model
 const counterSchema = mongoose.Schema({
   _id: { type: String, required: true },
-  count: { type: Number, default: 0 },
+  count: { type: Number, default: 10000 },
 });
 
 // Create the model class
