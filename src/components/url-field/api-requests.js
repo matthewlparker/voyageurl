@@ -36,10 +36,16 @@ export const fetchMetadata = (urlData, props) => {
       let { metadata } = res;
       metadata = { ...metadata, hash: urlData.hash };
 
-      let visitorURLs = props.cookies.get('visitorURLs');
+      const visitorURLs = props.cookies.get('visitorURLs');
       // If metadata.hash is currently in visitorURLs array, move that entry to front of array
       const managedVisitorURLs = manageVisitorURLs(visitorURLs, metadata);
-      props.cookies.set('visitorURLs', managedVisitorURLs);
+      const current = new Date();
+      const nextYear = new Date();
+      nextYear.setFullYear(current.getFullYear() + 1);
+      props.cookies.set('visitorURLs', managedVisitorURLs, {
+        path: '/',
+        expires: nextYear,
+      });
       props.setReturnVisitorURLs(managedVisitorURLs);
     });
 };

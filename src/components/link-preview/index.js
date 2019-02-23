@@ -46,6 +46,12 @@ function LinkPreview({ metadata }) {
     );
   };
 
+  const truncate = (str, n) => {
+    if (str.length <= n) return str;
+    let subString = str.substr(0, n - 1);
+    return subString.substr(0, subString.lastIndexOf(' ')) + '...';
+  };
+
   return (
     <div>
       {image &&
@@ -64,7 +70,7 @@ function LinkPreview({ metadata }) {
           rel="noopener noreferrer"
           style={{ display: 'block' }}
         >
-          {title}
+          {truncate(title, 12)}
         </a>
       )}
       {url && (
