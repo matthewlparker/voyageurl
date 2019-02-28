@@ -45,7 +45,6 @@ function LinkPreview({ metadata }) {
       />
     );
   };
-  // truncate function takes st
   const truncate = (str, maxLength, separator = ' ') => {
     if (str.length <= maxLength) return str;
     if (str.indexOf(separator) < 0) return str.substring(0, maxLength) + '...';

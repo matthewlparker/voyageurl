@@ -10,9 +10,14 @@ import bodyParser from 'body-parser';
 import URLroute from '../routes/url';
 import base62 from 'base62/lib/ascii';
 import Counter from '../models/counter';
+import authRoutes from '../routes/auth-routes';
 import metadataRoute from '../routes/metadata';
+import passportSetup from '../config/passport-setup';
+import cookieSession from 'cookie-session';
+import passport from 'passport';
 
 dotenv.config();
+
 const app = express();
 
 // Env variables
@@ -51,10 +56,22 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.SESSION_COOKIE_KEY],
+  })
+);
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));
 
 // API endpoints
+app.use('/auth', authRoutes);
 app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {

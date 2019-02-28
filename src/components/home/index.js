@@ -48,6 +48,8 @@ const Home = () => {
     <StyledHome>
       <H1>Be Lionly</H1>
       <H2>Lions don't use long links, and neither should you</H2>
+      <a href="/auth/google">Google+</a>
+      <a href="/logout">logout</a>
       <CenterContent>
         <URLField
           setReturnVisitorURLs={setReturnVisitorURLs}
