@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Dropdown from '../dropdown';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
 const StyledHeader = styled.header`
@@ -21,13 +20,12 @@ const Content = styled.div`
 
 const StyledLink = styled(Link)`
   width: 100%;
+  color: white;
   padding: 12px 16px;
 `;
 
-const Div = styled.div`
-  width: 100%;
-  color: black;
-  padding: 12px 16px;
+const LogoutButton = styled.div`
+  cursor: pointer;
 `;
 
 const HeaderLeft = styled.div`
@@ -41,6 +39,8 @@ const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   justify-self: flex-end;
+  color: white;
+  font-size: var(--font-l);
   max-height: 100%;
 `;
 
@@ -56,7 +56,11 @@ const Title = styled.h1`
 `;
 
 const Header = props => {
-  const { login, logout, isAuthenticated } = props.auth;
+  const logout = () => {
+    localStorage.removeItem('userToken');
+    props.setUser();
+    return <Redirect to="/" />;
+  };
 
   return (
     <StyledHeader>
@@ -64,19 +68,23 @@ const Header = props => {
         <HeaderLeft>
           <Title>Lionly</Title>
         </HeaderLeft>
-        {/*<HeaderRight>
-          <Dropdown title="User Menu">
-            <StyledLink to="/">Home</StyledLink>
-            <StyledLink to="/page1">Page 1</StyledLink>
-            <StyledLink to="/page2">Page 2</StyledLink>
-            {props.userRole &&
-              props.userRole === 'Admin' && (
-                <StyledLink to="/admin">Admin</StyledLink>
-              )}
-            {!isAuthenticated() && <Div onClick={login}>Login</Div>}
-            {isAuthenticated() && <Div onClick={logout}>Logout</Div>}
-          </Dropdown>
-        </HeaderRight>*/}
+        <HeaderRight>
+          {props.user ? (
+            <React.Fragment>
+              <StyledLink
+                to={`/lion/${props.user.username
+                  .split(' ')
+                  .join('')
+                  .toLowerCase()}`}
+              >
+                Profile
+              </StyledLink>
+              <LogoutButton onClick={logout}>Logout</LogoutButton>
+            </React.Fragment>
+          ) : (
+            <a href="/auth/google">Google+</a>
+          )}
+        </HeaderRight>
       </Content>
     </StyledHeader>
   );

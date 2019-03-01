@@ -1,4 +1,5 @@
 import passport from 'passport';
+import jwt from 'jsonwebtoken';
 const router = require('express').Router();
 
 // auth login
@@ -21,11 +22,25 @@ router.get(
 );
 
 // callback route for google to redirect to
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  console.log('req.user: ', req.user);
-  res.redirect('/');
-  // const { code } = req.user;
-  // res.redirect('http://localhost:5000?token=' + code);
-});
+router.get(
+  '/google/redirect',
+  passport.authenticate('google', { failureRedirect: '/', session: false }),
+  (req, res) => {
+    const token = createJWTFromUserData(req.user);
+    const htmlWithEmbeddedJWT = `
+      <html>
+        <script>
+          window.localStorage.setItem('userToken', '${token}');
+          window.location.href = '/';
+        </script>
+      </html>
+    `;
+    res.send(htmlWithEmbeddedJWT);
+  }
+);
+
+const createJWTFromUserData = user => {
+  return jwt.sign(user.toJSON(), process.env.REACT_APP_SECRET_KEY);
+};
 
 module.exports = router;

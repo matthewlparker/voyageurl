@@ -56,16 +56,9 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.SESSION_COOKIE_KEY],
-  })
-);
 
 // initialize passport
 app.use(passport.initialize());
-app.use(passport.session());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));

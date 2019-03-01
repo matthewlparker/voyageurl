@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Auth from './auth/auth.js';
 import Routes from './Routes';
-
+import jwt from 'jsonwebtoken';
 import Header from './components/header';
-
 import * as authActions from './actions/authorization';
 import styled from 'styled-components/macro';
-const auth = new Auth();
 
 const StyledApp = styled.div`
   height: 100%;
@@ -23,37 +20,25 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const useAuthorization = props => {
-  const { isAuthenticated, userProfile, getProfile } = auth;
-  useEffect(() => {
-    if (isAuthenticated() && !userProfile) {
-      let userRole;
-      getProfile((err, profile) => {
-        userRole = profile[process.env.REACT_APP_AUTH0_ROLES_NAMESPACE];
-        if (!userRole || !userRole[0]) {
-          userRole = 'User';
-        }
-        props.setUserProfile(userRole.toString());
-      });
-    }
-  });
-};
-
 export const App = props => {
-  const { renewSession } = auth;
+  const [user, setUser] = useState();
 
-  // useEffect(() => {
-  //   if (localStorage.getItem('isLoggedIn') === 'true') {
-  //     renewSession();
-  //   }
-  // }, []);
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    if (userToken) {
+      const decodedUser = jwt.verify(
+        userToken,
+        process.env.REACT_APP_SECRET_KEY
+      );
+      setUser(decodedUser);
+    }
+  }, []);
 
-  useAuthorization(props);
   return (
     <StyledApp>
-      <Header auth={auth} userRole={props.userRole} />
+      <Header user={user} setUser={setUser} />
       <Content>
-        <Routes auth={auth} />
+        <Routes user={user} />
       </Content>
     </StyledApp>
   );
