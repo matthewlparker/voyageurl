@@ -82,7 +82,10 @@ const Header = props => {
               <LogoutButton onClick={logout}>Logout</LogoutButton>
             </React.Fragment>
           ) : (
-            <a href="/auth/google">Google+</a>
+            <React.Fragment>
+              <a href="/auth/google">Google+</a>
+              <a href="/auth/facebook">Facebook+</a>
+            </React.Fragment>
           )}
         </HeaderRight>
       </Content>

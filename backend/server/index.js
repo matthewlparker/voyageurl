@@ -13,7 +13,7 @@ import Counter from '../models/counter';
 import authRoutes from '../routes/auth-routes';
 import metadataRoute from '../routes/metadata';
 import passportSetup from '../config/passport-setup';
-import cookieSession from 'cookie-session';
+import cookieParser from 'cookie-parser';
 import passport from 'passport';
 
 dotenv.config();
@@ -56,6 +56,7 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // initialize passport
 app.use(passport.initialize());

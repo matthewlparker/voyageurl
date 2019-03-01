@@ -39,6 +39,26 @@ router.get(
   }
 );
 
+// auth with facebook
+router.get('/facebook', passport.authenticate('facebook'));
+
+router.get(
+  '/facebook/redirect',
+  passport.authenticate('facebook', { failureRedirect: '/', session: false }),
+  (req, res) => {
+    const token = createJWTFromUserData(req.user);
+    const htmlWithEmbeddedJWT = `
+    <html>
+      <script>
+        window.localStorage.setItem('userToken', '${token}');
+        window.location.href = '/';
+      </script>
+    </html>
+    `;
+    res.send(htmlWithEmbeddedJWT);
+  }
+);
+
 const createJWTFromUserData = user => {
   return jwt.sign(user.toJSON(), process.env.REACT_APP_SECRET_KEY);
 };
