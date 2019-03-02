@@ -10,7 +10,7 @@ import GoogleStrategy from 'passport-google-oauth20';
 dotenv.config();
 
 passport.use(
-  'google-auth',
+  'google',
   new GoogleStrategy(
     {
       // options for google strategy
@@ -31,7 +31,7 @@ passport.use(
 );
 
 passport.use(
-  'facebook-auth',
+  'facebook',
   new FacebookStrategy(
     {
       // options for facebook strategy
@@ -53,7 +53,7 @@ passport.use(
 );
 
 passport.use(
-  'github-auth',
+  'github',
   new GithubStrategy(
     {
       // options for github strategy
@@ -74,7 +74,7 @@ passport.use(
 );
 
 passport.use(
-  'twitter-auth',
+  'twitter',
   new TwitterStrategy(
     {
       // options for twitter strategy

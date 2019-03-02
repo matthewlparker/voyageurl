@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import Dropdown from '../dropdown';
 import Cookies from 'universal-cookie';
 import styled from 'styled-components/macro';
 const cookies = new Cookies();
@@ -24,6 +25,11 @@ const StyledLink = styled(Link)`
   width: 100%;
   color: white;
   padding: 12px 16px;
+`;
+
+const StyledHref = styled.a`
+  color: black;
+  padding: var(--pad);
 `;
 
 const LogoutButton = styled.div`
@@ -65,6 +71,14 @@ const Header = props => {
     return <Redirect to="/" />;
   };
 
+  let userRoute;
+  if (props.user && props.user.username) {
+    userRoute = `/lion/${props.user.username
+      .split(' ')
+      .join('')
+      .toLowerCase()}`;
+  }
+
   return (
     <StyledHeader>
       <Content>
@@ -74,22 +88,20 @@ const Header = props => {
         <HeaderRight>
           {props.user && props.user.username ? (
             <React.Fragment>
-              <StyledLink
-                to={`/lion/${props.user.username
-                  .split(' ')
-                  .join('')
-                  .toLowerCase()}`}
-              >
-                Profile
-              </StyledLink>
+              <StyledLink to={userRoute}>Profile</StyledLink>
               <LogoutButton onClick={logout}>Logout</LogoutButton>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <a href="/auth/google">Google+</a>
-              <a href="/auth/facebook">Facebook+</a>
-              <a href="/auth/github">Github+</a>
-              <a href="/auth/twitter">Twitter+</a>
+              <Dropdown
+                title="login"
+                children={[
+                  <StyledHref href="/auth/google">Google</StyledHref>,
+                  <StyledHref href="/auth/facebook">Facebook</StyledHref>,
+                  <StyledHref href="/auth/github">Github</StyledHref>,
+                  <StyledHref href="/auth/twitter">Twitter</StyledHref>,
+                ]}
+              />
             </React.Fragment>
           )}
         </HeaderRight>
