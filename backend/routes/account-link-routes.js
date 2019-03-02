@@ -2,10 +2,10 @@ import passport from 'passport';
 import { embeddHtmlWithJWT } from '../util';
 const router = require('express').Router();
 
-// auth with google
+// link with google
 router.get(
   '/google',
-  passport.authenticate('google-auth', {
+  passport.authenticate('google-link', {
     scope: ['profile'],
   })
 );
@@ -13,7 +13,7 @@ router.get(
 // callback route for google to redirect to
 router.get(
   '/google/redirect',
-  passport.authenticate('google-auth', {
+  passport.authenticate('google-link', {
     failureRedirect: '/',
     session: false,
   }),
@@ -23,12 +23,13 @@ router.get(
   }
 );
 
-// auth with facebook
-router.get('/facebook', passport.authenticate('facebook-auth'));
+// link with facebook
+router.get('/facebook', passport.authenticate('facebook-link'));
 
+// callback route for facebook to redirect to
 router.get(
   '/facebook/redirect',
-  passport.authenticate('facebook-auth', {
+  passport.authenticate('facebook-link', {
     failureRedirect: '/',
     session: false,
   }),
@@ -38,12 +39,13 @@ router.get(
   }
 );
 
-// auth with github
-router.get('/github', passport.authenticate('github-auth'));
+// link with github
+router.get('/github', passport.authenticate('github-link'));
 
+// callback route for github to redirect to
 router.get(
   '/github/redirect',
-  passport.authenticate('github-auth', {
+  passport.authenticate('github-link', {
     failureRedirect: '/',
     session: false,
   }),
@@ -53,12 +55,13 @@ router.get(
   }
 );
 
-// auth with twitter
-router.get('/twitter', passport.authenticate('twitter-auth'));
+// link with twitter
+router.get('/twitter', passport.authenticate('twitter-link'));
 
+// callback route for twitter to redirect to
 router.get(
   '/twitter/redirect',
-  passport.authenticate('twitter-auth', {
+  passport.authenticate('twitter-link', {
     failureRedirect: '/',
     session: false,
   }),
@@ -67,5 +70,3 @@ router.get(
     res.send(htmlWithEmbeddedJWT);
   }
 );
-
-module.exports = router;

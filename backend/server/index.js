@@ -13,8 +13,12 @@ import Counter from '../models/counter';
 import authRoutes from '../routes/auth-routes';
 import metadataRoute from '../routes/metadata';
 import passportSetup from '../config/passport-setup';
+import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
+// const Passport = require('passport').Passport;
+// const passport = new Passport();
+// const linkPassport = new Passport();
 
 dotenv.config();
 
@@ -58,8 +62,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// set up express-session (required by passport-twitter)
+const sess = {
+  secret: process.env.REACT_APP_SECRET_KEY,
+  cookie: {},
+};
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+  sess.cookie.secure = true; // serve secure cookies
+}
+app.use(session(sess));
+
 // initialize passport
 app.use(passport.initialize());
+// app.use(linkPassport.initialize());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));
@@ -87,3 +103,8 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log(`***SERVER UP AT PORT: ${PORT}`);
 });
+
+// module.exports = {
+//   passport,
+//   linkPassport,
+// };

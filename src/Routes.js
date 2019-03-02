@@ -23,7 +23,11 @@ const Routes = props => {
         path="/lion/:username"
         render={() =>
           props.user ? (
-            WaitingComponent(Profile)(props.user)
+            WaitingComponent(Profile)(
+              (props: {
+                user: props.user,
+              })
+            )
           ) : (
             <Redirect to="/" />
           )

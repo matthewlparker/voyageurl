@@ -21,7 +21,8 @@ const Content = styled.div`
 `;
 
 export const App = props => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(localStorage.getItem('userToken'));
+  console.log('user: ', user);
 
   useEffect(() => {
     const userToken = localStorage.getItem('userToken');

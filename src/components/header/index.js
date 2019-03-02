@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import styled from 'styled-components/macro';
+const cookies = new Cookies();
 
 const StyledHeader = styled.header`
   height: var(--header-height);
@@ -57,6 +59,7 @@ const Title = styled.h1`
 
 const Header = props => {
   const logout = () => {
+    cookies.remove('userCookie', { path: '/' });
     localStorage.removeItem('userToken');
     props.setUser();
     return <Redirect to="/" />;
@@ -69,7 +72,7 @@ const Header = props => {
           <Title>Lionly</Title>
         </HeaderLeft>
         <HeaderRight>
-          {props.user ? (
+          {props.user && props.user.username ? (
             <React.Fragment>
               <StyledLink
                 to={`/lion/${props.user.username
@@ -85,6 +88,8 @@ const Header = props => {
             <React.Fragment>
               <a href="/auth/google">Google+</a>
               <a href="/auth/facebook">Facebook+</a>
+              <a href="/auth/github">Github+</a>
+              <a href="/auth/twitter">Twitter+</a>
             </React.Fragment>
           )}
         </HeaderRight>
