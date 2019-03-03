@@ -1,6 +1,17 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
+import styled from 'styled-components/macro';
+
+const LinkAccountButton = styled.div`
+  background: white;
+  padding: var(--pad);
+  display: flex;
+  align-content: center;
+  cursor: pointer;
+  width: max-content;
+  border-radius: 5px;
+`;
 
 const Profile = props => {
   const linkAccount = accountHref => {
@@ -17,17 +28,27 @@ const Profile = props => {
     <div>
       <div>Welcome to your Lionly profile, {props.user.username}</div>
       {props.user.providers === undefined && <div>Link your accounts</div>}
-      {props.user.providers.facebookId === undefined && (
-        <div onClick={() => linkAccount('/auth/facebook/')}>Facebook</div>
+      {props.user.providers.facebookId === undefined ? (
+        <LinkAccountButton onClick={() => linkAccount('/auth/facebook/')}>
+          Facebook
+        </LinkAccountButton>
+      ) : (
+        <LinkAccountButton>Facebook - Linked</LinkAccountButton>
       )}
       {props.user.providers.googleId === undefined && (
-        <div onClick={() => linkAccount('/auth/google/')}>Google</div>
+        <LinkAccountButton onClick={() => linkAccount('/auth/google/')}>
+          Google
+        </LinkAccountButton>
       )}
       {props.user.providers.githubId === undefined && (
-        <div onClick={() => linkAccount('/auth/github/')}>Github</div>
+        <LinkAccountButton onClick={() => linkAccount('/auth/github/')}>
+          Github
+        </LinkAccountButton>
       )}
       {props.user.providers.twitterId === undefined && (
-        <div onClick={() => linkAccount('/auth/twitter/')}>Twitter</div>
+        <LinkAccountButton onClick={() => linkAccount('/auth/twitter/')}>
+          Twitter
+        </LinkAccountButton>
       )}
     </div>
   );

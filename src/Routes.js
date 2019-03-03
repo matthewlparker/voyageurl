@@ -18,7 +18,18 @@ const WaitingComponent = Component => props => (
 const Routes = props => {
   return (
     <Switch>
-      <Route exact path="/" component={WaitingComponent(Home)} />
+      <Route
+        exact
+        path="/"
+        render={() =>
+          WaitingComponent(Home)(
+            (props: {
+              user: props.user,
+              setUser: props.setUser,
+            })
+          )
+        }
+      />
       <Route
         path="/lion/:username"
         render={() =>

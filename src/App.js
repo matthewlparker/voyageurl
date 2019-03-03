@@ -39,7 +39,7 @@ export const App = props => {
     <StyledApp>
       <Header user={user} setUser={setUser} />
       <Content>
-        <Routes user={user} />
+        <Routes user={user} setUser={setUser} />
       </Content>
     </StyledApp>
   );

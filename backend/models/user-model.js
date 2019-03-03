@@ -4,6 +4,7 @@ const userSchema = mongoose.Schema({
   username: { type: String },
   googleId: { type: String },
   providers: {},
+  urls: [],
 });
 
 const User = mongoose.model('user', userSchema);

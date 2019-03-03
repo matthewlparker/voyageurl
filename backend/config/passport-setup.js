@@ -122,7 +122,7 @@ const linkAccounts = (providerIdType, profile, userCookie, done) => {
     if (existingAccounts && existingAccounts.length > 0) {
       // collect the ids of these accounts to be used as a condition of the deleteMany search query
       const accountsToDeleteIds = existingAccounts.map(
-        existingUser => existingUser._id
+        existingAccount => existingAccount._id
       );
       // merge existing accounts' providers into a new provider object for the new User account we will create
       const mergedProviders = existingAccounts.reduce((acc, curr) => {
@@ -134,10 +134,23 @@ const linkAccounts = (providerIdType, profile, userCookie, done) => {
         // add the currently logged in user's providers to this new provider object
         return Object.assign({}, acc, user.providers);
       }, {});
+      // collect the urls arrays of these accounts to be merged into a single array
+      const urlsToMerge = existingAccounts
+        .map(existingAccount => existingAccount.urls)
+        .concat(user.urls);
+      console.log('urlsToMerge: ', urlsToMerge);
+      // merge existing accounts' urls into a new urls array, removing duplicates, for the new User account we will create
+      const mergedURLs = [
+        ...new Set(urlsToMerge.reduce((acc, curr) => [...acc, ...curr])),
+      ];
+
+      console.log('mergedURLs: ', mergedURLs);
+
       // create and save the new User
       new User({
         username: user.username,
         providers: mergedProviders,
+        urls: mergedURLs,
       })
         .save()
         .then(newUser => {

@@ -1,15 +1,27 @@
 export const shortenUrl = (urlString, setInput, props) => {
+  let urlData;
+  if (props.user) {
+    urlData = {
+      urlString,
+      user: props.user,
+    };
+  } else {
+    urlData = {
+      urlString,
+    };
+  }
   fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      urlString,
-    }),
+    body: JSON.stringify(urlData),
   })
     .then(res => res.json())
     .then(res => {
+      if (props.user) {
+        fetchUser(props.user._id, props.setUser);
+      }
       fetchMetadata(res, props);
       setInput({
         string: `${process.env.REACT_APP_DOMAIN}/${res.hash}`,
@@ -47,6 +59,22 @@ export const fetchMetadata = (urlData, props) => {
         expires: nextYear,
       });
       props.setReturnVisitorURLs(managedVisitorURLs);
+    });
+};
+
+export const fetchUser = (id, setUser) => {
+  console.log('fetch user id: ', id);
+  fetch(`${process.env.REACT_APP_DOMAIN}/user`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id }),
+  })
+    .then(res => res.json())
+    .then(res => {
+      console.log('fetch user res: ', res);
+      setUser(res);
     });
 };
 

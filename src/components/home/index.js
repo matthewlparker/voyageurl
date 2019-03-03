@@ -3,6 +3,7 @@ import LinkPreview from '../link-preview';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
 import Cookies from 'universal-cookie';
+import { PromiseProvider } from 'mongoose';
 
 const cookies = new Cookies();
 
@@ -32,7 +33,7 @@ const CenterContent = styled.div`
   margin-top: 10px;
 `;
 
-const Home = () => {
+const Home = props => {
   const [returnVisitorURLs, setReturnVisitorURLs] = useState([]);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const Home = () => {
       cookies.set('visitorURLs', [], { path: '/' });
     }
   }, []);
-
+  console.log('home props.user: ', props.user);
   return (
     <StyledHome>
       <H1>Be Lionly</H1>
@@ -52,6 +53,8 @@ const Home = () => {
         <URLField
           setReturnVisitorURLs={setReturnVisitorURLs}
           cookies={cookies}
+          user={props.user}
+          setUser={props.setUser}
         />
       </CenterContent>
       {returnVisitorURLs &&

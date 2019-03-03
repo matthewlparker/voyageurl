@@ -11,6 +11,7 @@ import URLroute from '../routes/url';
 import base62 from 'base62/lib/ascii';
 import Counter from '../models/counter';
 import authRoutes from '../routes/auth-routes';
+import userRoutes from '../routes/user-routes';
 import metadataRoute from '../routes/metadata';
 import passportSetup from '../config/passport-setup';
 import session from 'express-session';
@@ -81,6 +82,7 @@ app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, '../../build')));
 
 // API endpoints
+app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/shorten', URLroute);
 app.use('/metadata', metadataRoute);

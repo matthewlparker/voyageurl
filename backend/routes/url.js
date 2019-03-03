@@ -1,6 +1,7 @@
 import express from 'express';
 import URL from '../models/url';
 import base62 from 'base62/lib/ascii';
+import User from '../models/user-model';
 const URLroute = express.Router();
 
 // Middleware
@@ -16,10 +17,14 @@ URLroute.use('/', (req, res, next) => {
 });
 
 URLroute.route('/').post((req, res) => {
-  const { urlString } = req.body;
+  const { urlString, user } = req.body;
+  console.log('req.body.user: ', user);
 
   URL.findOne({ url: urlString }, (err, doc) => {
     if (doc) {
+      if (user) {
+        addUrlIdToUser(user, doc._id);
+      }
       console.log('entry found in db');
       res.send({
         url: doc.url,
@@ -34,6 +39,9 @@ URLroute.route('/').post((req, res) => {
       });
       url.save(err => {
         if (err) return console.error(err);
+        if (user) {
+          addUrlIdToUser(user, url._id);
+        }
         res.send({
           url: urlString,
           hash: base62.encode(url._id),
@@ -44,5 +52,16 @@ URLroute.route('/').post((req, res) => {
     }
   });
 });
+
+const addUrlIdToUser = (user, urlId) => {
+  User.findOneAndUpdate(
+    { _id: user._id },
+    { $addToSet: { urls: urlId } },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).then(updatedUser => console.log('updatedUser:O ', updatedUser));
+};
 
 module.exports = URLroute;
