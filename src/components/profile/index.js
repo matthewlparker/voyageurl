@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import styled from 'styled-components/macro';
+import LinkPreview from '../link-preview';
 
 const LinkAccountButton = styled.div`
   background: white;
@@ -56,7 +57,24 @@ const Profile = props => {
             </LinkAccountButton>
           )}
           {props.userURLs &&
-            props.userURLs.map(userURL => <div>{userURL.hash}</div>)}
+            props.userURLs.map(userURL => (
+              <div>
+                <div>
+                  <a href={userURL.url} target="_#" rel="noopener noreferrer">
+                    {userURL.url}
+                  </a>
+                </div>
+                <div>
+                  <a
+                    href={`${process.env.REACT_APP_DOMAIN}/${userURL.hash}`}
+                    target="_#"
+                    rel="noopener noreferrer"
+                  >
+                    {process.env.REACT_APP_DOMAIN + '/' + userURL.hash}
+                  </a>
+                </div>
+              </div>
+            ))}
         </div>
       ) : props.user && props.user.noUser ? (
         <Redirect to="/" />
