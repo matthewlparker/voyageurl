@@ -51,10 +51,10 @@ const Home = props => {
       <H2>Lions don't use long links, and neither should you</H2>
       <CenterContent>
         <URLField
-          setReturnVisitorURLs={setReturnVisitorURLs}
-          cookies={cookies}
           user={props.user}
+          cookies={cookies}
           setUser={props.setUser}
+          setReturnVisitorURLs={setReturnVisitorURLs}
         />
       </CenterContent>
       {returnVisitorURLs &&

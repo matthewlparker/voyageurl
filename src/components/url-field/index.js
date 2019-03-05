@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components/macro';
-import { shortenUrl } from './api-requests';
+import { shortenUrl } from '../../api-requests/shorten-url';
 import parseDomain from 'parse-domain';
 import isURL from 'validator/lib/isURL';
 import url from 'url';

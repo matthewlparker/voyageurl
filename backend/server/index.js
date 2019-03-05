@@ -10,6 +10,7 @@ import bodyParser from 'body-parser';
 import URLroute from '../routes/url';
 import base62 from 'base62/lib/ascii';
 import Counter from '../models/counter';
+import userURLs from '../routes/user-urls';
 import authRoutes from '../routes/auth-routes';
 import userRoutes from '../routes/user-routes';
 import metadataRoute from '../routes/metadata';
@@ -85,6 +86,7 @@ app.use(express.static(path.join(__dirname, '../../build')));
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/shorten', URLroute);
+app.use('/user-urls', userURLs);
 app.use('/metadata', metadataRoute);
 app.get('/:hash', (req, res) => {
   let baseid = req.params.hash;

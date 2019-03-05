@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import styled from 'styled-components/macro';
@@ -24,31 +25,43 @@ const Profile = props => {
     window.location.href = accountHref;
   };
 
+  console.log('profile userURLs: ', props.userURLs);
+
   return (
     <div>
-      <div>Welcome to your Lionly profile, {props.user.username}</div>
-      {props.user.providers === undefined && <div>Link your accounts</div>}
-      {props.user.providers.facebookId === undefined ? (
-        <LinkAccountButton onClick={() => linkAccount('/auth/facebook/')}>
-          Facebook
-        </LinkAccountButton>
+      {props.user && props.user.username ? (
+        <div>
+          <div>Welcome to your Lionly profile, {props.user.username}</div>
+          {props.user.providers === undefined && <div>Link your accounts</div>}
+          {props.user.providers.facebookId === undefined ? (
+            <LinkAccountButton onClick={() => linkAccount('/auth/facebook/')}>
+              Facebook
+            </LinkAccountButton>
+          ) : (
+            <LinkAccountButton>Facebook - Linked</LinkAccountButton>
+          )}
+          {props.user.providers.googleId === undefined && (
+            <LinkAccountButton onClick={() => linkAccount('/auth/google/')}>
+              Google
+            </LinkAccountButton>
+          )}
+          {props.user.providers.githubId === undefined && (
+            <LinkAccountButton onClick={() => linkAccount('/auth/github/')}>
+              Github
+            </LinkAccountButton>
+          )}
+          {props.user.providers.twitterId === undefined && (
+            <LinkAccountButton onClick={() => linkAccount('/auth/twitter/')}>
+              Twitter
+            </LinkAccountButton>
+          )}
+          {props.userURLs &&
+            props.userURLs.map(userURL => <div>{userURL.hash}</div>)}
+        </div>
+      ) : props.user && props.user.noUser ? (
+        <Redirect to="/" />
       ) : (
-        <LinkAccountButton>Facebook - Linked</LinkAccountButton>
-      )}
-      {props.user.providers.googleId === undefined && (
-        <LinkAccountButton onClick={() => linkAccount('/auth/google/')}>
-          Google
-        </LinkAccountButton>
-      )}
-      {props.user.providers.githubId === undefined && (
-        <LinkAccountButton onClick={() => linkAccount('/auth/github/')}>
-          Github
-        </LinkAccountButton>
-      )}
-      {props.user.providers.twitterId === undefined && (
-        <LinkAccountButton onClick={() => linkAccount('/auth/twitter/')}>
-          Twitter
-        </LinkAccountButton>
+        <div />
       )}
     </div>
   );

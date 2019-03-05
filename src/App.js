@@ -4,6 +4,8 @@ import { withRouter } from 'react-router-dom';
 import Routes from './Routes';
 import jwt from 'jsonwebtoken';
 import Header from './components/header';
+import { fetchUser } from './api-requests/fetch-user';
+import { fetchURLs } from './api-requests/fetch-urls';
 import * as authActions from './actions/authorization';
 import styled from 'styled-components/macro';
 
@@ -22,6 +24,7 @@ const Content = styled.div`
 
 export const App = props => {
   const [user, setUser] = useState(localStorage.getItem('userToken'));
+  const [userURLs, setUserURLs] = useState([]);
   console.log('user: ', user);
 
   useEffect(() => {
@@ -31,15 +34,25 @@ export const App = props => {
         userToken,
         process.env.REACT_APP_SECRET_KEY
       );
-      setUser(decodedUser);
+      fetchUser(decodedUser._id, setUser);
     }
   }, []);
+
+  useEffect(
+    () => {
+      if (user && user.username) {
+        // fetch urls from user's list of url ids
+        fetchURLs(user.urls, setUserURLs);
+      }
+    },
+    [user]
+  );
 
   return (
     <StyledApp>
       <Header user={user} setUser={setUser} />
       <Content>
-        <Routes user={user} setUser={setUser} />
+        <Routes user={user} setUser={setUser} userURLs={userURLs} />
       </Content>
     </StyledApp>
   );

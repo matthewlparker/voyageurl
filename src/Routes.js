@@ -37,6 +37,7 @@ const Routes = props => {
             WaitingComponent(Profile)(
               (props: {
                 user: props.user,
+                userURLs: props.userURLs,
               })
             )
           ) : (
