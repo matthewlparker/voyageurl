@@ -27,16 +27,16 @@ export const App = props => {
   const [userURLs, setUserURLs] = useState([]);
   console.log('user: ', user);
 
-  useEffect(() => {
-    const userToken = localStorage.getItem('userToken');
-    if (userToken) {
-      const decodedUser = jwt.verify(
-        userToken,
-        process.env.REACT_APP_SECRET_KEY
-      );
-      fetchUser(decodedUser._id, setUser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userToken = localStorage.getItem('userToken');
+  //   if (userToken) {
+  //     const decodedUser = jwt.verify(
+  //       userToken,
+  //       process.env.REACT_APP_SECRET_KEY
+  //     );
+  //     fetchUser(decodedUser._id, setUser);
+  //   }
+  // }, []);
 
   useEffect(
     () => {
