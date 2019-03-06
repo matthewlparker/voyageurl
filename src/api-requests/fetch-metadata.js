@@ -23,7 +23,9 @@ export const fetchMetadata = (urlData, props) => {
         path: '/',
         expires: nextYear,
       });
-      props.setReturnVisitorURLs(managedVisitorURLs);
+      if (props.setReturnVisitorURLs) {
+        props.setReturnVisitorURLs(managedVisitorURLs);
+      }
     });
 };
 

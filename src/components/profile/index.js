@@ -1,9 +1,10 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import styled from 'styled-components/macro';
-import LinkPreview from '../link-preview';
+import URLField from '../url-field';
+
+const cookies = new Cookies();
 
 const LinkAccountButton = styled.div`
   background: white;
@@ -17,7 +18,7 @@ const LinkAccountButton = styled.div`
 
 const Profile = props => {
   const linkAccount = accountHref => {
-    const cookies = new Cookies();
+    // const cookies = new Cookies();
     cookies.set(
       'userCookie',
       jwt.sign(props.user, process.env.REACT_APP_SECRET_KEY),
@@ -26,13 +27,16 @@ const Profile = props => {
     window.location.href = accountHref;
   };
 
-  console.log('profile userURLs: ', props.userURLs);
-
   return (
     <div>
       {props.user && props.user.username ? (
         <div>
           <div>Welcome to your Lionly profile, {props.user.username}</div>
+          <URLField
+            user={props.user}
+            cookies={cookies}
+            setUser={props.setUser}
+          />
           {props.user.providers === undefined && <div>Link your accounts</div>}
           {props.user.providers.facebookId === undefined ? (
             <LinkAccountButton onClick={() => linkAccount('/auth/facebook/')}>
@@ -76,8 +80,6 @@ const Profile = props => {
               </div>
             ))}
         </div>
-      ) : props.user && props.user.noUser ? (
-        <Redirect to="/" />
       ) : (
         <div />
       )}

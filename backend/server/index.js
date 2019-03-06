@@ -107,8 +107,3 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log(`***SERVER UP AT PORT: ${PORT}`);
 });
-
-// module.exports = {
-//   passport,
-//   linkPassport,
-// };

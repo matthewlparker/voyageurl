@@ -25,23 +25,20 @@ const Content = styled.div`
 export const App = props => {
   const [user, setUser] = useState(localStorage.getItem('userToken'));
   const [userURLs, setUserURLs] = useState([]);
-  console.log('user: ', user);
 
-  // useEffect(() => {
-  //   const userToken = localStorage.getItem('userToken');
-  //   if (userToken) {
-  //     const decodedUser = jwt.verify(
-  //       userToken,
-  //       process.env.REACT_APP_SECRET_KEY
-  //     );
-  //     fetchUser(decodedUser._id, setUser);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user) {
+      const decodedUser = jwt.verify(user, process.env.REACT_APP_SECRET_KEY);
+      if (decodedUser) {
+        // fetchUser(decodedUser._id, setUser);
+        setUser(decodedUser);
+      }
+    }
+  }, []);
 
   useEffect(
     () => {
       if (user && user.username) {
-        // fetch urls from user's list of url ids
         fetchURLs(user.urls, setUserURLs);
       }
     },
@@ -58,17 +55,4 @@ export const App = props => {
   );
 };
 
-export const mapStateToProps = state => ({
-  userRole: state.userProfile.role,
-});
-
-export const mapDispatchToProps = dispatch => ({
-  setUserProfile: role => dispatch(authActions.setUserProfile(role)),
-});
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-);
+export default App;

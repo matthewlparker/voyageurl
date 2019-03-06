@@ -68,16 +68,8 @@ const Header = props => {
     cookies.remove('userCookie', { path: '/' });
     localStorage.removeItem('userToken');
     props.setUser();
-    return <Redirect to="/" />;
+    window.location.href = '/';
   };
-
-  let userRoute;
-  if (props.user && props.user.username) {
-    userRoute = `/lion/${props.user.username
-      .split(' ')
-      .join('')
-      .toLowerCase()}`;
-  }
 
   return (
     <StyledHeader>
@@ -87,22 +79,17 @@ const Header = props => {
         </HeaderLeft>
         <HeaderRight>
           {props.user && props.user.username ? (
-            <React.Fragment>
-              <StyledLink to={userRoute}>Profile</StyledLink>
-              <LogoutButton onClick={logout}>Logout</LogoutButton>
-            </React.Fragment>
+            <LogoutButton onClick={logout}>Logout</LogoutButton>
           ) : (
-            <React.Fragment>
-              <Dropdown
-                title="login"
-                children={[
-                  <StyledHref href="/auth/google">Google</StyledHref>,
-                  <StyledHref href="/auth/facebook">Facebook</StyledHref>,
-                  <StyledHref href="/auth/github">Github</StyledHref>,
-                  <StyledHref href="/auth/twitter">Twitter</StyledHref>,
-                ]}
-              />
-            </React.Fragment>
+            <Dropdown
+              title="login"
+              children={[
+                <StyledHref href="/auth/google">Google</StyledHref>,
+                <StyledHref href="/auth/facebook">Facebook</StyledHref>,
+                <StyledHref href="/auth/github">Github</StyledHref>,
+                <StyledHref href="/auth/twitter">Twitter</StyledHref>,
+              ]}
+            />
           )}
         </HeaderRight>
       </Content>

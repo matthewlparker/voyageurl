@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Redirect } from 'react-router';
+import { fetchUser } from '../../api-requests/fetch-user';
 import jwt from 'jsonwebtoken';
 
 const AuthRedirect = ({ user, setUser }) => {
   useEffect(() => {
-    // check for logged in user
     const decodedUser = jwt.verify(user, process.env.REACT_APP_SECRET_KEY);
     if (decodedUser) {
-      setUser(decodedUser);
+      fetchUser(decodedUser._id, setUser);
     }
   }, []);
 
@@ -18,6 +18,7 @@ const AuthRedirect = ({ user, setUser }) => {
       .join('')
       .toLowerCase();
   }
+  console.log('authRedirect: ', authorizedUser);
   return (
     <div>
       {authorizedUser ? (

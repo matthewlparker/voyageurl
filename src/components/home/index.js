@@ -3,7 +3,6 @@ import LinkPreview from '../link-preview';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
 import Cookies from 'universal-cookie';
-import { PromiseProvider } from 'mongoose';
 
 const cookies = new Cookies();
 
@@ -44,14 +43,12 @@ const Home = props => {
       cookies.set('visitorURLs', [], { path: '/' });
     }
   }, []);
-  console.log('home props.user: ', props.user);
   return (
     <StyledHome>
       <H1>Be Lionly</H1>
       <H2>Lions don't use long links, and neither should you</H2>
       <CenterContent>
         <URLField
-          user={props.user}
           cookies={cookies}
           setUser={props.setUser}
           setReturnVisitorURLs={setReturnVisitorURLs}

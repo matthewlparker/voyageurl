@@ -138,14 +138,10 @@ const linkAccounts = (providerIdType, profile, userCookie, done) => {
       const urlsToMerge = existingAccounts
         .map(existingAccount => existingAccount.urls)
         .concat(user.urls);
-      console.log('urlsToMerge: ', urlsToMerge);
+      // flatten array of url arrays
+      const flattenedURLsToMerge = [].concat.apply([], urlsToMerge);
       // merge existing accounts' urls into a new urls array, removing duplicates, for the new User account we will create
-      const mergedURLs = [
-        ...new Set(urlsToMerge.reduce((acc, curr) => [...acc, ...curr])),
-      ];
-
-      console.log('mergedURLs: ', mergedURLs);
-
+      const mergedURLs = [...new Set(flattenedURLsToMerge)];
       // create and save the new User
       new User({
         username: user.username,
