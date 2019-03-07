@@ -11,8 +11,6 @@ export const fetchMetadata = async urlData => {
     settings
   )
     .then(res => res.json())
-    .then(json => {
-      return json;
-    });
+    .catch(err => console.log('fetch metadata error: ', err));
   return result;
 };

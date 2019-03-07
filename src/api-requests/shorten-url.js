@@ -11,9 +11,6 @@ export const shortenUrl = async urlData => {
     settings
   )
     .then(res => res.json())
-    .then(json => {
-      return json;
-    })
     .catch(err => {
       console.log(err);
     });

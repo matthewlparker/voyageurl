@@ -2,7 +2,6 @@ import User from '../models/user-model';
 const router = require('express').Router();
 
 router.post('/', (req, res) => {
-  console.log('fetchUser v.2 test');
   User.findById(req.body.id, (err, doc) => {
     if (err) {
       console.log('findById err: ', err);
@@ -16,7 +15,6 @@ router.post('/', (req, res) => {
 });
 
 router.post('/reorder-urls', (req, res) => {
-  console.log('reorder-urls route');
   const { id, urls } = req.body;
   User.findOneAndUpdate(
     { _id: id },
@@ -25,6 +23,18 @@ router.post('/reorder-urls', (req, res) => {
       new: true,
       runValidators: true,
     }
+  ).then(updatedUser => {
+    console.log('updatedUser: ', updatedUser);
+    res.send(updatedUser);
+  });
+});
+
+router.post('/remove-url', (req, res) => {
+  const { urlId, userId } = req.body;
+  User.findOneAndUpdate(
+    { _id: userId },
+    { $pull: { urls: urlId } },
+    { new: true, runValidators: true }
   ).then(updatedUser => {
     console.log('updatedUser: ', updatedUser);
     res.send(updatedUser);

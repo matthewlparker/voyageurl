@@ -42,7 +42,9 @@ const URLList = props => {
         return;
       }
 
-      postReorderedURLs(urls, props.user._id, props.setUser);
+      postReorderedURLs(urls, props.user._id).then(result =>
+        props.setUser(result)
+      );
     },
     [urls]
   );
@@ -92,7 +94,11 @@ const URLList = props => {
                     )}
                   >
                     <TrackVisibility style={{ display: 'flex' }}>
-                      <URLCard url={url} />
+                      <URLCard
+                        url={url}
+                        user={props.user}
+                        setUser={props.setUser}
+                      />
                     </TrackVisibility>
                   </div>
                 )}

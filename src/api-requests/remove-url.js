@@ -1,16 +1,15 @@
 import jwt from 'jsonwebtoken';
 
-export const postReorderedURLs = async (urls, userId) => {
-  const reorderedURLs = urls.map(url => url._id);
+export const removeURL = async (urlId, userId) => {
   const settings = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ id: userId, urls: reorderedURLs }),
+    body: JSON.stringify({ urlId, userId }),
   };
   const result = await fetch(
-    `${process.env.REACT_APP_DOMAIN}/user/reorder-urls`,
+    `${process.env.REACT_APP_DOMAIN}/user/remove-url`,
     settings
   )
     .then(res => res.json())
@@ -19,6 +18,6 @@ export const postReorderedURLs = async (urls, userId) => {
       localStorage.setItem('userToken', newJWT);
       return json;
     })
-    .catch(err => console.log('fetch user error: ', err));
+    .catch(err => console.log('removeURL error: ', err));
   return result;
 };

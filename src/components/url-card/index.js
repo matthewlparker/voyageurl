@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchMetadata } from '../../api-requests/fetch-metadata';
+import { removeURL } from '../../api-requests/remove-url';
 import LoadingEllipsis from '../loading-ellipsis';
 import { truncate } from '../../lib/util';
 import styled from 'styled-components';
@@ -48,6 +49,12 @@ const URLCard = props => {
     document.execCommand('copy');
     e.target.focus();
   };
+  const handleRemove = () => {
+    removeURL(props.url._id, props.user._id).then(result =>
+      props.setUser(result)
+    );
+  };
+
   useEffect(
     () => {
       if (props.isVisible && !metadata) {
@@ -78,6 +85,7 @@ const URLCard = props => {
         </a>
       </URLCardLeft>
       <URLCardRight>
+        <CopyButton onClick={handleRemove}>Remove</CopyButton>
         <CopyButton onClick={copyToClipboard}>Copy</CopyButton>
       </URLCardRight>
     </URLCardContainer>
