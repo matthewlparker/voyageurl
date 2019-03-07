@@ -34,7 +34,7 @@ export const App = props => {
   useEffect(
     () => {
       if (user && user.username) {
-        fetchURLs(user.urls, setUserURLs);
+        fetchURLs(user.urls).then(result => setUserURLs(result));
       }
     },
     [user]

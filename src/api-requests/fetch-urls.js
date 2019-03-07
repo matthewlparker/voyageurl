@@ -1,15 +1,16 @@
-export const fetchURLs = (urls, setUserURLs) => {
-  console.log('urls: ', urls);
-  fetch(`${process.env.REACT_APP_DOMAIN}/user-urls`, {
+export const fetchURLs = async urls => {
+  const settings = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ urls }),
-  })
+  };
+  const result = await fetch(
+    `${process.env.REACT_APP_DOMAIN}/user-urls`,
+    settings
+  )
     .then(res => res.json())
-    .then(res => {
-      setUserURLs(res);
-    })
     .catch(err => console.log('fetch user urls error: ', err));
+  return result;
 };

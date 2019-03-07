@@ -48,9 +48,14 @@ const URLCard = props => {
     document.execCommand('copy');
     e.target.focus();
   };
-  useEffect(() => {
-    fetchMetadata(props.url).then(data => setMetadata(data.metadata));
-  }, []);
+  useEffect(
+    () => {
+      if (props.isVisible && !metadata) {
+        fetchMetadata(props.url).then(data => setMetadata(data.metadata));
+      }
+    },
+    [props.isVisible]
+  );
 
   return (
     <URLCardContainer>

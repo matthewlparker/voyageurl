@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { postReorderedURLs } from '../../api-requests/post-reordered-urls';
+import TrackVisibility from 'react-on-screen';
 import URLCard from '../url-card';
 
 const reorder = (list, startIndex, endIndex) => {
@@ -14,7 +15,6 @@ const reorder = (list, startIndex, endIndex) => {
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-  display: 'flex',
   userSelect: 'none',
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
@@ -91,7 +91,9 @@ const URLList = props => {
                       provided.draggableProps.style
                     )}
                   >
-                    <URLCard url={url} />
+                    <TrackVisibility style={{ display: 'flex' }}>
+                      <URLCard url={url} />
+                    </TrackVisibility>
                   </div>
                 )}
               </Draggable>
