@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components/macro';
-import { shortenUrl } from '../../api-requests/shorten-url';
 import parseDomain from 'parse-domain';
 import isURL from 'validator/lib/isURL';
-import { fetchMetadata } from '../../api-requests/fetch-metadata';
 import url from 'url';
+import { addURLToCookie } from '../../lib/util';
+import { fetchUser } from '../../api-requests/fetch-user';
+import { shortenUrl } from '../../api-requests/shorten-url';
+import { fetchMetadata } from '../../api-requests/fetch-metadata';
 
 const Input = styled.input`
   border: 1px solid black;
@@ -54,7 +56,31 @@ function URLField(props) {
       ? input.string
       : `http://${input.string}`;
     if (isURL(urlString) && parseDomain(urlString)) {
-      shortenUrl(urlString, setInput, props);
+      const urlData = {
+        urlString,
+        user: props.user,
+      };
+      shortenUrl(urlData)
+        .then(result => {
+          setInput({
+            string: `${process.env.REACT_APP_DOMAIN}/${result.hash}`,
+            state: 'shortened',
+          });
+          return result;
+        })
+        .then(shortenURLResult => {
+          if (props.user) {
+            fetchUser(props.user._id).then(result => props.setUser(result));
+          }
+          fetchMetadata(shortenURLResult).then(metadataResult => {
+            const urlData = {
+              ...metadataResult.metadata,
+              hash: shortenURLResult.hash,
+            };
+            const managedURLs = addURLToCookie(urlData);
+            props.setReturnVisitorURLs(managedURLs);
+          });
+        });
     }
   };
 

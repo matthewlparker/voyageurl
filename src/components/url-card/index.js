@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchMetadata } from '../../api-requests/fetch-metadata';
+import LoadingEllipsis from '../loading-ellipsis';
 import { truncate } from '../../lib/util';
 import styled from 'styled-components';
 
@@ -57,7 +58,7 @@ const URLCard = props => {
         {metadata ? (
           <div>{truncate(metadata.title, 55)}</div>
         ) : (
-          <div>loading</div>
+          <LoadingEllipsis />
         )}
         <a href={props.url.url} target="_#" rel="noopener noreferrer">
           {truncate(props.url.url, 55)}

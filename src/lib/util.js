@@ -1,3 +1,7 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
 export const truncate = (str, maxLength, separator = ' ') => {
   if (str.length <= maxLength) return str;
   if (str.indexOf(separator) < 0) return str.substring(0, maxLength) + '...';
@@ -20,4 +24,34 @@ const trimNonAlphaNumericChars = str => {
   } else {
     return str;
   }
+};
+
+export const addURLToCookie = urlData => {
+  const visitorURLs = cookies.get('visitorURLs');
+  const managedVisitorURLs = manageVisitorURLs(visitorURLs, urlData);
+  const current = new Date();
+  const nextYear = new Date();
+  nextYear.setFullYear(current.getFullYear() + 1);
+  cookies.set('visitorURLs', managedVisitorURLs, {
+    path: '/',
+    expires: nextYear,
+  });
+
+  return managedVisitorURLs;
+};
+
+const manageVisitorURLs = (visitorURLs, metadata) => {
+  if (
+    visitorURLs.length > 1 &&
+    visitorURLs.some(visitorURL => visitorURL.hash === metadata.hash)
+  ) {
+    visitorURLs = visitorURLs.filter(
+      visitorURL => visitorURL.hash !== metadata.hash
+    );
+  }
+  visitorURLs.unshift(metadata);
+  if (visitorURLs.length > 5) {
+    visitorURLs.pop();
+  }
+  return visitorURLs;
 };

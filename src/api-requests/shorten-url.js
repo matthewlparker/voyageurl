@@ -1,37 +1,21 @@
-import { fetchUser } from './fetch-user';
-import { fetchMetadata } from './fetch-metadata';
-
-export const shortenUrl = (urlString, setInput, props) => {
-  let urlData;
-  if (props.user) {
-    urlData = {
-      urlString,
-      user: props.user,
-    };
-  } else {
-    urlData = {
-      urlString,
-    };
-  }
-  fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
+export const shortenUrl = async urlData => {
+  const settings = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(urlData),
-  })
+  };
+  const result = await fetch(
+    `${process.env.REACT_APP_DOMAIN}/shorten`,
+    settings
+  )
     .then(res => res.json())
-    .then(res => {
-      if (props.user) {
-        fetchUser(props.user._id, props.setUser);
-      }
-      fetchMetadata(res, props);
-      setInput({
-        string: `${process.env.REACT_APP_DOMAIN}/${res.hash}`,
-        state: 'shortened',
-      });
+    .then(json => {
+      return json;
     })
     .catch(err => {
       console.log(err);
     });
+  return result;
 };
