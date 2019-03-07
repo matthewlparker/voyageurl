@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { shortenUrl } from '../../api-requests/shorten-url';
 import parseDomain from 'parse-domain';
 import isURL from 'validator/lib/isURL';
+import { fetchMetadata } from '../../api-requests/fetch-metadata';
 import url from 'url';
 
 const Input = styled.input`

@@ -9,7 +9,6 @@ export const fetchURLs = (urls, setUserURLs) => {
   })
     .then(res => res.json())
     .then(res => {
-      console.log('fetched user URLs: ', res);
       setUserURLs(res);
     })
     .catch(err => console.log('fetch user urls error: ', err));

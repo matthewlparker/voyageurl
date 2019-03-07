@@ -4,20 +4,20 @@ import URL from '../models/url';
 const router = require('express').Router();
 
 router.post('/', (req, res) => {
-  console.log('user-urls route');
   URL.find({ _id: { $in: req.body.urls } }, (err, urls) => {
     if (err) {
       console.log('No URLs found');
       res.send([]);
     }
     if (urls) {
-      console.log('URLs found: ', urls);
-      const urlsWithHash = urls.map(url => ({
+      const orderedURLs = urls.sort(
+        (a, b) => req.body.urls.indexOf(a._id) - req.body.urls.indexOf(b._id)
+      );
+      const urlsWithHash = orderedURLs.map(url => ({
         url: url.url,
         _id: url._id,
         hash: base62.encode(url._id),
       }));
-      console.log('urlsWithHash: ', urlsWithHash);
       res.send(urlsWithHash);
     }
   });

@@ -13,7 +13,6 @@ export const shortenUrl = (urlString, setInput, props) => {
       urlString,
     };
   }
-  console.log('shortenUrl: ', urlData);
   fetch(`${process.env.REACT_APP_DOMAIN}/shorten`, {
     method: 'POST',
     headers: {

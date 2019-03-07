@@ -18,7 +18,6 @@ URLroute.use('/', (req, res, next) => {
 
 URLroute.route('/').post((req, res) => {
   const { urlString, user } = req.body;
-  console.log('req.body.user: ', user);
 
   URL.findOne({ url: urlString }, (err, doc) => {
     if (doc) {

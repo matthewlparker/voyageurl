@@ -3,8 +3,16 @@ import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import styled from 'styled-components/macro';
 import URLField from '../url-field';
+import URLList from '../url-list';
 
 const cookies = new Cookies();
+
+const ProfileContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const LinkAccountButton = styled.div`
   background: white;
@@ -28,7 +36,7 @@ const Profile = props => {
   };
 
   return (
-    <div>
+    <ProfileContent>
       {props.user && props.user.username ? (
         <div>
           <div>Welcome to your Lionly profile, {props.user.username}</div>
@@ -61,29 +69,18 @@ const Profile = props => {
             </LinkAccountButton>
           )}
           {props.userURLs &&
-            props.userURLs.map(userURL => (
-              <div>
-                <div>
-                  <a href={userURL.url} target="_#" rel="noopener noreferrer">
-                    {userURL.url}
-                  </a>
-                </div>
-                <div>
-                  <a
-                    href={`${process.env.REACT_APP_DOMAIN}/${userURL.hash}`}
-                    target="_#"
-                    rel="noopener noreferrer"
-                  >
-                    {process.env.REACT_APP_DOMAIN + '/' + userURL.hash}
-                  </a>
-                </div>
-              </div>
-            ))}
+            props.userURLs.length > 0 && (
+              <URLList
+                userURLs={props.userURLs}
+                user={props.user}
+                setUser={props.setUser}
+              />
+            )}
         </div>
       ) : (
         <div />
       )}
-    </div>
+    </ProfileContent>
   );
 };
 

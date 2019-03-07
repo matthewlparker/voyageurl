@@ -1,32 +1,35 @@
-export const fetchMetadata = (urlData, props) => {
-  fetch(`${process.env.REACT_APP_DOMAIN}/metadata`, {
+export const fetchMetadata = async (urlData, props) => {
+  const settings = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      urlString: urlData.url,
-    }),
-  })
+    body: JSON.stringify({ urlString: urlData.url }),
+  };
+  const data = await fetch(`${process.env.REACT_APP_DOMAIN}/metadata`, settings)
     .then(res => res.json())
-    .then(res => {
-      let { metadata } = res;
+    .then(json => {
+      let { metadata } = json;
       metadata = { ...metadata, hash: urlData.hash };
 
-      const visitorURLs = props.cookies.get('visitorURLs');
-      // If metadata.hash is currently in visitorURLs array, move that entry to front of array
-      const managedVisitorURLs = manageVisitorURLs(visitorURLs, metadata);
-      const current = new Date();
-      const nextYear = new Date();
-      nextYear.setFullYear(current.getFullYear() + 1);
-      props.cookies.set('visitorURLs', managedVisitorURLs, {
-        path: '/',
-        expires: nextYear,
-      });
-      if (props.setReturnVisitorURLs) {
-        props.setReturnVisitorURLs(managedVisitorURLs);
+      if (props && props.cookies) {
+        const visitorURLs = props.cookies.get('visitorURLs');
+        // If metadata.hash is currently in visitorURLs array, move that entry to front of array
+        const managedVisitorURLs = manageVisitorURLs(visitorURLs, metadata);
+        const current = new Date();
+        const nextYear = new Date();
+        nextYear.setFullYear(current.getFullYear() + 1);
+        props.cookies.set('visitorURLs', managedVisitorURLs, {
+          path: '/',
+          expires: nextYear,
+        });
+        if (props.setReturnVisitorURLs) {
+          props.setReturnVisitorURLs(managedVisitorURLs);
+        }
       }
+      return json;
     });
+  return data;
 };
 
 const manageVisitorURLs = (visitorURLs, metadata) => {

@@ -43,6 +43,7 @@ const Home = props => {
       cookies.set('visitorURLs', [], { path: '/' });
     }
   }, []);
+
   return (
     <StyledHome>
       <H1>Be Lionly</H1>
@@ -54,6 +55,7 @@ const Home = props => {
           setReturnVisitorURLs={setReturnVisitorURLs}
         />
       </CenterContent>
+      {props.children}
       {returnVisitorURLs &&
         returnVisitorURLs.length > 0 &&
         returnVisitorURLs
