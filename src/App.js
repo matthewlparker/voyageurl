@@ -10,6 +10,7 @@ const StyledApp = styled.div`
   height: 100%;
   background-color: var(--background-primary);
   font-family: 'Roboto', sans-serif;
+  overflow-y: auto;
 `;
 
 const Content = styled.div`
