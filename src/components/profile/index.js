@@ -39,8 +39,6 @@ const LinkAccountButton = styled.div`
   border-radius: 5px;
 `;
 
-const OAuthAccountsTitle = styled.div``;
-
 const OAuthAccounts = styled.div`
   display: flex;
 `;

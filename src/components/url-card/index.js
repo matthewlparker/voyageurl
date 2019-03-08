@@ -40,7 +40,9 @@ const URLString = styled.a`
 const HashString = styled.a`
   input {
     font-size: var(--font-m);
+    text-align: right;
     color: var(--color-orange-l);
+    margin-right: 7px;
   }
 `;
 

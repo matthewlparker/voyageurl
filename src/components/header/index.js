@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import Dropdown from '../dropdown';
 import Cookies from 'universal-cookie';
 import styled from 'styled-components/macro';
@@ -19,12 +18,6 @@ const Content = styled.div`
   height: 100%;
   color: white;
   margin: 0 auto;
-`;
-
-const StyledLink = styled(Link)`
-  width: 100%;
-  color: white;
-  padding: 12px 16px;
 `;
 
 const StyledHref = styled.a`
