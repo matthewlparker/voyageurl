@@ -52,12 +52,20 @@ const URLList = props => {
   // watch props.userURLs for change
   useEffect(
     () => {
-      if (props.userURLs.length !== urls.length) {
+      if (arraysUnequal(props.userURLs, urls)) {
         setURLs(props.userURLs);
       }
     },
     [props.userURLs]
   );
+
+  const arraysUnequal = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return true;
+    for (let i = arr1.length; i--; ) {
+      if (arr1[i]._id !== arr2[i]._id) return true;
+    }
+    return false;
+  };
 
   const onDragEnd = result => {
     if (!result.destination) {

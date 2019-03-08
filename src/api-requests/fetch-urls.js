@@ -8,7 +8,7 @@ export const fetchURLs = async urls => {
     body: JSON.stringify({ urls }),
   };
   const result = await fetch(
-    `${process.env.REACT_APP_DOMAIN}/user-urls`,
+    `${process.env.REACT_APP_DOMAIN}/user/urls`,
     settings
   )
     .then(res => res.json())
