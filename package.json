@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "@researchgate/react-intersection-observer": "^0.7.4",
     "auth0-js": "^9.10.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -35,7 +36,6 @@
     "react": "^16.7.0-alpha.0",
     "react-beautiful-dnd": "^10.0.4",
     "react-dom": "^16.7.0-alpha.0",
-    "react-on-screen": "^2.1.1",
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",

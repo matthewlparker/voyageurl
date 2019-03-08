@@ -45,7 +45,6 @@ const OAuthAccounts = styled.div`
 
 const Profile = props => {
   const linkAccount = accountHref => {
-    // const cookies = new Cookies();
     cookies.set(
       'userCookie',
       jwt.sign(props.user, process.env.REACT_APP_SECRET_KEY),

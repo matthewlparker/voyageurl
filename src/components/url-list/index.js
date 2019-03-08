@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { postReorderedURLs } from '../../api-requests/post-reordered-urls';
-import TrackVisibility from 'react-on-screen';
 import URLCard from '../url-card';
 
 const reorder = (list, startIndex, endIndex) => {
@@ -82,7 +81,7 @@ const URLList = props => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} id="scrolling-container">
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <div
@@ -101,13 +100,11 @@ const URLList = props => {
                       provided.draggableProps.style
                     )}
                   >
-                    <TrackVisibility style={{ display: 'flex' }}>
-                      <URLCard
-                        url={url}
-                        user={props.user}
-                        setUser={props.setUser}
-                      />
-                    </TrackVisibility>
+                    <URLCard
+                      url={url}
+                      user={props.user}
+                      setUser={props.setUser}
+                    />
                   </div>
                 )}
               </Draggable>

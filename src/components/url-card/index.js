@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { fetchMetadata } from '../../api-requests/fetch-metadata';
 import { removeURL } from '../../api-requests/remove-url';
 import LoadingEllipsis from '../loading-ellipsis';
+import Observer from '@researchgate/react-intersection-observer';
 import { truncate } from '../../lib/util';
 import styled from 'styled-components';
 
@@ -69,6 +70,7 @@ const CopyButton = styled.div`
 
 const URLCard = props => {
   const [metadata, setMetadata] = useState();
+  const [visible, setVisible] = useState();
   const shortenedURLRef = useRef(null);
 
   const copyToClipboard = e => {
@@ -82,40 +84,56 @@ const URLCard = props => {
     );
   };
 
+  const handleIntersection = e => {
+    setVisible(e.isIntersecting);
+  };
+
+  const options = {
+    onChange: handleIntersection,
+    root: '#scrolling-container',
+    rootMargin: '0% 0% 0%',
+  };
+
   useEffect(
     () => {
-      if (props.isVisible && !metadata) {
+      if (visible && !metadata) {
         fetchMetadata(props.url).then(data => setMetadata(data.metadata));
       }
     },
-    [props.isVisible]
+    [visible]
   );
 
   return (
-    <URLCardContainer>
-      <URLCardTop>
-        {metadata ? (
-          <URLTitle>{truncate(metadata.title, 45)}</URLTitle>
-        ) : (
-          <LoadingEllipsis />
-        )}
-        <URLString href={props.url.url} target="_#" rel="noopener noreferrer">
-          {truncate(props.url.url, 65)}
-        </URLString>
-      </URLCardTop>
-      <URLCardBottom>
-        <HashString href={props.url.url} target="_#" rel="noopener noreferrer">
-          <input
-            ref={shortenedURLRef}
-            value={`${process.env.REACT_APP_DOMAIN}/${props.url.hash}`}
-            style={{ cursor: 'pointer' }}
-            readOnly
-          />
-        </HashString>
-        <CopyButton onClick={handleRemove}>Remove</CopyButton>
-        <CopyButton onClick={copyToClipboard}>Copy</CopyButton>
-      </URLCardBottom>
-    </URLCardContainer>
+    <Observer {...options}>
+      <URLCardContainer>
+        <URLCardTop>
+          {metadata ? (
+            <URLTitle>{truncate(metadata.title, 45)}</URLTitle>
+          ) : (
+            <LoadingEllipsis />
+          )}
+          <URLString href={props.url.url} target="_#" rel="noopener noreferrer">
+            {truncate(props.url.url, 65)}
+          </URLString>
+        </URLCardTop>
+        <URLCardBottom>
+          <HashString
+            href={props.url.url}
+            target="_#"
+            rel="noopener noreferrer"
+          >
+            <input
+              ref={shortenedURLRef}
+              value={`${process.env.REACT_APP_DOMAIN}/${props.url.hash}`}
+              style={{ cursor: 'pointer' }}
+              readOnly
+            />
+          </HashString>
+          <CopyButton onClick={handleRemove}>Remove</CopyButton>
+          <CopyButton onClick={copyToClipboard}>Copy</CopyButton>
+        </URLCardBottom>
+      </URLCardContainer>
+    </Observer>
   );
 };
 
