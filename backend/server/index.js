@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import URL from '../models/url';
 import bodyParser from 'body-parser';
-import URLroute from '../routes/url';
+import URLroute from '../routes/shorten';
 import base62 from 'base62/lib/ascii';
 import Counter from '../models/counter';
 import userURLs from '../routes/user-urls';

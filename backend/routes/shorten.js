@@ -53,14 +53,26 @@ URLroute.route('/').post((req, res) => {
 });
 
 const addUrlIdToUser = (user, urlId) => {
+  let userURLs = user.urls;
+  userURLs.unshift(urlId);
   User.findOneAndUpdate(
     { _id: user._id },
-    { $addToSet: { urls: urlId } },
+    { $set: { urls: userURLs } },
     {
       new: true,
       runValidators: true,
     }
-  ).then(updatedUser => console.log('updatedUser: ', updatedUser));
+  ).then(updatedUser => {
+    console.log('url added to user');
+  });
+  // User.findOneAndUpdate(
+  //   { _id: user._id },
+  //   { $addToSet: { urls: urlId } },
+  //   {
+  //     new: true,
+  //     runValidators: true,
+  //   }
+  // ).then(updatedUser => console.log('updatedUser: ', updatedUser));
 };
 
 module.exports = URLroute;
