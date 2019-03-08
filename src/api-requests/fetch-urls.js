@@ -3,6 +3,7 @@ export const fetchURLs = async urls => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: 'Bearer' + localStorage.getItem('userToken'),
     },
     body: JSON.stringify({ urls }),
   };

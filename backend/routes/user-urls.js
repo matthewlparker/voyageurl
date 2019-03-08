@@ -1,9 +1,9 @@
-// import User from '../models/user-model';
 import base62 from 'base62/lib/ascii';
 import URL from '../models/url';
+import { verifyToken } from '../util';
 const router = require('express').Router();
 
-router.post('/', (req, res) => {
+router.post('/', verifyToken, (req, res) => {
   URL.find({ _id: { $in: req.body.urls } }, (err, urls) => {
     if (err) {
       console.log('No URLs found');

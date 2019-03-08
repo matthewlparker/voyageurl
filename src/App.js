@@ -3,6 +3,7 @@ import Routes from './Routes';
 import jwt from 'jsonwebtoken';
 import Header from './components/header';
 import { fetchURLs } from './api-requests/fetch-urls';
+import { fetchUser } from './api-requests/fetch-user';
 import styled from 'styled-components/macro';
 
 const StyledApp = styled.div`
@@ -26,7 +27,7 @@ export const App = props => {
     if (user) {
       const decodedUser = jwt.verify(user, process.env.REACT_APP_SECRET_KEY);
       if (decodedUser) {
-        setUser(decodedUser);
+        fetchUser(decodedUser._id).then(result => setUser(result));
       }
     }
   }, []);

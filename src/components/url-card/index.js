@@ -6,12 +6,12 @@ import { truncate } from '../../lib/util';
 import styled from 'styled-components';
 
 const URLCardContainer = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
   width: 100%;
 `;
 
-const URLCardLeft = styled.div`
+const URLCardTop = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -19,11 +19,29 @@ const URLCardLeft = styled.div`
   width: 100%;
 `;
 
-const URLCardRight = styled.div`
+const URLCardBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
   cursor: pointer;
+`;
+
+const URLTitle = styled.div`
+  font-size: var(--font-l);
+  color: var(--color-grey);
+`;
+
+const URLString = styled.a`
+  font-size: var(--font-s);
+  color: var(--color-grey-l);
+  padding: 8px 0 8px 0;
+`;
+
+const HashString = styled.a`
+  input {
+    font-size: var(--font-m);
+    color: var(--color-orange-l);
+  }
 `;
 
 const CopyButton = styled.div`
@@ -31,9 +49,16 @@ const CopyButton = styled.div`
   border: 1px solid var(--color-orange);
   align-items: center;
   justify-content: center;
-  width: 75px;
+  width: 55px;
+  font-size: var(--font-xs);
+  font-family: Robot, sans-serif;
+  font-weight: 700;
   padding: 0.5em;
+  color: var(--color-orange-l);
   cursor: pointer;
+  text-transform: uppercase;
+  border-radius: calc(var(--pad) / 2);
+  margin-left: var(--pad);
   &:hover {
     color: white;
     background-color: var(--color-orange);
@@ -66,28 +91,28 @@ const URLCard = props => {
 
   return (
     <URLCardContainer>
-      <URLCardLeft>
+      <URLCardTop>
         {metadata ? (
-          <div>{truncate(metadata.title, 55)}</div>
+          <URLTitle>{truncate(metadata.title, 45)}</URLTitle>
         ) : (
           <LoadingEllipsis />
         )}
-        <a href={props.url.url} target="_#" rel="noopener noreferrer">
-          {truncate(props.url.url, 55)}
-        </a>
-        <a href={props.url.url} target="_#" rel="noopener noreferrer">
+        <URLString href={props.url.url} target="_#" rel="noopener noreferrer">
+          {truncate(props.url.url, 65)}
+        </URLString>
+      </URLCardTop>
+      <URLCardBottom>
+        <HashString href={props.url.url} target="_#" rel="noopener noreferrer">
           <input
             ref={shortenedURLRef}
             value={`${process.env.REACT_APP_DOMAIN}/${props.url.hash}`}
             style={{ cursor: 'pointer' }}
             readOnly
           />
-        </a>
-      </URLCardLeft>
-      <URLCardRight>
+        </HashString>
         <CopyButton onClick={handleRemove}>Remove</CopyButton>
         <CopyButton onClick={copyToClipboard}>Copy</CopyButton>
-      </URLCardRight>
+      </URLCardBottom>
     </URLCardContainer>
   );
 };

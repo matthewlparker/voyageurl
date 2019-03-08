@@ -8,24 +8,42 @@ import { fetchUser } from '../../api-requests/fetch-user';
 import { shortenUrl } from '../../api-requests/shorten-url';
 import { fetchMetadata } from '../../api-requests/fetch-metadata';
 
-const Input = styled.input`
-  border: 1px solid black;
-  padding: 0.5em;
-  &:focus {
-    border: 1px solid black;
-  }
+const StyledForm = styled.form`
+  width: 100%;
+  max-width: 600px;
 `;
 const InlineField = styled.div`
-  display: grid;
-  grid-auto-flow: column;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+const Input = styled.input`
+  fong-size: 18px;
+  padding: 0.5em;
+  height: 60px;
+  background: white;
+  width: 100%;
+  border: 1px solid var(--color-orange-l);
+  border-radius: 2.5px 0 0 2.5px;
+  &:focus {
+    border: 1px solid var(--color-orange);
+    background: var(--color-orange-pale);
+  }
 `;
 const Button = styled.div`
   display: flex;
-  border: 1px solid var(--color-orange);
   align-items: center;
   justify-content: center;
-  width: 75px;
+  min-width: 75px;
+  max-width: 75px;
+  font-size: var(--font-s);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  color: white;
+  background: var(--color-orange-l);
   padding: 0.5em;
+  border: 1px solid var(--color-orange-l);
+  text-transform: uppercase;
   cursor: pointer;
   &:hover {
     color: white;
@@ -77,8 +95,11 @@ function URLField(props) {
               ...metadataResult.metadata,
               hash: shortenURLResult.hash,
             };
-            const managedURLs = addURLToCookie(urlData);
-            props.setReturnVisitorURLs(managedURLs);
+            if (props.setReturnVisitorURLs) {
+              props.setReturnVisitorURLs(addURLToCookie(urlData));
+            } else {
+              addURLToCookie(urlData);
+            }
           });
         });
     }
@@ -93,19 +114,20 @@ function URLField(props) {
 
   return (
     <InlineField>
-      <form onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <InlineField>
           <Input
             type="text"
             ref={textAreaRef}
             onChange={handleChange}
             value={input.string}
+            placeholder="Enter a URL to shorten it"
           />
           {input.state === 'original' && (
             <Button onClick={handleSubmit}>Shorten</Button>
           )}
         </InlineField>
-      </form>
+      </StyledForm>
       {input.state !== 'original' && (
         <Button onClick={copyToClipboard}>
           {input.state === 'copied' ? 'Copied!' : 'Copy'}

@@ -60,7 +60,7 @@ const addUrlIdToUser = (user, urlId) => {
       new: true,
       runValidators: true,
     }
-  ).then(updatedUser => console.log('updatedUser:O ', updatedUser));
+  ).then(updatedUser => console.log('updatedUser: ', updatedUser));
 };
 
 module.exports = URLroute;

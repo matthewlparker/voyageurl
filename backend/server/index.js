@@ -18,9 +18,6 @@ import passportSetup from '../config/passport-setup';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
-// const Passport = require('passport').Passport;
-// const passport = new Passport();
-// const linkPassport = new Passport();
 
 dotenv.config();
 

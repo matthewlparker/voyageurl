@@ -1,7 +1,8 @@
 import User from '../models/user-model';
+import { verifyToken } from '../util';
 const router = require('express').Router();
 
-router.post('/', (req, res) => {
+router.post('/', verifyToken, (req, res) => {
   User.findById(req.body.id, (err, doc) => {
     if (err) {
       console.log('findById err: ', err);
@@ -14,7 +15,7 @@ router.post('/', (req, res) => {
   });
 });
 
-router.post('/reorder-urls', (req, res) => {
+router.post('/reorder-urls', verifyToken, (req, res) => {
   const { id, urls } = req.body;
   User.findOneAndUpdate(
     { _id: id },
@@ -29,7 +30,7 @@ router.post('/reorder-urls', (req, res) => {
   });
 });
 
-router.post('/remove-url', (req, res) => {
+router.post('/remove-url', verifyToken, (req, res) => {
   const { urlId, userId } = req.body;
   User.findOneAndUpdate(
     { _id: userId },

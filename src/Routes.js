@@ -42,7 +42,7 @@ const Routes = props => {
             />
           )}
         />
-        <Route path="*" component={NotFound} />
+        <Route path="*" component={() => <NotFound />} />
       </Switch>
     </Suspense>
   );

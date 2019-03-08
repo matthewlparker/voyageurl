@@ -5,6 +5,7 @@ export const fetchUser = async id => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: 'Bearer' + localStorage.getItem('userToken'),
     },
     body: JSON.stringify({ id }),
   })

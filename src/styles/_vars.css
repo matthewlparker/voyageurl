@@ -7,13 +7,19 @@
   /* colors */
   --background-primary: #fafafa;
   --color-blue: #0063af;
+  --color-blue-l: #6db9e0;
   --color-blue-d: #1e6296;
   --color-yellow: #fab822;
   --color-orange: #e45212;
+  --color-orange-l: #ee6123;
+  --color-orange-pale: #fef7f4;
+  --color-grey: #464c50;
+  --color-grey-l: #8f989d;
   /* font sizes */
+  --font-xs: 0.625rem;
   --font-s: 0.8em;
   --font-m: 1em;
-  --font-l: 1.2em;
+  --font-l: 1.5em;
   --font-xl: 2em;
   /* spacing */
   --pad: 0.5em;

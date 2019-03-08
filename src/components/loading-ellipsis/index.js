@@ -19,6 +19,7 @@ const Loading = styled.div`
     animation-duration: 1.4s;
     animation-iteration-count: infinite;
     animation-fill-mode: both;
+    font-size: var(--font-l);
   }
 
   span:nth-child(2) {
