@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown from '../dropdown';
+import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import styled from 'styled-components/macro';
 const cookies = new Cookies();
@@ -20,9 +20,8 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const StyledHref = styled.a`
-  color: black;
-  padding: var(--pad);
+const StyledLink = styled(Link)`
+  color: white;
 `;
 
 const LogoutButton = styled.div`
@@ -74,15 +73,7 @@ const Header = props => {
           {props.user && props.user.username ? (
             <LogoutButton onClick={logout}>Logout</LogoutButton>
           ) : (
-            <Dropdown
-              title="login"
-              children={[
-                <StyledHref href="/auth/google">Google</StyledHref>,
-                <StyledHref href="/auth/facebook">Facebook</StyledHref>,
-                <StyledHref href="/auth/github">Github</StyledHref>,
-                <StyledHref href="/auth/twitter">Twitter</StyledHref>,
-              ]}
-            />
+            <StyledLink to="/login"> Login</StyledLink>
           )}
         </HeaderRight>
       </Content>

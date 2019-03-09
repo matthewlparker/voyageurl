@@ -1,63 +1,100 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
+import ProviderButton from '../common/provider-button';
+import githubIcon from '../../assets/provider-icons/GitHub-Mark-32px.png';
 
 const StyledLogin = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
   height: 100%;
   border-left: 1px solid black;
-  background-color: var(--color-blue);
-  border-right: 1px solid black;
+  background-color: var(--color-orange-pale);
+  // const StyledLink = styled.div
 `;
 
-const StyledLink = styled.div`
-  display: inline-flex;
+const StyledLoginCard = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 200px;
-  background: white;
-  border: none;
+  width: 375px;
+  margin: 80px auto;
+  border: 1px solid var(--color-orange-l);
   border-radius: 4px;
-  padding: 0.5em 2em;
-  margin-bottom: 100px;
-  cursor: pointer;
-  text-transform: uppercase;
-  outline: inherit;
-
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
-
-  &:hover {
-    background-color: var(--background-primary);
-  }
+  padding: 50px 53px;
+  background: #fff;
 `;
 
 const StyledLogo = styled.h1`
-  color: white;
+  color: var(--color-orange);
   font-size: var(--font-xl);
+  font-family: Roboto, sans-serif;
+  font-weight: 900;
 `;
 
-const useSetRedirectUrl = auth => {
-  const { isAuthenticated } = auth;
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      const redirectURL = window.location.pathname;
-      localStorage.setItem('redirectURL', JSON.stringify(redirectURL));
-    }
-  }, []);
-};
+const Headline = styled.div`
+  font-size: 1.2rem;
+  color: var(--color-grey);
+  text-transform: uppercase;
+  margin: 15px 0 15px 0;
+`;
+
+const ProvidersHeader = styled.div`
+  font-size: var(--font-s);
+  color: var(--color-grey-l);
+  text-transform: uppercase;
+`;
+
+const Providers = styled.div`
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto;
+  grid-gap: 5px;
+  margin-top: 5px;
+`;
 
 const Login = props => {
-  const { auth } = props;
-  useSetRedirectUrl(auth);
-
   return (
     <StyledLogin>
-      <StyledLogo>Lionly</StyledLogo>
-      <StyledLink onClick={auth.login}>Login</StyledLink>
+      <StyledLoginCard>
+        <StyledLogo>Lionly</StyledLogo>
+        <Headline>SIGN IN & SHARE</Headline>
+        <ProvidersHeader>SIGN IN WITH:</ProvidersHeader>
+        <Providers>
+          <ProviderButton
+            color={'#4285f4 '}
+            width={'20'}
+            svg={
+              'https://d1ayxb9ooonjts.cloudfront.net/8bc625062aeffa94729b9336243bed9d.svg'
+            }
+            href={'/auth/google'}
+          />
+          <ProviderButton
+            color={'#3c5a99'}
+            width={'20'}
+            svg={
+              'https://d1ayxb9ooonjts.cloudfront.net/0e5903c8a59540fefb8d56fe51863bb0.svg'
+            }
+            href={'/auth/facebook'}
+          />
+          <ProviderButton
+            color={'var(--color-blue-l)'}
+            width={'22'}
+            svg={
+              'https://d3h5jhobc20ump.cloudfront.net/b8221293363ccb5ce7460067acbe55f5.svg'
+            }
+            href={'/auth/twitter'}
+          />
+          <ProviderButton
+            color={'#24292E'}
+            width={'20'}
+            svg={githubIcon}
+            href={'/auth/github'}
+          />
+        </Providers>
+      </StyledLoginCard>
     </StyledLogin>
   );
 };

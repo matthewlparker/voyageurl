@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import Spinner from './components/common/spinner';
 const Home = lazy(() => import('./components/home'));
+const Login = lazy(() => import('./components/login'));
 const Profile = lazy(() => import('./components/profile'));
 const NotFound = lazy(() => import('./components/pages/not-found.js'));
 
@@ -33,14 +34,31 @@ const Routes = props => {
         />
         <Route
           exact
+          path="/login"
+          render={() =>
+            !props.user ? (
+              <Login />
+            ) : authorizedUser ? (
+              <Redirect to={`/lion/${authorizedUser}`} />
+            ) : (
+              <div />
+            )
+          }
+        />
+        <Route
+          exact
           path="/lion/:username"
-          render={() => (
-            <Profile
-              user={props.user}
-              setUser={props.setUser}
-              userURLs={props.userURLs}
-            />
-          )}
+          render={() =>
+            authorizedUser ? (
+              <Profile
+                user={props.user}
+                setUser={props.setUser}
+                userURLs={props.userURLs}
+              />
+            ) : (
+              <Redirect to={'/'} />
+            )
+          }
         />
         <Route path="*" component={() => <NotFound />} />
       </Switch>
