@@ -21,7 +21,7 @@ const StyledLoginCard = styled.div`
   justify-content: center;
   width: 375px;
   margin: 80px auto;
-  border: 1px solid var(--color-orange-l);
+  box-shadow: 0 0 5px var(--color-orange);
   border-radius: 4px;
   padding: 50px 53px;
   background: #fff;
