@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect, withRouter } from 'react-router';
+import { Route } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
 import styled from 'styled-components/macro';
@@ -53,93 +55,122 @@ const Profile = props => {
     window.location.href = accountHref;
   };
 
+  let authorizedUser;
+
+  if (props.user && props.user.username) {
+    authorizedUser = props.user.username
+      .split(' ')
+      .join('')
+      .toLowerCase();
+  }
+
   return (
     <ProfileContent>
-      {props.user && props.user.username ? (
-        <React.Fragment>
-          <H1>Be Lionly, {props.user.username.split(' ')[0]}</H1>
-          <H2>Lions don't use long links, and neither should you</H2>
-          <URLField
-            user={props.user}
-            cookies={cookies}
-            setUser={props.setUser}
-          />
-          <OAuthAccounts>
-            {props.user.providers.facebookId === undefined ? (
-              <LinkAccountButton onClick={() => linkAccount('/auth/facebook/')}>
-                Facebook
-              </LinkAccountButton>
-            ) : (
-              <LinkAccountButton
-                style={{
-                  color: props.user.providers.facebookId
-                    ? 'var(--color-blue-l)'
-                    : '',
-                }}
-              >
-                Facebook
-              </LinkAccountButton>
-            )}
-            {props.user.providers.googleId === undefined ? (
-              <LinkAccountButton onClick={() => linkAccount('/auth/google/')}>
-                Google
-              </LinkAccountButton>
-            ) : (
-              <LinkAccountButton
-                style={{
-                  color: props.user.providers.googleId
-                    ? 'var(--color-blue-l)'
-                    : '',
-                }}
-              >
-                Google
-              </LinkAccountButton>
-            )}
-            {props.user.providers.githubId === undefined ? (
-              <LinkAccountButton onClick={() => linkAccount('/auth/github/')}>
-                Github
-              </LinkAccountButton>
-            ) : (
-              <LinkAccountButton
-                style={{
-                  color: props.user.providers.githubId
-                    ? 'var(--color-blue-l)'
-                    : '',
-                }}
-              >
-                Github
-              </LinkAccountButton>
-            )}
-            {props.user.providers.twitterId === undefined ? (
-              <LinkAccountButton onClick={() => linkAccount('/auth/twitter/')}>
-                Twitter
-              </LinkAccountButton>
-            ) : (
-              <LinkAccountButton
-                style={{
-                  color: props.user.providers.twitterId
-                    ? 'var(--color-blue-l)'
-                    : '',
-                }}
-              >
-                Twitter
-              </LinkAccountButton>
-            )}
-          </OAuthAccounts>
-          {props.userURLs &&
-            props.userURLs.length > 0 && (
-              <URLList
-                userURLs={props.userURLs}
-                user={props.user}
-                setUser={props.setUser}
-              />
-            )}
-        </React.Fragment>
+      {props.user &&
+      props.user.username &&
+      props.location.pathname !== `/lion/${authorizedUser}` ? (
+        <Redirect to={`/lion/${authorizedUser}`} />
       ) : (
         <div />
       )}
+      {props.user &&
+        props.user.username && (
+          <Route
+            exact
+            path={`/lion/${authorizedUser}`}
+            render={() => (
+              <React.Fragment>
+                <H1>Be Lionly, {props.user.username.split(' ')[0]}</H1>
+                <H2>Lions don't use long links, and neither should you</H2>
+                <URLField
+                  user={props.user}
+                  cookies={cookies}
+                  setUser={props.setUser}
+                />
+                <OAuthAccounts>
+                  {props.user.providers.facebookId === undefined ? (
+                    <LinkAccountButton
+                      onClick={() => linkAccount('/auth/facebook/')}
+                    >
+                      Facebook
+                    </LinkAccountButton>
+                  ) : (
+                    <LinkAccountButton
+                      style={{
+                        color: props.user.providers.facebookId
+                          ? 'var(--color-blue-l)'
+                          : '',
+                      }}
+                    >
+                      Facebook
+                    </LinkAccountButton>
+                  )}
+                  {props.user.providers.googleId === undefined ? (
+                    <LinkAccountButton
+                      onClick={() => linkAccount('/auth/google/')}
+                    >
+                      Google
+                    </LinkAccountButton>
+                  ) : (
+                    <LinkAccountButton
+                      style={{
+                        color: props.user.providers.googleId
+                          ? 'var(--color-blue-l)'
+                          : '',
+                      }}
+                    >
+                      Google
+                    </LinkAccountButton>
+                  )}
+                  {props.user.providers.githubId === undefined ? (
+                    <LinkAccountButton
+                      onClick={() => linkAccount('/auth/github/')}
+                    >
+                      Github
+                    </LinkAccountButton>
+                  ) : (
+                    <LinkAccountButton
+                      style={{
+                        color: props.user.providers.githubId
+                          ? 'var(--color-blue-l)'
+                          : '',
+                      }}
+                    >
+                      Github
+                    </LinkAccountButton>
+                  )}
+                  {props.user.providers.twitterId === undefined ? (
+                    <LinkAccountButton
+                      onClick={() => linkAccount('/auth/twitter/')}
+                    >
+                      Twitter
+                    </LinkAccountButton>
+                  ) : (
+                    <LinkAccountButton
+                      style={{
+                        color: props.user.providers.twitterId
+                          ? 'var(--color-blue-l)'
+                          : '',
+                      }}
+                    >
+                      Twitter
+                    </LinkAccountButton>
+                  )}
+                </OAuthAccounts>
+                {props.userURLs &&
+                  props.userURLs.length > 0 && (
+                    <URLList
+                      userURLs={props.userURLs}
+                      user={props.user}
+                      setUser={props.setUser}
+                    />
+                  )}
+              </React.Fragment>
+            )}
+          />
+        )}
     </ProfileContent>
   );
 };
 
-export default Profile;
+export default withRouter(Profile);

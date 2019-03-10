@@ -70,7 +70,7 @@ const Header = props => {
           <Title>Lionly</Title>
         </HeaderLeft>
         <HeaderRight>
-          {props.user && props.user.username ? (
+          {props.user ? (
             <LogoutButton onClick={logout}>Logout</LogoutButton>
           ) : (
             <StyledLink to="/login"> Login</StyledLink>

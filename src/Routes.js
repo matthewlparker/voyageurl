@@ -8,14 +8,6 @@ const Profile = lazy(() => import('./components/profile'));
 const NotFound = lazy(() => import('./components/pages/not-found.js'));
 
 const Routes = props => {
-  let authorizedUser;
-  if (props.user && props.user.username) {
-    authorizedUser = props.user.username
-      .split(' ')
-      .join('')
-      .toLowerCase();
-  }
-
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
@@ -25,8 +17,8 @@ const Routes = props => {
           render={() =>
             !props.user ? (
               <Home setUser={props.setUser} />
-            ) : authorizedUser ? (
-              <Redirect to={`/lion/${authorizedUser}`} />
+            ) : props.user ? (
+              <Redirect to={`/lion`} />
             ) : (
               <div />
             )
@@ -38,18 +30,17 @@ const Routes = props => {
           render={() =>
             !props.user ? (
               <Login />
-            ) : authorizedUser ? (
-              <Redirect to={`/lion/${authorizedUser}`} />
+            ) : props.user ? (
+              <Redirect to={`/lion`} />
             ) : (
               <div />
             )
           }
         />
         <Route
-          exact
-          path="/lion/:username"
+          path="/lion"
           render={() =>
-            authorizedUser ? (
+            props.user ? (
               <Profile
                 user={props.user}
                 setUser={props.setUser}

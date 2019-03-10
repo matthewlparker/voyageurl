@@ -64,6 +64,8 @@ app.use(cookieParser());
 const sess = {
   secret: process.env.REACT_APP_SECRET_KEY,
   cookie: {},
+  resave: true,
+  saveUninitialized: false,
 };
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1); // trust first proxy
