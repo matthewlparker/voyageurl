@@ -3,15 +3,16 @@ import { Redirect, withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import jwt from 'jsonwebtoken';
-import styled from 'styled-components/macro';
+import { removeURL } from '../../api-requests/remove-url';
 import URLField from '../url-field';
 import URLList from '../url-list';
+import styled from 'styled-components/macro';
 
 const cookies = new Cookies();
 
 const ProfileContent = styled.div`
   margin: 0 auto;
-  width: 80%;
+  width: 95%;
   max-width: 600px;
   display: flex;
   flex-direction: column;
@@ -57,13 +58,19 @@ const Profile = props => {
 
   let authorizedUser;
 
-  if (props.user && props.user.username) {
+  if (props.user && props.user._id) {
+    // TODO: consider new route other than username
     authorizedUser = props.user.username
       .split(' ')
       .join('')
       .toLowerCase();
   }
 
+  const urlRemove = urlData => {
+    removeURL(urlData._id, props.user._id).then(updatedUser =>
+      props.setUser(updatedUser)
+    );
+  };
   return (
     <ProfileContent>
       {props.user &&
@@ -157,12 +164,14 @@ const Profile = props => {
                     </LinkAccountButton>
                   )}
                 </OAuthAccounts>
-                {props.userURLs &&
-                  props.userURLs.length > 0 && (
+                {props.urls &&
+                  props.urls.length > 0 && (
                     <URLList
-                      userURLs={props.userURLs}
                       user={props.user}
                       setUser={props.setUser}
+                      urls={props.urls}
+                      setURLs={props.setURLs}
+                      urlRemove={urlRemove}
                     />
                   )}
               </React.Fragment>

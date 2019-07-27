@@ -2,6 +2,26 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { postReorderedURLs } from '../../api-requests/post-reordered-urls';
 import URLCard from '../url-card';
+import styled from 'styled-components';
+
+const grid = 8;
+
+const StyledURLList = styled.div`
+  width: 100%;
+  background: ${props =>
+    props.isDraggingOver ? 'lightblue' : 'var(--background-primary)'};
+  margin-top: ${props => (props.user === 'visitor' ? '35px' : '0')};
+`;
+
+const StyledURLCard = styled.div`
+  user-select: none;
+  padding: ${grid * 2}px;
+  margin: 0 0 ${grid}px 0;
+  background: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  box-shadow: 0 0 5px
+    ${props => (props.isDragging ? 'var(--color-blue)' : 'var(--color-orange)')};
+  overflow: hidden;
+`;
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -11,26 +31,8 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-  background: isDragging ? 'lightgreen' : 'white',
-  boxShadow: `0 0 5px ${
-    isDragging ? 'var(--color-blue)' : 'var(--color-orange)'
-  }`,
-  ...draggableStyle,
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'var(--background-primary)',
-  width: 600,
-});
-
 const URLList = props => {
-  const [urls, setURLs] = useState(props.userURLs);
+  const [urls, setURLs] = useState(props.urls);
   // watch urls for change excepting initial render
   const firstUpdate = useRef(true);
   useLayoutEffect(
@@ -39,22 +41,35 @@ const URLList = props => {
         firstUpdate.current = false;
         return;
       }
-
-      postReorderedURLs(urls, props.user._id).then(result =>
-        props.setUser(result)
-      );
+      if (props.user && props.user !== 'visitor') {
+        postReorderedURLs(props.urls, props.user._id).then(result =>
+          props.setUser(result)
+        );
+      }
+      // if (props.user && props.user === 'visitor') {
+      //   localStorage.setItem('visitorURLs', JSON.stringify(urls));
+      // }
     },
     [urls]
   );
 
-  // watch props.userURLs for change
+  // useEffect(
+  //   () => {
+  //     if (props.user === 'visitor') {
+  //       props.setURLs(urls);
+  //     }
+  //   },
+  //   [urls]
+  // );
+
+  // watch props.urls for change
   useEffect(
     () => {
-      if (arraysUnequal(props.userURLs, urls)) {
-        setURLs(props.userURLs);
+      if (arraysUnequal(props.urls, urls)) {
+        setURLs(props.urls);
       }
     },
-    [props.userURLs]
+    [props.urls]
   );
 
   const arraysUnequal = (arr1, arr2) => {
@@ -71,45 +86,43 @@ const URLList = props => {
     }
 
     const reorderedURLs = reorder(
-      urls,
+      props.urls,
       result.source.index,
       result.destination.index
     );
 
-    setURLs(reorderedURLs);
+    props.setURLs(reorderedURLs);
   };
-
   return (
     <DragDropContext onDragEnd={onDragEnd} id="scrolling-container">
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
-          <div
+          <StyledURLList
             ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
+            isDraggingOver={snapshot.isDraggingOver}
+            user={props.user}
           >
-            {urls.map((url, index) => (
+            {props.urls.map((url, index) => (
               <Draggable key={url.hash} draggableId={url.hash} index={index}>
                 {(provided, snapshot) => (
-                  <div
+                  <StyledURLCard
                     ref={provided.innerRef}
+                    style={provided.draggableProps.style}
+                    isDragging={snapshot.isDragging}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
                   >
                     <URLCard
                       url={url}
-                      user={props.user}
                       setUser={props.setUser}
+                      handleRemove={props.urlRemove}
                     />
-                  </div>
+                  </StyledURLCard>
                 )}
               </Draggable>
             ))}
             {provided.placeholder}
-          </div>
+          </StyledURLList>
         )}
       </Droppable>
     </DragDropContext>

@@ -15,9 +15,14 @@ const Routes = props => {
           exact
           path="/"
           render={() =>
-            !props.user ? (
-              <Home setUser={props.setUser} />
-            ) : props.user ? (
+            props.user === 'visitor' ? (
+              <Home
+                user={props.user}
+                setUser={props.setUser}
+                urls={props.urls}
+                setURLs={props.setURLs}
+              />
+            ) : props.user && props.user !== 'visitor' ? (
               <Redirect to={`/lion`} />
             ) : (
               <div />
@@ -28,9 +33,9 @@ const Routes = props => {
           exact
           path="/login"
           render={() =>
-            !props.user ? (
+            !props.user || props.user === 'visitor' ? (
               <Login />
-            ) : props.user ? (
+            ) : props.user && props.user !== 'visitor' ? (
               <Redirect to={`/lion`} />
             ) : (
               <div />
@@ -40,11 +45,12 @@ const Routes = props => {
         <Route
           path="/lion"
           render={() =>
-            props.user ? (
+            props.user && props.user !== 'visitor' ? (
               <Profile
                 user={props.user}
                 setUser={props.setUser}
-                userURLs={props.userURLs}
+                urls={props.urls}
+                setURLs={props.setURLs}
               />
             ) : (
               <Redirect to={'/'} />

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchMetadata } from '../../api-requests/fetch-metadata';
-import { removeURL } from '../../api-requests/remove-url';
 import LoadingEllipsis from '../loading-ellipsis';
 import Observer from '@researchgate/react-intersection-observer';
 import { truncate } from '../../lib/util';
@@ -24,7 +23,6 @@ const URLCardBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  cursor: pointer;
 `;
 
 const URLTitle = styled.div`
@@ -39,11 +37,13 @@ const URLString = styled.a`
 `;
 
 const HashString = styled.a`
+  user-select: none;
   input {
     font-size: var(--font-m);
-    text-align: right;
+    text-align: center;
     color: var(--color-orange-l);
-    margin-right: 7px;
+    user-select: none;
+    cursor: pointer;
   }
 `;
 
@@ -78,11 +78,6 @@ const URLCard = props => {
     document.execCommand('copy');
     e.target.focus();
   };
-  const handleRemove = () => {
-    removeURL(props.url._id, props.user._id).then(result =>
-      props.setUser(result)
-    );
-  };
 
   const handleIntersection = e => {
     setVisible(e.isIntersecting);
@@ -96,13 +91,20 @@ const URLCard = props => {
 
   useEffect(
     () => {
+      let didCancel = false;
       if (visible && !metadata) {
-        fetchMetadata(props.url).then(data => setMetadata(data.metadata));
+        fetchMetadata(props.url).then(data => {
+          if (!didCancel) {
+            setMetadata(data.metadata);
+          }
+        });
       }
+      return () => {
+        didCancel = true;
+      };
     },
     [visible]
   );
-
   return (
     <Observer {...options}>
       <URLCardContainer>
@@ -125,11 +127,12 @@ const URLCard = props => {
             <input
               ref={shortenedURLRef}
               value={`${process.env.REACT_APP_DOMAIN}/${props.url.hash}`}
-              style={{ cursor: 'pointer' }}
               readOnly
             />
           </HashString>
-          <CopyButton onClick={handleRemove}>Remove</CopyButton>
+          <CopyButton onClick={() => props.handleRemove(props.url)}>
+            Remove
+          </CopyButton>
           <CopyButton onClick={copyToClipboard}>Copy</CopyButton>
         </URLCardBottom>
       </URLCardContainer>

@@ -62,7 +62,6 @@ const Header = props => {
     props.setUser();
     window.location.href = '/';
   };
-
   return (
     <StyledHeader>
       <Content>
@@ -70,10 +69,12 @@ const Header = props => {
           <Title>Lionly</Title>
         </HeaderLeft>
         <HeaderRight>
-          {props.user ? (
+          {props.user && props.user !== 'visitor' ? (
             <LogoutButton onClick={logout}>Logout</LogoutButton>
-          ) : (
+          ) : props.user && props.user === 'visitor' ? (
             <StyledLink to="/login"> Login</StyledLink>
+          ) : (
+            <div />
           )}
         </HeaderRight>
       </Content>

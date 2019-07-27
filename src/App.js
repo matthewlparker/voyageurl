@@ -21,32 +21,44 @@ const Content = styled.div`
 `;
 
 export const App = props => {
-  const [user, setUser] = useState(localStorage.getItem('userToken'));
-  const [userURLs, setUserURLs] = useState([]);
+  const [user, setUser] = useState();
+  const [urls, setURLs] = useState([]);
 
   useEffect(() => {
-    if (user) {
-      const decodedUser = jwt.verify(user, process.env.REACT_APP_SECRET_KEY);
+    const userToken = localStorage.getItem('userToken');
+
+    if (userToken) {
+      const decodedUser = jwt.verify(
+        userToken,
+        process.env.REACT_APP_SECRET_KEY
+      );
       if (decodedUser) {
         fetchUser(decodedUser._id).then(result => setUser(result));
       }
+    } else {
+      setUser('visitor');
     }
   }, []);
 
   useEffect(
     () => {
-      if (user && user.username) {
-        fetchURLs(user.urls).then(result => setUserURLs(result));
+      if (user && user !== 'visitor') {
+        fetchURLs(user.urls).then(result => setURLs(result));
+      }
+      if (user && user === 'visitor') {
+        const visitorURLs = JSON.parse(localStorage.getItem('visitorURLs'));
+        if (visitorURLs) {
+          setURLs(visitorURLs);
+        }
       }
     },
     [user]
   );
-
   return (
     <StyledApp>
       <Header user={user} setUser={setUser} />
       <Content>
-        <Routes user={user} setUser={setUser} userURLs={userURLs} />
+        <Routes user={user} setUser={setUser} urls={urls} setURLs={setURLs} />
       </Content>
     </StyledApp>
   );

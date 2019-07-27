@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import LinkPreview from '../link-preview';
+import React, { useEffect } from 'react';
+import URLList from '../url-list';
 import URLField from '../url-field';
 import styled from 'styled-components/macro';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const StyledHome = styled.div`
   max-height: calc(100vh - 120px);
@@ -28,44 +25,50 @@ const CenterContent = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
+  max-width: 600px;
+  width: 95%;
+  margin: 0 auto;
   margin-top: 10px;
 `;
 
+const StyledURLList = styled(URLList)`
+  margin-top: 35px !important;
+`;
+
 const Home = props => {
-  const [returnVisitorURLs, setReturnVisitorURLs] = useState([]);
+  useEffect(
+    () => {
+      localStorage.setItem('visitorURLs', JSON.stringify(props.urls));
+    },
+    [props.urls]
+  );
 
-  useEffect(() => {
-    const visitorURLs = cookies.get('visitorURLs');
-    if (visitorURLs && visitorURLs.length > 0) {
-      setReturnVisitorURLs(visitorURLs);
-    } else if (!visitorURLs) {
-      cookies.set('visitorURLs', [], { path: '/' });
-    }
-  }, []);
-
+  const urlRemove = urlData => {
+    const newURLs = props.urls.filter(
+      visitorURL => visitorURL.url !== urlData.url
+    );
+    props.setURLs(newURLs);
+  };
   return (
     <StyledHome>
       <H1>Be Lionly</H1>
       <H2>Lions don't use long links, and neither should you</H2>
       <CenterContent>
         <URLField
-          cookies={cookies}
+          user={props.user}
           setUser={props.setUser}
-          setReturnVisitorURLs={setReturnVisitorURLs}
+          setURLs={props.setURLs}
         />
-      </CenterContent>
-      {props.children}
-      {returnVisitorURLs &&
-        returnVisitorURLs.length > 0 &&
-        returnVisitorURLs
-          .sort((a, b) => b._id - a._id)
-          .map(returnVisitorURL => (
-            <LinkPreview
-              metadata={returnVisitorURL}
-              key={returnVisitorURL.hash}
+        {props.urls &&
+          props.urls.length > 0 && (
+            <StyledURLList
+              user={props.user}
+              urls={props.urls}
+              urlRemove={urlRemove}
+              setURLs={props.setURLs}
             />
-          ))}
+          )}
+      </CenterContent>
     </StyledHome>
   );
 };

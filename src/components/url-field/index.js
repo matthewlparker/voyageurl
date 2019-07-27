@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 import parseDomain from 'parse-domain';
 import isURL from 'validator/lib/isURL';
 import url from 'url';
-import { addURLToCookie } from '../../lib/util';
+import { addURLToLocalStorage } from '../../lib/util';
 import { fetchUser } from '../../api-requests/fetch-user';
 import { shortenUrl } from '../../api-requests/shorten-url';
 import { fetchMetadata } from '../../api-requests/fetch-metadata';
@@ -18,7 +18,7 @@ const InlineField = styled.div`
   width: 100%;
 `;
 const Input = styled.input`
-  fong-size: 18px;
+  font-size: 18px;
   padding: 0.5em;
   height: 60px;
   background: white;
@@ -64,10 +64,9 @@ function URLField(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    const visitorURLs = props.cookies.get('visitorURLs');
+    const visitorURLs = JSON.parse(localStorage.getItem('visitorURLs'));
     if (!visitorURLs) {
-      props.cookies.set('visitorURLs', [], { path: '/' });
+      localStorage.setItem('visitorURLs', JSON.stringify([]));
     }
 
     const urlString = url.parse(input.string).protocol
@@ -76,7 +75,7 @@ function URLField(props) {
     if (isURL(urlString) && parseDomain(urlString)) {
       const urlData = {
         urlString,
-        user: props.user,
+        user: props.user !== 'visitor' ? props.user : undefined,
       };
       shortenUrl(urlData)
         .then(result => {
@@ -87,7 +86,7 @@ function URLField(props) {
           return result;
         })
         .then(shortenURLResult => {
-          if (props.user) {
+          if (props.user && props.user !== 'visitor') {
             fetchUser(props.user._id).then(result => props.setUser(result));
           }
           fetchMetadata(shortenURLResult).then(metadataResult => {
@@ -95,10 +94,8 @@ function URLField(props) {
               ...metadataResult.metadata,
               hash: shortenURLResult.hash,
             };
-            if (props.setReturnVisitorURLs) {
-              props.setReturnVisitorURLs(addURLToCookie(urlData));
-            } else {
-              addURLToCookie(urlData);
+            if (props.user === 'visitor') {
+              props.setURLs(addURLToLocalStorage(urlData));
             }
           });
         });

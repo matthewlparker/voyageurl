@@ -101,8 +101,9 @@ const logInUser = (providerIdType, profile, done) => {
       done(null, existingUser);
     } else {
       // if no account exists with the authorized providerId, create one
+      // TODO: not all accounts have displayName, and profile.id is a temporary solution
       new User({
-        username: profile.displayName,
+        username: profile.displayName || profile.id,
         providers: { [providerIdType]: profile.id },
       })
         .save()

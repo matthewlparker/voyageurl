@@ -11,7 +11,6 @@ const StyledLogin = styled.div`
   height: 100%;
   border-left: 1px solid black;
   background-color: var(--color-orange-pale);
-  // const StyledLink = styled.div
 `;
 
 const StyledLoginCard = styled.div`

@@ -1,6 +1,6 @@
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export const truncate = (str, maxLength, separator = ' ') => {
   if (str.length <= maxLength) return str;
@@ -26,23 +26,16 @@ const trimNonAlphaNumericChars = str => {
   }
 };
 
-export const addURLToCookie = urlData => {
-  const visitorURLs = cookies.get('visitorURLs');
+export const addURLToLocalStorage = urlData => {
+  const visitorURLs = JSON.parse(localStorage.getItem('visitorURLs'));
   const managedVisitorURLs = manageVisitorURLs(visitorURLs, urlData);
-  const current = new Date();
-  const nextYear = new Date();
-  nextYear.setFullYear(current.getFullYear() + 1);
-  cookies.set('visitorURLs', managedVisitorURLs, {
-    path: '/',
-    expires: nextYear,
-  });
-
+  localStorage.setItem('visitorURLs', JSON.stringify(managedVisitorURLs));
   return managedVisitorURLs;
 };
 
 const manageVisitorURLs = (visitorURLs, metadata) => {
   if (
-    visitorURLs.length > 1 &&
+    visitorURLs.length > 0 &&
     visitorURLs.some(visitorURL => visitorURL.hash === metadata.hash)
   ) {
     visitorURLs = visitorURLs.filter(

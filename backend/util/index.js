@@ -16,11 +16,6 @@ const embeddHtmlWithJWT = req => {
     `;
 };
 
-// window.location.href = '/lion/${req.user.username
-//   .split(' ')
-//   .join('')
-//   .toLowerCase()}'
-
 const verifyToken = (req, res, next) => {
   const header = req.headers['authorization'];
 
