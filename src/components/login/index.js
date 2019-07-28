@@ -191,6 +191,10 @@ const Login = props => {
                 setUsernameError(`Username already exists`);
                 return;
               }
+              if (errorMessage.includes('exist')) {
+                setUsernameError(`Username does not exist`);
+                return;
+              }
             }
             // end error message handling
           }
