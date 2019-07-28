@@ -1,7 +1,3 @@
-// import Cookies from 'universal-cookie';
-
-// const cookies = new Cookies();
-
 export const truncate = (str, maxLength, separator = ' ') => {
   if (str.length <= maxLength) return str;
   if (str.indexOf(separator) < 0) return str.substring(0, maxLength) + '...';

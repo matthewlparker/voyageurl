@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProviderButton from '../common/provider-button';
 import githubIcon from '../../assets/provider-icons/GitHub-Mark-32px.png';
@@ -40,7 +41,7 @@ const Headline = styled.div`
   margin: 15px 0 15px 0;
 `;
 
-const ProvidersHeader = styled.div`
+const SectionHeader = styled.div`
   font-size: var(--font-s);
   color: var(--color-grey-l);
   text-transform: uppercase;
@@ -51,16 +52,158 @@ const Providers = styled.div`
   grid-template-rows: auto auto;
   grid-template-columns: auto auto;
   grid-gap: 5px;
+  margin: 5px 0;
+`;
+
+const StyledForm = styled.form`
+  display: grid;
+  grid-row-gap: 5px;
+  width: 185px;
+  margin-top: 5px;
+`;
+
+const StyledInput = styled.input`
+  width: 185px;
+  padding: 10px;
+  border: 1px solid var(--color-orange);
+  border-color: var(--color-orange) !important;
+  border-radius: 2.5px;
+  color: ${props => (props.error ? 'red' : '')};
+  &::placeholder {
+    color: ${props => (props.error ? 'red' : '')};
+  }
+  &:focus {
+    border: 1px solid var(--color-orange);
+    border-color: var(--color-orange);
+    background: var(--color-orange-pale);
+  }
+`;
+
+const StyledFormButton = styled.button`
+  color: var(--color-orange);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px;
+  border: 1px solid var(--color-orange) !important;
+  border-radius: 2.5px;
+  cursor: pointer;
+  &:hover {
+    background: var(--color-orange-pale);
+  }
+`;
+
+const LoginMethodWrapper = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 8px;
+  font-size: 12px;
+  color: var(--color-grey-l);
+  margin-top: 5px;
+`;
+
+const LoginMethodButton = styled.div`
+  color: var(--color-blue-l);
+  cursor: pointer;
+  &:hover {
+    color: var(--color-blue);
+  }
+`;
+
+const StyledErrorMessage = styled.div`
+  font-size: 12px;
+  color: var(--color-orange);
   margin-top: 5px;
 `;
 
 const Login = props => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loginMethod, setLoginMethod] = useState('signin');
+
+  const handleChange = (setStateCallback, e) => {
+    if (loginMethod === 'signin') {
+      setStateCallback(e.target.value);
+    }
+    if (loginMethod === 'signup') {
+      setStateCallback(e.target.value);
+    }
+    setUsernameError('');
+    setPasswordError('');
+  };
+
+  const handleLoginMethod = method => {
+    setLoginMethod(method);
+    setUsernameError('');
+    setPasswordError('');
+  };
+
+  const handleSubmit = (authMethod, event) => {
+    event.preventDefault();
+    if (username.indexOf(' ') >= 0) {
+      setUsernameError('Username can not have spaces');
+    } else {
+      const normalizedUsername = username.toLowerCase();
+      fetch(`${process.env.REACT_APP_DOMAIN}/auth/${authMethod}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: normalizedUsername, password }),
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.token) {
+            localStorage.setItem('userToken', result.token);
+            window.location.href = '/';
+          } else {
+            // handle error messages here
+            const errorMessage = result.details[0].message;
+            if (errorMessage.includes('password')) {
+              if (errorMessage.includes('empty')) {
+                setPasswordError(`Password can't be empty`);
+                return;
+              }
+              if (errorMessage.includes('length')) {
+                setPasswordError(`Password must be at least 6 characters long`);
+                return;
+              }
+              if (errorMessage.includes('match')) {
+                setPasswordError(`Username and password do not match`);
+              }
+            }
+            if (
+              errorMessage.includes('username') ||
+              errorMessage.includes('Username')
+            ) {
+              if (errorMessage.includes('empty')) {
+                setUsernameError(`Username can't be empty`);
+                return;
+              }
+              if (errorMessage.includes('length')) {
+                setUsernameError(
+                  `Username must be between 3 and 30 characters`
+                );
+                return;
+              }
+              if (errorMessage.includes('exists')) {
+                setUsernameError(`Username already exists`);
+                return;
+              }
+            }
+            // end error message handling
+          }
+        })
+        .catch(err => console.log('err: ', err));
+    }
+  };
   return (
     <StyledLogin>
       <StyledLoginCard>
         <StyledLogo>Lionly</StyledLogo>
         <Headline>SIGN IN & SHARE</Headline>
-        <ProvidersHeader>SIGN IN WITH:</ProvidersHeader>
+        <SectionHeader>SIGN IN WITH:</SectionHeader>
         <Providers>
           <ProviderButton
             color={'#4285f4 '}
@@ -93,9 +236,48 @@ const Login = props => {
             href={'/auth/github'}
           />
         </Providers>
+        <SectionHeader>OR:</SectionHeader>
+        <StyledForm onSubmit={e => handleSubmit(loginMethod, e)}>
+          <StyledInput
+            value={username}
+            placeholder="username"
+            type="text"
+            error={!!usernameError}
+            onChange={e => handleChange(setUsername, e)}
+          />
+          <StyledInput
+            value={password}
+            placeholder="password"
+            type="password"
+            error={!!passwordError}
+            onChange={e => handleChange(setPassword, e)}
+          />
+          <StyledFormButton type="submit">
+            {loginMethod === 'signin' ? 'Sign In' : 'Sign Up'}
+          </StyledFormButton>
+        </StyledForm>
+        <StyledErrorMessage>
+          {usernameError || passwordError}
+        </StyledErrorMessage>
+        {loginMethod === 'signin' && (
+          <LoginMethodWrapper>
+            <div>Not a member?</div>
+            <LoginMethodButton onClick={() => handleLoginMethod('signup')}>
+              Sign Up
+            </LoginMethodButton>
+          </LoginMethodWrapper>
+        )}
+        {loginMethod === 'signup' && (
+          <LoginMethodWrapper>
+            <div>Already a member?</div>
+            <LoginMethodButton onClick={() => handleLoginMethod('signin')}>
+              Sign In
+            </LoginMethodButton>
+          </LoginMethodWrapper>
+        )}
       </StyledLoginCard>
     </StyledLogin>
   );
 };
 
-export default Login;
+export default withRouter(Login);

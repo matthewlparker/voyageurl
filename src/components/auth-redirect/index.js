@@ -18,7 +18,6 @@ const AuthRedirect = ({ user, setUser }) => {
       .join('')
       .toLowerCase();
   }
-  console.log('authRedirect: ', authorizedUser);
   return (
     <div>
       {authorizedUser ? (

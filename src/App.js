@@ -26,14 +26,15 @@ export const App = props => {
 
   useEffect(() => {
     const userToken = localStorage.getItem('userToken');
-
     if (userToken) {
       const decodedUser = jwt.verify(
         userToken,
         process.env.REACT_APP_SECRET_KEY
       );
       if (decodedUser) {
-        fetchUser(decodedUser._id).then(result => setUser(result));
+        fetchUser(decodedUser.sub).then(result => {
+          setUser(result);
+        });
       }
     } else {
       setUser('visitor');

@@ -109,8 +109,10 @@ const URLCard = props => {
     <Observer {...options}>
       <URLCardContainer>
         <URLCardTop>
-          {metadata ? (
+          {metadata && metadata.title ? (
             <URLTitle>{truncate(metadata.title, 45)}</URLTitle>
+          ) : metadata ? (
+            <URLTitle>No Title</URLTitle>
           ) : (
             <LoadingEllipsis />
           )}

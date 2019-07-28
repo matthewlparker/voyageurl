@@ -6,8 +6,38 @@ import GithubStrategy from 'passport-github';
 import TwitterStrategy from 'passport-twitter';
 import FacebookStrategy from 'passport-facebook';
 import GoogleStrategy from 'passport-google-oauth20';
+import LocalStrategy from 'passport-local';
 
 dotenv.config();
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    // Find user given the username
+    try {
+      const user = await User.findOne({ username: username });
+      // If not, handle it
+      if (!user) {
+        return done(null, {
+          name: `ValidationError`,
+          details: [{ message: 'Username does not exist' }],
+        });
+      }
+      // Check if password is correct
+      const isMatch = await user.isValidPassword(password);
+      // If not, handle it
+      if (!isMatch) {
+        return done(null, {
+          name: 'ValidationError',
+          details: [{ message: 'Username and password do not match' }],
+        });
+      }
+      // Otherwise return the user
+      done(null, user);
+    } catch (error) {
+      done(error, false);
+    }
+  })
+);
 
 passport.use(
   'google',
@@ -22,7 +52,7 @@ passport.use(
     (req, accessToken, refreshToken, profile, done) => {
       const userCookie = req.cookies.userCookie;
       if (!userCookie) {
-        logInUser('googleId', profile, done);
+        logInWithProvider('googleId', profile, done);
       } else {
         linkAccounts('googleId', profile, userCookie, done);
       }
@@ -44,7 +74,7 @@ passport.use(
     (req, accessToken, refreshToken, profile, done) => {
       const userCookie = req.cookies.userCookie;
       if (!userCookie) {
-        logInUser('facebookId', profile, done);
+        logInWithProvider('facebookId', profile, done);
       } else {
         linkAccounts('facebookId', profile, userCookie, done);
       }
@@ -65,7 +95,7 @@ passport.use(
     (req, accessToken, refreshToken, profile, done) => {
       const userCookie = req.cookies.userCookie;
       if (!userCookie) {
-        logInUser('githubId', profile, done);
+        logInWithProvider('githubId', profile, done);
       } else {
         linkAccounts('githubId', profile, userCookie, done);
       }
@@ -86,7 +116,7 @@ passport.use(
     (req, token, tokenSecret, profile, done) => {
       const userCookie = req.cookies.userCookie;
       if (!userCookie) {
-        logInUser('twitterId', profile, done);
+        logInWithProvider('twitterId', profile, done);
       } else {
         linkAccounts('twitterId', profile, userCookie, done);
       }
@@ -94,7 +124,7 @@ passport.use(
   )
 );
 
-const logInUser = (providerIdType, profile, done) => {
+const logInWithProvider = (providerIdType, profile, done) => {
   const providerType = `providers.${providerIdType}`;
   User.findOne({ [providerType]: profile.id }).then(existingUser => {
     if (existingUser) {
@@ -114,6 +144,7 @@ const logInUser = (providerIdType, profile, done) => {
   });
 };
 
+// TODO: make linkAccounts work with new local strategy
 const linkAccounts = (providerIdType, profile, userCookie, done) => {
   // decode the logged in user from its cookie
   const user = jwt.verify(userCookie, process.env.REACT_APP_SECRET_KEY);
@@ -177,3 +208,5 @@ const linkAccounts = (providerIdType, profile, userCookie, done) => {
     }
   });
 };
+
+//"$2b$10$eEBSVqH4AS8N2orVZtfOeenkm/jLs4REDDnKyy3Jl5FynO0mgH5nG"

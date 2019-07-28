@@ -1,7 +1,17 @@
-import jwt from 'jsonwebtoken';
+import JWT from 'jsonwebtoken';
 
 const createJWTFromUserData = user => {
-  return jwt.sign(user.toJSON(), process.env.REACT_APP_SECRET_KEY);
+  // return jwt.sign(user.toJSON(), process.env.REACT_APP_SECRET_KEY);
+  return JWT.sign(
+    {
+      iss: 'Lionly',
+      // sub connects token with user using immutable data from user
+      sub: user._id,
+      iat: new Date().getTime(), // current time
+      exp: new Date().setDate(new Date().getDate() + 1), // current time + 1 day
+    },
+    process.env.REACT_APP_SECRET_KEY
+  );
 };
 
 const embeddHtmlWithJWT = req => {
@@ -22,7 +32,7 @@ const verifyToken = (req, res, next) => {
   if (header) {
     const bearer = header.split('Bearer');
     const token = bearer[1];
-    jwt.verify(token, process.env.REACT_APP_SECRET_KEY, (err, authorized) => {
+    JWT.verify(token, process.env.REACT_APP_SECRET_KEY, (err, authorized) => {
       if (authorized) {
         next();
       } else {

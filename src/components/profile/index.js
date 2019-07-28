@@ -46,6 +46,10 @@ const OAuthAccounts = styled.div`
   display: flex;
 `;
 
+const Gap = styled.div`
+  height: 35px;
+`;
+
 const Profile = props => {
   const linkAccount = accountHref => {
     cookies.set(
@@ -71,6 +75,11 @@ const Profile = props => {
       props.setUser(updatedUser)
     );
   };
+  const massageUsername = username => {
+    return username.charAt(0).toUpperCase() + username.slice(1);
+  };
+
+  const massagedUsername = massageUsername(props.user.username.split(' ')[0]);
   return (
     <ProfileContent>
       {props.user &&
@@ -87,83 +96,91 @@ const Profile = props => {
             path={`/lion/${authorizedUser}`}
             render={() => (
               <React.Fragment>
-                <H1>Be Lionly, {props.user.username.split(' ')[0]}</H1>
+                <H1>Be Lionly, {massagedUsername}</H1>
                 <H2>Lions don't use long links, and neither should you</H2>
                 <URLField
                   user={props.user}
                   cookies={cookies}
                   setUser={props.setUser}
                 />
-                <OAuthAccounts>
-                  {props.user.providers.facebookId === undefined ? (
-                    <LinkAccountButton
-                      onClick={() => linkAccount('/auth/facebook/')}
-                    >
-                      Facebook
-                    </LinkAccountButton>
-                  ) : (
-                    <LinkAccountButton
-                      style={{
-                        color: props.user.providers.facebookId
-                          ? 'var(--color-blue-l)'
-                          : '',
-                      }}
-                    >
-                      Facebook
-                    </LinkAccountButton>
-                  )}
-                  {props.user.providers.googleId === undefined ? (
-                    <LinkAccountButton
-                      onClick={() => linkAccount('/auth/google/')}
-                    >
-                      Google
-                    </LinkAccountButton>
-                  ) : (
-                    <LinkAccountButton
-                      style={{
-                        color: props.user.providers.googleId
-                          ? 'var(--color-blue-l)'
-                          : '',
-                      }}
-                    >
-                      Google
-                    </LinkAccountButton>
-                  )}
-                  {props.user.providers.githubId === undefined ? (
-                    <LinkAccountButton
-                      onClick={() => linkAccount('/auth/github/')}
-                    >
-                      Github
-                    </LinkAccountButton>
-                  ) : (
-                    <LinkAccountButton
-                      style={{
-                        color: props.user.providers.githubId
-                          ? 'var(--color-blue-l)'
-                          : '',
-                      }}
-                    >
-                      Github
-                    </LinkAccountButton>
-                  )}
-                  {props.user.providers.twitterId === undefined ? (
-                    <LinkAccountButton
-                      onClick={() => linkAccount('/auth/twitter/')}
-                    >
-                      Twitter
-                    </LinkAccountButton>
-                  ) : (
-                    <LinkAccountButton
-                      style={{
-                        color: props.user.providers.twitterId
-                          ? 'var(--color-blue-l)'
-                          : '',
-                      }}
-                    >
-                      Twitter
-                    </LinkAccountButton>
-                  )}
-                </OAuthAccounts>
+                {props.user.providers ? (
+                  <OAuthAccounts>
+                    {!props.user.provider ||
+                    props.user.providers.facebookId === undefined ? (
+                      <LinkAccountButton
+                        onClick={() => linkAccount('/auth/facebook/')}
+                      >
+                        Facebook
+                      </LinkAccountButton>
+                    ) : (
+                      <LinkAccountButton
+                        style={{
+                          color: props.user.providers.facebookId
+                            ? 'var(--color-blue-l)'
+                            : '',
+                        }}
+                      >
+                        Facebook
+                      </LinkAccountButton>
+                    )}
+                    {!props.user.provider ||
+                    props.user.providers.googleId === undefined ? (
+                      <LinkAccountButton
+                        onClick={() => linkAccount('/auth/google/')}
+                      >
+                        Google
+                      </LinkAccountButton>
+                    ) : (
+                      <LinkAccountButton
+                        style={{
+                          color: props.user.providers.googleId
+                            ? 'var(--color-blue-l)'
+                            : '',
+                        }}
+                      >
+                        Google
+                      </LinkAccountButton>
+                    )}
+                    {!props.user.provider ||
+                    props.user.providers.githubId === undefined ? (
+                      <LinkAccountButton
+                        onClick={() => linkAccount('/auth/github/')}
+                      >
+                        Github
+                      </LinkAccountButton>
+                    ) : (
+                      <LinkAccountButton
+                        style={{
+                          color: props.user.providers.githubId
+                            ? 'var(--color-blue-l)'
+                            : '',
+                        }}
+                      >
+                        Github
+                      </LinkAccountButton>
+                    )}
+                    {!props.user.provider ||
+                    props.user.providers.twitterId === undefined ? (
+                      <LinkAccountButton
+                        onClick={() => linkAccount('/auth/twitter/')}
+                      >
+                        Twitter
+                      </LinkAccountButton>
+                    ) : (
+                      <LinkAccountButton
+                        style={{
+                          color: props.user.providers.twitterId
+                            ? 'var(--color-blue-l)'
+                            : '',
+                        }}
+                      >
+                        Twitter
+                      </LinkAccountButton>
+                    )}
+                  </OAuthAccounts>
+                ) : (
+                  <Gap />
+                )}
                 {props.urls &&
                   props.urls.length > 0 && (
                     <URLList

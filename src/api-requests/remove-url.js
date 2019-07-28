@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-
 export const removeURL = async (urlId, userId) => {
   const settings = {
     method: 'POST',
@@ -15,8 +13,6 @@ export const removeURL = async (urlId, userId) => {
   )
     .then(res => res.json())
     .then(json => {
-      const newJWT = jwt.sign(json, process.env.REACT_APP_SECRET_KEY);
-      localStorage.setItem('userToken', newJWT);
       return json;
     })
     .catch(err => console.log('removeURL error: ', err));

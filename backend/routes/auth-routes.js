@@ -1,6 +1,9 @@
 import passport from 'passport';
 import { embeddHtmlWithJWT } from '../util';
+import UsersController from '../controllers/users.js';
+import { schemas, validateBody } from '../helpers/routeHelpers';
 const router = require('express').Router();
+const passportSignIn = passport.authenticate('local', { session: false });
 
 // auth with google
 router.get(
@@ -68,4 +71,15 @@ router.get(
   }
 );
 
+router
+  .route('/signup')
+  .post(validateBody(schemas.authSchema), UsersController.signUp);
+
+router
+  .route('/signin')
+  .post(
+    validateBody(schemas.authSchema),
+    passportSignIn,
+    UsersController.signIn
+  );
 module.exports = router;
