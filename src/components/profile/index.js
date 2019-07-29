@@ -1,14 +1,10 @@
 import React from 'react';
 import { Redirect, withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
-import Cookies from 'universal-cookie';
-import jwt from 'jsonwebtoken';
 import { removeURL } from '../../api-requests/remove-url';
 import URLField from '../url-field';
 import URLList from '../url-list';
 import styled from 'styled-components/macro';
-
-const cookies = new Cookies();
 
 const ProfileContent = styled.div`
   margin: 0 auto;
@@ -52,11 +48,6 @@ const Gap = styled.div`
 
 const Profile = props => {
   const linkAccount = accountHref => {
-    cookies.set(
-      'userCookie',
-      jwt.sign(props.user, process.env.REACT_APP_SECRET_KEY),
-      { path: '/' }
-    );
     window.location.href = accountHref;
   };
 
@@ -98,11 +89,7 @@ const Profile = props => {
               <React.Fragment>
                 <H1>Be Lionly, {massagedUsername}</H1>
                 <H2>Lions don't use long links, and neither should you</H2>
-                <URLField
-                  user={props.user}
-                  cookies={cookies}
-                  setUser={props.setUser}
-                />
+                <URLField user={props.user} setUser={props.setUser} />
                 {props.user.providers ? (
                   <OAuthAccounts>
                     {!props.user.provider ||

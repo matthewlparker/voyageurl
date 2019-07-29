@@ -4,8 +4,8 @@ export const postReorderedURLs = async (urls, userId) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer' + localStorage.getItem('userToken'),
     },
+    credentials: 'include',
     body: JSON.stringify({ id: userId, urls: reorderedURLs }),
   };
   const result = await fetch(

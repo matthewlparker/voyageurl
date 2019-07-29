@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import styled from 'styled-components/macro';
-const cookies = new Cookies();
+import { signout } from '../../api-requests/signout';
 
 const StyledHeader = styled.header`
   height: var(--header-height);
@@ -57,10 +56,10 @@ const Title = styled.h1`
 
 const Header = props => {
   const logout = () => {
-    cookies.remove('userCookie', { path: '/' });
-    localStorage.removeItem('userToken');
-    props.setUser();
-    window.location.href = '/';
+    signout().then(result => {
+      props.setUser();
+      window.location.href = '/';
+    });
   };
   return (
     <StyledHeader>

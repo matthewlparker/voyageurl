@@ -54,7 +54,24 @@ if (process.env.NODE_ENV === 'production') {
     else next();
   });
 }
-app.use(cors());
+
+// Cors options
+const whitelist = [
+  'http://localhost:3000',
+  'http://localhost:5000',
+  'https://lion.ly',
+];
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions = { credentials: true };
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions.origin = true;
+  } else {
+    corsOptions.origin = false;
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(corsOptionsDelegate));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -97,7 +114,7 @@ app.get('/:hash', (req, res) => {
   });
 });
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/../../build', 'index.html'));
 });
 

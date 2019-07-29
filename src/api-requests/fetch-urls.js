@@ -1,11 +1,7 @@
 export const fetchURLs = async urls => {
   const settings = {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer' + localStorage.getItem('userToken'),
-    },
-    body: JSON.stringify({ urls }),
+    credentials: 'include',
   };
   const result = await fetch(
     `${process.env.REACT_APP_DOMAIN}/user/urls`,

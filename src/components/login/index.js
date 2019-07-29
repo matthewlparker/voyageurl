@@ -101,9 +101,14 @@ const LoginMethodWrapper = styled.div`
   margin-top: 5px;
 `;
 
+const LoginMethodMessage = styled.div`
+  user-select: none;
+`;
+
 const LoginMethodButton = styled.div`
   color: var(--color-blue-l);
   cursor: pointer;
+  user-select: none;
   &:hover {
     color: var(--color-blue);
   }
@@ -144,63 +149,73 @@ const Login = props => {
     if (username.indexOf(' ') >= 0) {
       setUsernameError('Username can not have spaces');
     } else {
-      const normalizedUsername = username.toLowerCase();
-      fetch(`${process.env.REACT_APP_DOMAIN}/auth/${authMethod}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: normalizedUsername, password }),
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.token) {
-            localStorage.setItem('userToken', result.token);
-            window.location.href = '/';
-          } else {
-            // handle error messages here
-            const errorMessage = result.details[0].message;
-            if (errorMessage.includes('password')) {
-              if (errorMessage.includes('empty')) {
-                setPasswordError(`Password can't be empty`);
-                return;
-              }
-              if (errorMessage.includes('length')) {
-                setPasswordError(`Password must be at least 6 characters long`);
-                return;
-              }
-              if (errorMessage.includes('match')) {
-                setPasswordError(`Username and password do not match`);
-              }
-            }
-            if (
-              errorMessage.includes('username') ||
-              errorMessage.includes('Username')
-            ) {
-              if (errorMessage.includes('empty')) {
-                setUsernameError(`Username can't be empty`);
-                return;
-              }
-              if (errorMessage.includes('length')) {
-                setUsernameError(
-                  `Username must be between 3 and 30 characters`
-                );
-                return;
-              }
-              if (errorMessage.includes('exists')) {
-                setUsernameError(`Username already exists`);
-                return;
-              }
-              if (errorMessage.includes('exist')) {
-                setUsernameError(`Username does not exist`);
-                return;
-              }
-            }
-            // end error message handling
-          }
-        })
-        .catch(err => console.log('err: ', err));
+      loginReq(authMethod).then(result => {
+        if (result.success) {
+          window.location.href = '/';
+        }
+      });
     }
+  };
+
+  const loginReq = async authMethod => {
+    const normalizedUsername = username.toLowerCase();
+    return await fetch(`${process.env.REACT_APP_DOMAIN}/auth/${authMethod}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ username: normalizedUsername, password }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(result => {
+        if (result.success) return result;
+        // handle error messages here
+        // TODO: Refactor error handling
+        if (result.details) {
+          const errorMessage = result.details[0].message;
+          if (errorMessage.includes('password')) {
+            if (errorMessage.includes('empty')) {
+              setPasswordError(`Password can't be empty`);
+              return { success: false };
+            }
+            if (errorMessage.includes('length')) {
+              setPasswordError(`Password must be at least 6 characters long`);
+              return { success: false };
+            }
+            if (errorMessage.includes('match')) {
+              setPasswordError(`Username and password do not match`);
+            }
+          }
+          if (
+            errorMessage.includes('username') ||
+            errorMessage.includes('Username')
+          ) {
+            if (errorMessage.includes('empty')) {
+              setUsernameError(`Username can't be empty`);
+              return { success: false };
+            }
+            if (errorMessage.includes('length')) {
+              setUsernameError(`Username must be between 3 and 30 characters`);
+              return { success: false };
+            }
+            if (errorMessage.includes('exists')) {
+              setUsernameError(`Username already exists`);
+              return { success: false };
+            }
+            if (errorMessage.includes('exist')) {
+              setUsernameError(`Username does not exist`);
+              return { success: false };
+            }
+          }
+        }
+      })
+      .catch(err => {
+        console.log('err: ', err);
+        return err;
+      });
   };
   return (
     <StyledLogin>
@@ -265,7 +280,7 @@ const Login = props => {
         </StyledErrorMessage>
         {loginMethod === 'signin' && (
           <LoginMethodWrapper>
-            <div>Not a member?</div>
+            <LoginMethodMessage>Not a member?</LoginMethodMessage>
             <LoginMethodButton onClick={() => handleLoginMethod('signup')}>
               Sign Up
             </LoginMethodButton>
@@ -273,7 +288,7 @@ const Login = props => {
         )}
         {loginMethod === 'signup' && (
           <LoginMethodWrapper>
-            <div>Already a member?</div>
+            <LoginMethodMessage>Already a member?</LoginMethodMessage>
             <LoginMethodButton onClick={() => handleLoginMethod('signin')}>
               Sign In
             </LoginMethodButton>

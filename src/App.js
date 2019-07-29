@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Routes from './Routes';
-import jwt from 'jsonwebtoken';
 import Header from './components/header';
 import { fetchURLs } from './api-requests/fetch-urls';
 import { fetchUser } from './api-requests/fetch-user';
@@ -25,20 +24,13 @@ export const App = props => {
   const [urls, setURLs] = useState([]);
 
   useEffect(() => {
-    const userToken = localStorage.getItem('userToken');
-    if (userToken) {
-      const decodedUser = jwt.verify(
-        userToken,
-        process.env.REACT_APP_SECRET_KEY
-      );
-      if (decodedUser) {
-        fetchUser(decodedUser.sub).then(result => {
-          setUser(result);
-        });
+    fetchUser().then(user => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser('visitor');
       }
-    } else {
-      setUser('visitor');
-    }
+    });
   }, []);
 
   useEffect(
@@ -55,6 +47,7 @@ export const App = props => {
     },
     [user]
   );
+
   return (
     <StyledApp>
       <Header user={user} setUser={setUser} />

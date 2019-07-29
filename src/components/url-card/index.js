@@ -37,12 +37,10 @@ const URLString = styled.a`
 `;
 
 const HashString = styled.a`
-  user-select: none;
   input {
     font-size: var(--font-m);
-    text-align: center;
+    text-align: right;
     color: var(--color-orange-l);
-    user-select: none;
     cursor: pointer;
   }
 `;

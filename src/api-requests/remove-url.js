@@ -3,8 +3,8 @@ export const removeURL = async (urlId, userId) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer' + localStorage.getItem('userToken'),
     },
+    credentials: 'include',
     body: JSON.stringify({ urlId, userId }),
   };
   const result = await fetch(

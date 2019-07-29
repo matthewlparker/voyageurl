@@ -1,20 +1,14 @@
-// import jwt from 'jsonwebtoken';
-
-export const fetchUser = async id => {
-  const result = await fetch(`${process.env.REACT_APP_DOMAIN}/user`, {
+export const fetchUser = async () => {
+  const settings = {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer' + localStorage.getItem('userToken'),
-    },
-    body: JSON.stringify({ id }),
-  })
-    .then(res => res.json())
-    .then(json => {
-      // const newJWT = jwt.sign(json, process.env.REACT_APP_SECRET_KEY);
-      // localStorage.setItem('userToken', newJWT);
-      return json;
+    credentials: 'include',
+  };
+  const result = await fetch(`${process.env.REACT_APP_DOMAIN}/user`, settings)
+    .then(res => {
+      return res.json();
     })
-    .catch(err => console.log('fetch user error: ', err));
+    .catch(err => {
+      return false;
+    });
   return result;
 };

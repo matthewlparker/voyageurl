@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { embeddHtmlWithJWT } from '../util';
+import { signToken } from '../util';
 import UsersController from '../controllers/users.js';
 import { schemas, validateBody } from '../helpers/routeHelpers';
 const router = require('express').Router();
@@ -21,8 +21,12 @@ router.get(
     session: false,
   }),
   (req, res) => {
-    const htmlWithEmbeddedJWT = embeddHtmlWithJWT(req);
-    res.send(htmlWithEmbeddedJWT);
+    const token = signToken(req.user);
+    res.cookie('userToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV,
+    });
+    res.redirect('/');
   }
 );
 
@@ -36,8 +40,12 @@ router.get(
     session: false,
   }),
   (req, res) => {
-    const htmlWithEmbeddedJWT = embeddHtmlWithJWT(req);
-    res.send(htmlWithEmbeddedJWT);
+    const token = signToken(req.user);
+    res.cookie('userToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV,
+    });
+    res.redirect('/');
   }
 );
 
@@ -51,8 +59,12 @@ router.get(
     session: false,
   }),
   (req, res) => {
-    const htmlWithEmbeddedJWT = embeddHtmlWithJWT(req);
-    res.send(htmlWithEmbeddedJWT);
+    const token = signToken(req.user);
+    res.cookie('userToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV,
+    });
+    res.redirect('/');
   }
 );
 
@@ -66,8 +78,12 @@ router.get(
     session: false,
   }),
   (req, res) => {
-    const htmlWithEmbeddedJWT = embeddHtmlWithJWT(req);
-    res.send(htmlWithEmbeddedJWT);
+    const token = signToken(req.user);
+    res.cookie('userToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV,
+    });
+    res.redirect('/');
   }
 );
 
@@ -82,4 +98,6 @@ router
     passportSignIn,
     UsersController.signIn
   );
+
+router.route('/signout').post(UsersController.signOut);
 module.exports = router;
