@@ -1,5 +1,5 @@
 import passport from 'passport';
-import { signToken } from '../util';
+import { signToken, secureCookieSettings } from '../util';
 import UsersController from '../controllers/users.js';
 import { schemas, validateBody } from '../helpers/routeHelpers';
 const router = require('express').Router();
@@ -22,10 +22,7 @@ router.get(
   }),
   (req, res) => {
     const token = signToken(req.user);
-    res.cookie('userToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV,
-    });
+    res.cookie('userToken', token, secureCookieSettings);
     res.redirect('/');
   }
 );
@@ -41,10 +38,7 @@ router.get(
   }),
   (req, res) => {
     const token = signToken(req.user);
-    res.cookie('userToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV,
-    });
+    res.cookie('userToken', token, secureCookieSettings);
     res.redirect('/');
   }
 );
@@ -60,10 +54,7 @@ router.get(
   }),
   (req, res) => {
     const token = signToken(req.user);
-    res.cookie('userToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV,
-    });
+    res.cookie('userToken', token, secureCookieSettings);
     res.redirect('/');
   }
 );
@@ -79,10 +70,7 @@ router.get(
   }),
   (req, res) => {
     const token = signToken(req.user);
-    res.cookie('userToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV,
-    });
+    res.cookie('userToken', token, secureCookieSettings);
     res.redirect('/');
   }
 );

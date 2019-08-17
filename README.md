@@ -1,3 +1,3 @@
 # Lionly
 
-The road goes ever on
+Lions don't use long links, and neither should you.

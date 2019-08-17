@@ -30,7 +30,9 @@ module.exports = {
     const token = signToken(req.user);
     res.cookie('userToken', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      maxAge: 31536000000,
     });
 
     // Respond with token
@@ -44,7 +46,9 @@ module.exports = {
       const token = signToken(req.user);
       res.cookie('userToken', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 31536000000,
       });
       res.status(200).json({ success: true });
     } else {
@@ -54,7 +58,6 @@ module.exports = {
   },
 
   signOut: async (req, res, next) => {
-    console.log('made it to signout!');
     res.cookie('userToken', { expires: Date.now() });
     res.status(200).json({ success: true });
   },

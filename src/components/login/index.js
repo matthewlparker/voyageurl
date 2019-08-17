@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ProviderButton from '../common/provider-button';
+import { handleLoginErrors } from './login-util';
 import githubIcon from '../../assets/provider-icons/GitHub-Mark-32px.png';
 
 const StyledLogin = styled.div`
@@ -172,48 +173,18 @@ const Login = props => {
       })
       .then(result => {
         if (result.success) return result;
-        // handle error messages here
-        // TODO: Refactor error handling
+        // login error message handling
         if (result.details) {
           const errorMessage = result.details[0].message;
-          if (errorMessage.includes('password')) {
-            if (errorMessage.includes('empty')) {
-              setPasswordError(`Password can't be empty`);
-              return { success: false };
-            }
-            if (errorMessage.includes('length')) {
-              setPasswordError(`Password must be at least 6 characters long`);
-              return { success: false };
-            }
-            if (errorMessage.includes('match')) {
-              setPasswordError(`Username and password do not match`);
-            }
-          }
-          if (
-            errorMessage.includes('username') ||
-            errorMessage.includes('Username')
-          ) {
-            if (errorMessage.includes('empty')) {
-              setUsernameError(`Username can't be empty`);
-              return { success: false };
-            }
-            if (errorMessage.includes('length')) {
-              setUsernameError(`Username must be between 3 and 30 characters`);
-              return { success: false };
-            }
-            if (errorMessage.includes('exists')) {
-              setUsernameError(`Username already exists`);
-              return { success: false };
-            }
-            if (errorMessage.includes('exist')) {
-              setUsernameError(`Username does not exist`);
-              return { success: false };
-            }
-          }
+          return handleLoginErrors(
+            errorMessage,
+            setUsernameError,
+            setPasswordError
+          );
         }
+        return result;
       })
       .catch(err => {
-        console.log('err: ', err);
         return err;
       });
   };

@@ -92,7 +92,6 @@ app.use(session(sess));
 
 // initialize passport
 app.use(passport.initialize());
-// app.use(linkPassport.initialize());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));

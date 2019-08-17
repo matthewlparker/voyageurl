@@ -34,7 +34,15 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+const secureCookieSettings = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  path: '/',
+  maxAge: 31536000000,
+};
+
 module.exports = {
   signToken,
   verifyToken,
+  secureCookieSettings,
 };
