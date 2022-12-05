@@ -20,7 +20,7 @@
     "express-session": "^1.15.6",
     "http-proxy-middleware": "^0.19.1",
     "jsonwebtoken": "^8.5.0",
-    "metascraper": "^4.10.1",
+    "metascraper": "^5.2.0",
     "metascraper-description": "^4.10.1",
     "metascraper-image": "^4.10.1",
     "metascraper-title": "^4.10.1",
